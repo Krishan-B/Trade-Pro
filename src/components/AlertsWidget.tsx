@@ -30,9 +30,6 @@ const AlertsWidget = () => {
       setIsLoading(true);
 
       // Define the expected response type for the Supabase function
-      interface MarketAlertsResponse {
-        data: MarketAlert[];
-      }
 
       const { data, error } = await supabase.functions.invoke<MarketAlertsResponse>("market-alerts", {
         method: "POST",

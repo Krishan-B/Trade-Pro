@@ -1,4 +1,3 @@
-
 import AvailableBalance from "./AvailableBalance";
 import PaymentMethods from "./PaymentMethods";
 

@@ -1,7 +1,6 @@
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Button } from "@/shared/ui/button";
-import { AlertTriangle, ChartLine } from "lucide-react";
+import { ChartLine } from "lucide-react";
 import TradingViewChart from "@/components/TradingViewChart";
 import { MarketHoursDisplay } from "@/components/trade";
 import { isMarketOpen } from "@/utils/marketHours";

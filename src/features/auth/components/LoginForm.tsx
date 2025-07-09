@@ -4,8 +4,7 @@ import { Checkbox } from "@/shared/ui/checkbox";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { ErrorHandler } from "@/services/errorHandling";
-import { login, logout } from "@/services/auth";
-import { cleanupAuthState } from "@/integrations/supabase/client";
+import { login } from "@/services/auth";
 import { AlertCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -51,19 +50,6 @@ const LoginFormComponent = () => {
       ErrorHandler.show(error, "login");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await ErrorHandler.handleAsync(
-        Promise.all([logout(), cleanupAuthState()]),
-        "logout"
-      );
-      ErrorHandler.showSuccess("Successfully logged out");
-      navigate("/login");
-    } catch (error) {
-      ErrorHandler.show(error, "logout");
     }
   };
 

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 export const usePasswordStrength = (password: string) => {
@@ -9,7 +8,7 @@ export const usePasswordStrength = (password: string) => {
       setPasswordStrength(0);
       return;
     }
-    
+
     let strength = 0;
     // Length check
     if (password.length >= 8) strength += 25;
@@ -19,7 +18,7 @@ export const usePasswordStrength = (password: string) => {
     if (/[a-z]/.test(password)) strength += 25;
     // Contains uppercase or special char
     if (/[A-Z]/.test(password) || /[^a-zA-Z0-9]/.test(password)) strength += 25;
-    
+
     setPasswordStrength(strength);
   }, [password]);
 
@@ -35,5 +34,9 @@ export const usePasswordStrength = (password: string) => {
     return "bg-success";
   };
 
-  return { passwordStrength, getPasswordStrengthLabel, getPasswordStrengthColor };
+  return {
+    passwordStrength,
+    getPasswordStrengthLabel,
+    getPasswordStrengthColor,
+  };
 };

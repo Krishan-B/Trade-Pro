@@ -1,4 +1,3 @@
-import React from "react";
 import { useApiHealth } from "@/hooks/useApiHealth";
 
 export function ApiHealthBadge() {

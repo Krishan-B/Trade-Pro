@@ -84,7 +84,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return profile;
       } catch (error) {
         ErrorHandler.handleError(
-          "Loading profile",
           error instanceof Error ? error : String(error)
         );
         return null;
@@ -148,7 +147,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         };
       } catch (error) {
         ErrorHandler.handleError(
-          "Error",
           error instanceof Error ? error : String(error)
         );
         return undefined;
@@ -176,10 +174,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       return data.session;
     } catch (error) {
-      ErrorHandler.handleError(
-        "Error refreshing session",
-        error instanceof Error ? error : String(error)
-      );
+      ErrorHandler.handleError(error instanceof Error ? error : String(error));
       return null;
     }
   }, []);
@@ -192,10 +187,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
       setProfile(null);
     } catch (error) {
-      ErrorHandler.handleError(
-        "Error signing out",
-        error instanceof Error ? error : String(error)
-      );
+      ErrorHandler.handleError(error instanceof Error ? error : String(error));
     }
   }, []);
 
@@ -226,8 +218,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         ErrorHandler.handleSuccess("Profile Updated", {
           description: "Your profile has been updated successfully.",
         });
-      } catch (error) {
-        ErrorHandler.handleError(error, "Failed to update profile");
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error ? error.message : "An unknown error occurred";
+        ErrorHandler.handleError(errorMessage);
         throw error;
       } finally {
         setProfileLoading(false);
@@ -254,7 +248,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (error) throw error;
       } catch (error) {
         ErrorHandler.handleError(
-          "Error signing in",
           error instanceof Error ? error : String(error)
         );
         throw error;
@@ -291,7 +284,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         ErrorHandler.handleError(
-          "Error signing up",
           error instanceof Error ? error : String(error)
         );
         throw error;

@@ -40,7 +40,7 @@ const MarginOptimizer = () => {
     new Set()
   );
 
-  const { marginCalculations, calculateMargin } = useLeverage();
+  const { marginCalculations } = useLeverage();
 
   const generateOptimizationSuggestions = useCallback(() => {
     const newSuggestions: OptimizationSuggestion[] = [];

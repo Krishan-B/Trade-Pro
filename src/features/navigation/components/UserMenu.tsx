@@ -24,10 +24,6 @@ const UserMenu = () => {
       await signOut();
       // Navigate will be handled by the AuthProvider
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "An error occurred while signing out";
       ErrorHandler.show(error, "Signing out", async () => {
         await signOut();
       });

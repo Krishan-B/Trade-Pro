@@ -13,7 +13,6 @@ type MarginCalculation =
   Database["public"]["Tables"]["margin_calculations"]["Row"];
 
 export const useLeverage = () => {
-  const [leverageConfigs, setLeverageConfigs] = useState<LeverageConfig[]>([]);
   const [marginCalculations, setMarginCalculations] = useState<
     MarginCalculation[]
   >([]);
@@ -179,7 +178,11 @@ export const useLeverage = () => {
           })
         );
         // Return a safe default that encourages user attention
-        return { warning: true, critical: false };
+        return {
+          isWarning: true,
+          isMarginCall: false,
+          severity: "warning" as const,
+        };
       }
     },
     []
@@ -191,7 +194,6 @@ export const useLeverage = () => {
   }, [loadMarginCalculations]);
 
   return {
-    leverageConfigs,
     marginCalculations,
     loading,
     calculateMargin,
@@ -199,6 +201,7 @@ export const useLeverage = () => {
     getMaxLeverage,
     getLeverageConfig,
     checkMarginCall,
+    loadMarginCalculations,
     refresh: loadMarginCalculations,
   };
 };

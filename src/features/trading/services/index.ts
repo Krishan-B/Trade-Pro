@@ -1,1 +1,1 @@
-export { useOrderApi } from "./tradingApi";
+export { useOrderApi } from "@/services/tradingApi";

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import {
   AdvancedOrderForm,
   AdvancedOrderFormValues,
 } from "@/components/trade/AdvancedOrderForm";
-import { useMarketData, Asset } from "@/hooks/useMarketData";
+
 import { useCombinedMarketData } from "@/hooks/useCombinedMarketData";
 import { mockAccountMetrics } from "@/utils/metricUtils";
 import { ErrorHandler } from "@/services/errorHandling";

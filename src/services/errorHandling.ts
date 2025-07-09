@@ -5,6 +5,7 @@ export interface AppError {
   message: string;
   userMessage: string;
   details?: unknown;
+
   retryable?: boolean;
 }
 
@@ -166,5 +167,41 @@ export class ErrorHandler {
       message,
       details: error,
     });
+  }
+
+  static show(error: unknown, ...args: unknown[]): void {
+    // Alias for handleError, supports legacy signature
+    // Usage: show(error, context, callback?)
+    const [context, callback] = args;
+    const description = typeof context === "string" ? context : undefined;
+    this.handleError(error, { description });
+    if (typeof callback === "function") {
+      callback();
+    }
+  }
+
+  static showSuccess(title: string, options: SuccessOptions = {}): void {
+    this.handleSuccess(title, options);
+  }
+
+  static showWarning(title: string, options: NotificationOptions = {}): void {
+    toast.warning(title, options);
+  }
+
+  static showInfo(title: string, options: NotificationOptions = {}): void {
+    toast.info(title, options);
+  }
+
+  static async handleAsync<T>(
+    promise: Promise<T>,
+    context?: string
+  ): Promise<{ error: unknown; data: T | null }> {
+    try {
+      const data = await promise;
+      return { error: null, data };
+    } catch (error) {
+      this.show(error, context);
+      return { error, data: null };
+    }
   }
 }

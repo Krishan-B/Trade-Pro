@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui/button";
 import { LineChart } from "lucide-react";

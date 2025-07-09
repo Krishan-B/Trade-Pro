@@ -2,7 +2,7 @@ import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { X, Shield, Target, TrendingUp, Edit } from "lucide-react";
+import { X, Shield, Target, TrendingUp } from "lucide-react";
 import { useEnhancedOrders } from "@/hooks/useEnhancedOrders";
 import type { OrderGroup } from "@/types/enhanced-orders";
 

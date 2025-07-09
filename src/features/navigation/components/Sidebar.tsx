@@ -68,13 +68,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
       navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
-      ErrorHandler.handleError(
-        "Sign Out Error",
-        "There was a problem signing out",
-        {
-          retryFn: handleLogout,
-        }
-      );
+      ErrorHandler.handleError("There was a problem signing out");
     }
   };
 

@@ -13,13 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/ui/card";
-import {
-  ArrowDownToLine,
-  ArrowUpFromLine,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-} from "lucide-react";
+import { ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
 import { Badge } from "@/shared/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -68,19 +62,6 @@ const TransactionHistory = () => {
       hour: "2-digit",
       minute: "2-digit",
     }).format(date);
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "completed":
-        return <CheckCircle2 className="h-4 w-4 text-success" />;
-      case "pending":
-        return <Clock className="h-4 w-4 text-warning" />;
-      case "failed":
-        return <AlertCircle className="h-4 w-4 text-destructive" />;
-      default:
-        return null;
-    }
   };
 
   const getStatusBadge = (status: string) => {

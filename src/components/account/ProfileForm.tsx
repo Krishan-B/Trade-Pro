@@ -20,7 +20,7 @@ export function ProfileForm() {
     },
   });
 
-  const onSubmit = (values: {
+  const onSubmit = (_values: {
     fullName: string;
     email: string;
     phone: string;

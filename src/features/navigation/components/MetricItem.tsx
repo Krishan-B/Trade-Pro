@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/shared/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 import { MetricItem as MetricItemType } from "@/types/account";

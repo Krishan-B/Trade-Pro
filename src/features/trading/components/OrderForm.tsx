@@ -70,7 +70,6 @@ const OrderForm = () => {
       if (form.order_type === "entry") {
         await placeEntryOrder({
           symbol: form.symbol,
-          type: "limit",
           direction: form.direction as "buy" | "sell",
           quantity: Number(form.quantity),
           price: parseFloat(form.price),
@@ -82,7 +81,6 @@ const OrderForm = () => {
       } else {
         await placeMarketOrder({
           symbol: form.symbol,
-          type: "market",
           direction: form.direction as "buy" | "sell",
           quantity: Number(form.quantity),
           price: form.price ? parseFloat(form.price) : undefined,
@@ -105,14 +103,7 @@ const OrderForm = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Order failed");
       ErrorHandler.handleError(
-        "Order Placement Error",
-        err instanceof Error ? err : "Order placement failed",
-        {
-          description: `Failed to place ${form.order_type} order for ${form.symbol}`,
-          retryFn: async () => {
-            handleSubmit(e);
-          },
-        }
+        err instanceof Error ? err : "Order placement failed"
       );
     } finally {
       setLoading(false);

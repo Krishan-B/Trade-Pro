@@ -4,6 +4,7 @@ import type {
   EnhancedOrderType,
   StopLossTakeProfitConfig,
 } from "@/types/enhanced-orders";
+import { omitUndefined, normalizeDates } from "@/utils/objectUtils";
 
 export const enhancedOrdersService = {
   async fetchOrders(userId: string): Promise<EnhancedOrder[]> {
@@ -67,21 +68,23 @@ export const enhancedOrdersService = {
   ) {
     const orderGroupId = crypto.randomUUID();
 
-    // Create primary order
-    const primaryOrderData = {
-      user_id: userId,
-      symbol,
-      asset_class: assetClass,
-      order_type: orderType,
-      order_category: "primary",
-      direction,
-      units,
-      requested_price: price,
-      position_value: units * price,
-      margin_required: units * price * 0.1, // 10% margin requirement
-      order_group_id: orderGroupId,
-      status: "pending",
-    };
+    // Create primary order with only defined optional fields
+    const primaryOrderData = omitUndefined(
+      normalizeDates({
+        user_id: userId,
+        symbol,
+        asset_class: assetClass,
+        order_type: orderType,
+        order_category: "primary",
+        direction,
+        units,
+        requested_price: price,
+        position_value: units * price,
+        margin_required: units * price * 0.1, // 10% margin requirement
+        order_group_id: orderGroupId,
+        status: "pending",
+      })
+    );
 
     const { data: primaryOrder, error: primaryError } = await supabase
       .from("orders")
@@ -93,22 +96,24 @@ export const enhancedOrdersService = {
 
     // Create stop-loss order if enabled
     if (slTpConfig?.enableStopLoss && slTpConfig.stopLossPrice) {
-      const stopLossData = {
-        user_id: userId,
-        symbol,
-        asset_class: assetClass,
-        order_type: "stop_loss" as EnhancedOrderType,
-        order_category: "stop_loss",
-        direction: direction === "buy" ? "sell" : "buy", // Opposite direction
-        units,
-        requested_price: slTpConfig.stopLossPrice,
-        position_value: units * slTpConfig.stopLossPrice,
-        margin_required: 0,
-        stop_loss_price: slTpConfig.stopLossPrice,
-        order_group_id: orderGroupId,
-        parent_order_id: primaryOrder.id,
-        status: "pending",
-      };
+      const stopLossData = omitUndefined(
+        normalizeDates({
+          user_id: userId,
+          symbol,
+          asset_class: assetClass,
+          order_type: "stop_loss" as EnhancedOrderType,
+          order_category: "stop_loss",
+          direction: direction === "buy" ? "sell" : "buy", // Opposite direction
+          units,
+          requested_price: slTpConfig.stopLossPrice,
+          position_value: units * slTpConfig.stopLossPrice,
+          margin_required: 0,
+          stop_loss_price: slTpConfig.stopLossPrice,
+          order_group_id: orderGroupId,
+          status: "pending",
+          parent_order_id: primaryOrder?.id,
+        })
+      );
 
       const { error: slError } = await supabase
         .from("orders")
@@ -119,22 +124,24 @@ export const enhancedOrdersService = {
 
     // Create take-profit order if enabled
     if (slTpConfig?.enableTakeProfit && slTpConfig.takeProfitPrice) {
-      const takeProfitData = {
-        user_id: userId,
-        symbol,
-        asset_class: assetClass,
-        order_type: "take_profit" as EnhancedOrderType,
-        order_category: "take_profit",
-        direction: direction === "buy" ? "sell" : "buy", // Opposite direction
-        units,
-        requested_price: slTpConfig.takeProfitPrice,
-        position_value: units * slTpConfig.takeProfitPrice,
-        margin_required: 0,
-        take_profit_price: slTpConfig.takeProfitPrice,
-        order_group_id: orderGroupId,
-        parent_order_id: primaryOrder.id,
-        status: "pending",
-      };
+      const takeProfitData = omitUndefined(
+        normalizeDates({
+          user_id: userId,
+          symbol,
+          asset_class: assetClass,
+          order_type: "take_profit" as EnhancedOrderType,
+          order_category: "take_profit",
+          direction: direction === "buy" ? "sell" : "buy", // Opposite direction
+          units,
+          requested_price: slTpConfig.takeProfitPrice,
+          position_value: units * slTpConfig.takeProfitPrice,
+          margin_required: 0,
+          take_profit_price: slTpConfig.takeProfitPrice,
+          order_group_id: orderGroupId,
+          status: "pending",
+          parent_order_id: primaryOrder?.id,
+        })
+      );
 
       const { error: tpError } = await supabase
         .from("orders")
@@ -145,22 +152,24 @@ export const enhancedOrdersService = {
 
     // Create trailing stop order if enabled
     if (slTpConfig?.enableTrailingStop && slTpConfig.trailingStopDistance) {
-      const trailingStopData = {
-        user_id: userId,
-        symbol,
-        asset_class: assetClass,
-        order_type: "trailing_stop" as EnhancedOrderType,
-        order_category: "trailing_stop",
-        direction: direction === "buy" ? "sell" : "buy", // Opposite direction
-        units,
-        requested_price: price, // Will be adjusted dynamically
-        position_value: units * price,
-        margin_required: 0,
-        trailing_stop_distance: slTpConfig.trailingStopDistance,
-        order_group_id: orderGroupId,
-        parent_order_id: primaryOrder.id,
-        status: "pending",
-      };
+      const trailingStopData = omitUndefined(
+        normalizeDates({
+          user_id: userId,
+          symbol,
+          asset_class: assetClass,
+          order_type: "trailing_stop" as EnhancedOrderType,
+          order_category: "trailing_stop",
+          direction: direction === "buy" ? "sell" : "buy", // Opposite direction
+          units,
+          requested_price: price, // Will be adjusted dynamically
+          position_value: units * price,
+          margin_required: 0,
+          trailing_stop_distance: slTpConfig.trailingStopDistance,
+          order_group_id: orderGroupId,
+          status: "pending",
+          parent_order_id: primaryOrder?.id,
+        })
+      );
 
       const { error: tsError } = await supabase
         .from("orders")
@@ -187,7 +196,7 @@ export const enhancedOrdersService = {
   async modifyOrder(orderId: string, updates: Partial<EnhancedOrder>) {
     const { error } = await supabase
       .from("orders")
-      .update(updates)
+      .update(omitUndefined(normalizeDates(updates)))
       .eq("id", orderId);
 
     if (error) throw error;

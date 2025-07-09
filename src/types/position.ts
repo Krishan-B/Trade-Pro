@@ -1,5 +1,3 @@
-import type { Position } from "@shared/types";
-
 export interface Position {
   id: string;
   user_id: string;

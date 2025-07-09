@@ -20,7 +20,7 @@ export function PasswordForm() {
     },
   });
 
-  const onSubmit = (values: {
+  const onSubmit = (_values: {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;

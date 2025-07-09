@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -41,18 +41,8 @@ const PositionDetailsModal = ({
   isOpen,
   onClose,
 }: PositionDetailsModalProps) => {
-  const { getPositionUpdates, positionUpdates } = usePositionTracking();
+  const { positionUpdates } = usePositionTracking();
   const [updates, setUpdates] = useState<PositionUpdate[]>([]);
-
-  useEffect(() => {
-    if (position && isOpen) {
-      const loadUpdates = async () => {
-        const fetchedUpdates = await getPositionUpdates(position.id);
-        setUpdates(fetchedUpdates);
-      };
-      loadUpdates();
-    }
-  }, [position, isOpen, getPositionUpdates]);
 
   // Use real-time updates if available
   useEffect(() => {

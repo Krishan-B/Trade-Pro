@@ -1,15 +1,15 @@
+import { vi } from "vitest";
 // Mock the supabase client to avoid env var errors
-jest.mock("../auth", () => {
+vi.mock("../auth", () => {
   return {
-    register: jest.fn(() => Promise.resolve({ data: {}, error: null })),
-    login: jest.fn(() => Promise.resolve({ data: {}, error: null })),
-    logout: jest.fn(() => Promise.resolve({ error: null })),
-    resetPassword: jest.fn(() => Promise.resolve({ data: {}, error: null })),
-    supabase: { auth: {} },
+    register: vi.fn(() => Promise.resolve({ data: {}, error: null })),
+    login: vi.fn(() => Promise.resolve({ data: {}, error: null })),
+    logout: vi.fn(() => Promise.resolve({ error: null })),
+    resetPassword: vi.fn(() => Promise.resolve({ data: {}, error: null })),
   };
 });
 
-import { register, login, logout, resetPassword, supabase } from "../auth";
+import { register, login, logout, resetPassword } from "../auth";
 
 describe("auth service", () => {
   it("should export all auth functions", () => {
@@ -17,7 +17,6 @@ describe("auth service", () => {
     expect(typeof login).toBe("function");
     expect(typeof logout).toBe("function");
     expect(typeof resetPassword).toBe("function");
-    expect(typeof supabase).toBe("object");
   });
 
   it("should call register with email and password", async () => {

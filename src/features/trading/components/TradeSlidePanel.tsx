@@ -170,18 +170,6 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
       // Get latest price
       await refetch();
 
-      // Create order object based on order type
-      const orderDetails = {
-        asset: selectedAsset.symbol,
-        units: parsedUnits,
-        leverage: fixedLeverage,
-        orderType: orderType,
-        action: action,
-        stopLoss: hasStopLoss,
-        takeProfit: hasTakeProfit,
-        expiration: hasExpirationDate && orderType === "entry",
-      };
-
       // Display different success message based on order type
       if (orderType === "market") {
         ErrorHandler.handleSuccess(

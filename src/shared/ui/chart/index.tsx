@@ -3,16 +3,11 @@ import { cn } from "../../utils";
 
 interface ChartContainerProps {
   children: React.ReactNode;
-  config?: {
-    series?: Record<string, unknown>;
-    [key: string]: unknown;
-  };
   className?: string;
 }
 
 export const ChartContainer: React.FC<ChartContainerProps> = ({
   children,
-  config,
   className,
 }) => {
   return (

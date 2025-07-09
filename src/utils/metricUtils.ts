@@ -1,4 +1,3 @@
-
 import { AccountMetrics, MetricItem } from "@/types/account";
 
 // Mock data - This would normally come from an API
@@ -12,7 +11,7 @@ export const mockAccountMetrics: AccountMetrics = {
   availableFunds: 10500, // Updated to be balance + bonus
   exposure: 12000,
   bonus: 500,
-  buyingPower: 20000
+  buyingPower: 20000,
 };
 
 // Format currency with $ and 2 decimal places
@@ -28,31 +27,33 @@ export const calculateAvailableFunds = (balance: number, bonus: number) => {
 // Get displayed metrics for the header
 export const getDisplayedMetrics = (metrics: AccountMetrics): MetricItem[] => {
   return [
-    { 
-      label: "Unrealized P&L", 
+    {
+      label: "Unrealized P&L",
       value: formatCurrency(metrics.unrealizedPL),
-      tooltip: "Total profit and loss from the open positions in the trading account"
+      tooltip:
+        "Total profit and loss from the open positions in the trading account",
     },
-    { 
-      label: "Margin Level", 
+    {
+      label: "Margin Level",
       value: `${metrics.marginLevel}%`,
-      tooltip: "Indicates whether there are sufficient funds to keep the positions open"
+      tooltip:
+        "Indicates whether there are sufficient funds to keep the positions open",
     },
-    { 
-      label: "Account Equity", 
+    {
+      label: "Account Equity",
       value: formatCurrency(metrics.equity),
-      tooltip: "The sum of the balance and unrealized P&L"
+      tooltip: "The sum of the balance and unrealized P&L",
     },
-    { 
-      label: "Balance", 
+    {
+      label: "Balance",
       value: formatCurrency(metrics.balance),
-      tooltip: "The deposit and the realized P&L in the trading account"
+      tooltip: "The deposit and the realized P&L in the trading account",
     },
-    { 
-      label: "Available", 
+    {
+      label: "Available",
       value: formatCurrency(metrics.availableFunds),
-      tooltip: "Balance plus bonus funds available for trading"
-    }
+      tooltip: "Balance plus bonus funds available for trading",
+    },
   ];
 };
 
@@ -62,52 +63,59 @@ export const getAllMetrics = (metrics: AccountMetrics): MetricItem[] => {
     {
       label: "Buying Power",
       value: formatCurrency(metrics.buyingPower),
-      tooltip: "Your available margin multiplied by the maximum leverage rate of your trading account"
+      tooltip:
+        "Your available margin multiplied by the maximum leverage rate of your trading account",
     },
-    { 
-      label: "Unrealized P&L", 
+    {
+      label: "Unrealized P&L",
       value: formatCurrency(metrics.unrealizedPL),
-      tooltip: "Total profit and loss from the open positions in the trading account"
+      tooltip:
+        "Total profit and loss from the open positions in the trading account",
     },
-    { 
-      label: "Realized P&L", 
+    {
+      label: "Realized P&L",
       value: formatCurrency(metrics.realizedPL),
-      tooltip: "Total profit and loss from the closed positions in the trading account"
+      tooltip:
+        "Total profit and loss from the closed positions in the trading account",
     },
-    { 
-      label: "Balance", 
+    {
+      label: "Balance",
       value: formatCurrency(metrics.balance),
-      tooltip: "Your deposits and the realized P&L in your trading account"
+      tooltip: "Your deposits and the realized P&L in your trading account",
     },
-    { 
-      label: "Available", 
+    {
+      label: "Available",
       value: formatCurrency(metrics.availableFunds),
-      tooltip: "Balance plus bonus funds available for trading"
+      tooltip: "Balance plus bonus funds available for trading",
     },
-    { 
-      label: "Used", 
+    {
+      label: "Used",
       value: formatCurrency(metrics.usedMargin),
-      tooltip: "The amount of funds in your trading account that is held to keep your existing positions open"
+      tooltip:
+        "The amount of funds in your trading account that is held to keep your existing positions open",
     },
-    { 
-      label: "Exposure", 
+    {
+      label: "Exposure",
       value: formatCurrency(metrics.exposure),
-      tooltip: "The current market value of your open position multiplied by the position size converted to your trading account currency"
+      tooltip:
+        "The current market value of your open position multiplied by the position size converted to your trading account currency",
     },
-    { 
-      label: "Margin Level", 
+    {
+      label: "Margin Level",
       value: `${metrics.marginLevel}%`,
-      tooltip: "Indicates whether there are sufficient funds to keep your positions open in your trading account. When your margin level drops below 1%, you will be notified"
+      tooltip:
+        "Indicates whether there are sufficient funds to keep your positions open in your trading account. When your margin level drops below 1%, you will be notified",
     },
-    { 
-      label: "Account Equity", 
+    {
+      label: "Account Equity",
       value: formatCurrency(metrics.equity),
-      tooltip: "The sum of your balance and unrealized P&L"
+      tooltip: "The sum of your balance and unrealized P&L",
     },
     {
       label: "Bonus",
       value: formatCurrency(metrics.bonus),
-      tooltip: "Additional funds provided by the broker that can be used for trading"
-    }
+      tooltip:
+        "Additional funds provided by the broker that can be used for trading",
+    },
   ];
 };

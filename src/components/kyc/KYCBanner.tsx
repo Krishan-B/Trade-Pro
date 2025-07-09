@@ -3,14 +3,21 @@ import { Alert, AlertDescription } from "@/shared/ui/alert";
 import { Button } from "@/shared/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useKYC } from "@/hooks/useKYC";
+import { useEffect, useState } from "react";
 
 const KYCBanner = () => {
   const navigate = useNavigate();
   const { getKYCStatus, isKYCComplete } = useKYC();
+  const [status, setStatus] = useState<string | null>(null);
 
-  const status = getKYCStatus();
+  useEffect(() => {
+    (async () => {
+      const result = await getKYCStatus();
+      setStatus(result?.status || null);
+    })();
+  }, [getKYCStatus]);
 
-  if (isKYCComplete()) {
+  if (isKYCComplete) {
     return (
       <Alert className="border-green-200 bg-green-50">
         <CheckCircle className="h-4 w-4 text-green-600" />

@@ -6,7 +6,7 @@ interface ServiceHealth {
   error?: string;
 }
 
-interface HealthCheckResult {
+export interface HealthCheckResult {
   isHealthy: boolean;
   responseTime: number;
   timestamp: string;
@@ -17,34 +17,49 @@ interface HealthCheckResult {
   };
 }
 
-interface SupabaseError extends Error {
+export interface SupabaseError extends Error {
   status?: number;
+}
+
+function isSupabaseError(error: Error): error is SupabaseError {
+  return "status" in error;
 }
 
 async function checkDatabaseHealth(timeout = 5000): Promise<ServiceHealth> {
   const startTime = Date.now();
+
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(
+        () => reject(new Error("Database health check timed out")),
+        timeout
+      );
+    });
 
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("id")
-      .limit(1)
-      .abortSignal(controller.signal);
+    const checkPromise = supabase
+      .from("health_checks")
+      .select("count")
+      .single();
 
-    clearTimeout(timeoutId);
+    const { error } = await Promise.race([checkPromise, timeoutPromise]);
+
+    if (error) {
+      const e = error as Error;
+      if (isSupabaseError(e)) {
+        throw new Error(`Database error (status ${e.status}): ${e.message}`);
+      }
+      throw e;
+    }
 
     return {
-      isHealthy: !error && !!data,
+      isHealthy: true,
       responseTime: Date.now() - startTime,
-      error: error?.message,
     };
-  } catch (err) {
+  } catch (error) {
     return {
       isHealthy: false,
       responseTime: Date.now() - startTime,
-      error: err instanceof Error ? err.message : "Unknown error",
+      error: error instanceof Error ? error.message : "Unknown database error",
     };
   }
 }
@@ -52,13 +67,16 @@ async function checkDatabaseHealth(timeout = 5000): Promise<ServiceHealth> {
 async function checkAuthHealth(timeout = 5000): Promise<ServiceHealth> {
   const startTime = Date.now();
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(
+        () => reject(new Error("Auth health check timed out")),
+        timeout
+      );
+    });
 
-    // Check if auth service is responding
-    const { error } = await supabase.auth.getSession();
+    const checkPromise = supabase.auth.getSession();
 
-    clearTimeout(timeoutId);
+    const { error } = await Promise.race([checkPromise, timeoutPromise]);
 
     return {
       isHealthy: !error,
@@ -77,13 +95,16 @@ async function checkAuthHealth(timeout = 5000): Promise<ServiceHealth> {
 async function checkStorageHealth(timeout = 5000): Promise<ServiceHealth> {
   const startTime = Date.now();
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(
+        () => reject(new Error("Storage health check timed out")),
+        timeout
+      );
+    });
 
-    // List buckets to check storage service
-    const { error } = await supabase.storage.listBuckets();
+    const checkPromise = supabase.storage.listBuckets();
 
-    clearTimeout(timeoutId);
+    const { error } = await Promise.race([checkPromise, timeoutPromise]);
 
     return {
       isHealthy: !error,

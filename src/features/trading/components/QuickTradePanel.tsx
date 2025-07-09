@@ -16,10 +16,10 @@ import { getLeverageForAssetType } from "@/utils/leverageUtils";
 import { isMarketOpen } from "@/utils/marketHours";
 import { mockAccountMetrics } from "@/utils/metricUtils";
 import { CreditCard } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useInterval } from "../../hooks/useCleanup";
-import { tradeInputSchema } from "../../lib/validationSchemas";
-import { withErrorBoundary } from "../hoc/withErrorBoundary";
+import { useCallback, useEffect, useState } from "react";
+import { useInterval } from "@/hooks/useCleanup";
+import { tradeInputSchema } from "@/lib/validationSchemas";
+import { withErrorBoundary } from "@/features/trading/components/hoc/withErrorBoundary";
 
 interface QuickTradePanelProps {
   asset: {
@@ -78,8 +78,6 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
     setBuyPrice(currentPrice * 1.001); // 0.1% higher
     setSellPrice(currentPrice * 0.999); // 0.1% lower
   }, [currentPrice]);
-
-  const priceUpdateInterval = useRef<number | null>(null);
 
   // Use useInterval for local price simulation with proper cleanup
   useInterval(() => {
@@ -806,9 +804,6 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
   );
 };
 
-const QuickTradePanelWrapped = withErrorBoundary(
-  QuickTradePanel,
-  "quick_trade_panel"
-);
+const QuickTradePanelWrapped = withErrorBoundary(QuickTradePanel);
 export { QuickTradePanelWrapped as QuickTradePanel };
 export default QuickTradePanelWrapped;

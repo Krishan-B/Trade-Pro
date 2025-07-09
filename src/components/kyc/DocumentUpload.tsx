@@ -27,6 +27,7 @@ import type {
   DocumentCategory,
   DocumentCategoryInfo,
 } from "@/types/kyc";
+import { isDocumentType } from "@/types/guards";
 
 const DOCUMENT_CATEGORIES: DocumentCategoryInfo[] = [
   {
@@ -127,75 +128,6 @@ const DocumentUpload = ({ onUploadComplete }: DocumentUploadProps) => {
     }
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const file = e.target.files?.[0];
-      if (!file) return;
-
-      const validationErrors = validateFile(file);
-      if (validationErrors.length > 0) {
-        setErrors(validationErrors);
-        ErrorHandler.handleError({
-          code: "kyc_document_upload_error",
-          message: validationErrors.join(". "),
-          details: {
-            fileName: file.name,
-            fileType: file.type,
-            fileSize: file.size,
-          },
-          retryable: false,
-        });
-        return;
-      }
-
-      // If it's an image, validate dimensions and content
-      if (file.type.startsWith("image/")) {
-        const img = new Image();
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          img.src = reader.result as string;
-          img.onload = () => {
-            if (img.width < 300 || img.height < 300) {
-              const error = "Image dimensions must be at least 300x300 pixels";
-              setErrors([error]);
-              ErrorHandler.handleError({
-                code: "kyc_document_upload_error",
-                message: error,
-                details: { width: img.width, height: img.height },
-                retryable: false,
-              });
-              return;
-            }
-            setSelectedFile(file);
-            setErrors([]);
-          };
-          img.onerror = () => {
-            const error = "Failed to validate image content";
-            setErrors([error]);
-            ErrorHandler.handleError({
-              code: "kyc_document_upload_error",
-              message: error,
-              details: { fileName: file.name },
-              retryable: true,
-            });
-          };
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setSelectedFile(file);
-        setErrors([]);
-      }
-    } catch (error) {
-      ErrorHandler.handleError({
-        code: "kyc_document_upload_error",
-        message: "Failed to process file",
-        details: error,
-        retryable: true,
-      });
-    }
-  };
-
   const handleUpload = async () => {
     if (!selectedFile) return;
 
@@ -272,7 +204,18 @@ const DocumentUpload = ({ onUploadComplete }: DocumentUploadProps) => {
           <Label htmlFor="type">Document Type</Label>
           <Select
             value={selectedType}
-            onValueChange={(value) => setSelectedType(value as DocumentType)}
+            onValueChange={(value) => {
+              if (isDocumentType(value)) {
+                setSelectedType(value);
+              } else {
+                ErrorHandler.handleError({
+                  code: "kyc_document_type_error",
+                  message: `Invalid document type selected: ${value}`,
+                  details: value,
+                  retryable: false,
+                });
+              }
+            }}
           >
             <SelectTrigger>
               <SelectValue />

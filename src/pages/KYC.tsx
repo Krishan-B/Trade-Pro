@@ -12,13 +12,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { useKYC } from "@/hooks/useKYC";
 import { ErrorHandler } from "@/services/errorHandling";
 import { AlertTriangle, CheckCircle, Clock, Shield } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { withErrorBoundary } from "@/components/hoc/withErrorBoundary";
-import type { KYCStatus } from "@/types/kyc";
 
 const KYCPage: React.FC = () => {
-  const { documents, loading, fetchDocuments, getKYCStatus, isKYCComplete } =
-    useKYC();
+  const { documents, fetchDocuments, getKYCStatus, isKYCComplete } = useKYC();
+  const [kycStatus, setKycStatus] = useState<string | null>(null);
 
   useEffect(() => {
     const loadDocuments = async () => {
@@ -29,10 +28,13 @@ const KYCPage: React.FC = () => {
       }
     };
     loadDocuments();
-  }, [fetchDocuments]);
+    (async () => {
+      const result = await getKYCStatus();
+      setKycStatus(result?.status || null);
+    })();
+  }, [fetchDocuments, getKYCStatus]);
 
-  const kycStatus = getKYCStatus();
-  const complete = isKYCComplete();
+  const complete = isKYCComplete;
 
   const getStatusIcon = () => {
     switch (kycStatus) {

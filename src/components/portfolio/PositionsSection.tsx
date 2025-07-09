@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Button } from "@/shared/ui/button";
-import { Plus, Activity } from "lucide-react";
+import { Plus } from "lucide-react";
 import PositionsTable from "@/components/portfolio/PositionsTable";
 import ClosedPositionsTable from "@/components/portfolio/ClosedPositionsTable";
 import PositionFilter from "@/components/portfolio/PositionFilter";

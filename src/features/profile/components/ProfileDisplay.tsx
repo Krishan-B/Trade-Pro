@@ -1,4 +1,3 @@
-
 import { UserProfile } from "@/features/profile/types";
 import { countries } from "@/lib/countries";
 
@@ -16,36 +15,46 @@ const ProfileDisplay = ({ profile }: ProfileDisplayProps) => {
   }
 
   // Find the country name based on the country code
-  const countryName = profile.country ? 
-    countries.find(c => c.code === profile.country)?.name || profile.country : 
-    "Not specified";
+  const countryName = profile.country
+    ? countries.find((c) => c.code === profile.country)?.name || profile.country
+    : "Not specified";
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-1">First Name</h3>
-          <p className="text-base">{profile.firstName || "Not specified"}</p>
+          <h3 className="text-sm font-medium text-muted-foreground mb-1">
+            First Name
+          </h3>
+          <p className="text-base">{profile.first_name || "Not specified"}</p>
         </div>
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-1">Last Name</h3>
-          <p className="text-base">{profile.lastName || "Not specified"}</p>
+          <h3 className="text-sm font-medium text-muted-foreground mb-1">
+            Last Name
+          </h3>
+          <p className="text-base">{profile.last_name || "Not specified"}</p>
         </div>
       </div>
 
       <div>
-        <h3 className="text-sm font-medium text-muted-foreground mb-1">Email Address</h3>
+        <h3 className="text-sm font-medium text-muted-foreground mb-1">
+          Email Address
+        </h3>
         <p className="text-base">{profile.email}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-1">Country</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-1">
+            Country
+          </h3>
           <p className="text-base">{countryName}</p>
         </div>
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-1">Phone Number</h3>
-          <p className="text-base">{profile.phoneNumber || "Not specified"}</p>
+          <h3 className="text-sm font-medium text-muted-foreground mb-1">
+            Phone Number
+          </h3>
+          <p className="text-base">{profile.phone_number || "Not specified"}</p>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { Card } from "@/shared/ui/card";
 import EnhancedNewsWidget from "@/components/EnhancedNewsWidget";

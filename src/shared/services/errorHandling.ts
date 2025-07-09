@@ -10,12 +10,8 @@ interface ErrorOptions {
 }
 
 class ErrorHandlerService {
-  handleError(
-    title: string,
-    error: Error | string,
-    options?: ErrorHandlerOptions
-  ) {
-    console.error(`${title}:`, error);
+  handleError(error: unknown): void {
+    console.error(`Error:`, error);
     // Toast implementation would go here
   }
 

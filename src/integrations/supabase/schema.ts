@@ -1,5 +1,3 @@
-import { Json } from "./types";
-
 // User Profile
 export interface DBProfile {
   id: string;

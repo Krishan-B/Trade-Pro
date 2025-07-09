@@ -35,11 +35,11 @@ const ProfileEditForm = ({
 
   const form = useForm<UserProfile>({
     defaultValues: {
-      firstName: profile.firstName || "",
-      lastName: profile.lastName || "",
+      first_name: profile.first_name || "",
+      last_name: profile.last_name || "",
       email: profile.email || "",
       country: profile.country || "",
-      phoneNumber: profile.phoneNumber || "",
+      phone_number: profile.phone_number || "",
     },
   });
 
@@ -61,7 +61,7 @@ const ProfileEditForm = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="firstName"
+            name="first_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
@@ -74,7 +74,7 @@ const ProfileEditForm = ({
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name="last_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
@@ -128,7 +128,7 @@ const ProfileEditForm = ({
           />
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name="phone_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>

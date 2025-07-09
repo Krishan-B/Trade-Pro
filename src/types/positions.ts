@@ -12,6 +12,7 @@ export interface Position {
 }
 
 export interface OrderRequest {
+  [key: string]: string | number | undefined;
   symbol: string;
   direction: "buy" | "sell";
   quantity: number;
@@ -22,6 +23,7 @@ export interface OrderRequest {
 }
 
 export interface OrderUpdate {
+  [key: string]: string | number | undefined;
   price?: number;
   stopLoss?: number;
   takeProfit?: number;

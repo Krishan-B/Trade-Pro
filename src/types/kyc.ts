@@ -18,20 +18,22 @@ export type DocumentCategory =
 
 export type KYCStatus = "PENDING" | "APPROVED" | "REJECTED";
 
+export type DocumentStatus = "pending" | "verified" | "rejected";
+
 export interface KYCDocument {
   id: string;
-  user_id: string;
-  document_type: DocumentType;
+  fileName: string;
+  type: DocumentType;
+  status: DocumentStatus;
+  uploadDate: string;
+  expiryDate?: string;
+  verificationDate?: string;
   category: DocumentCategory;
-  file_url: string;
-  file_name: string | null;
-  status: KYCStatus;
-  comments: string | null;
-  uploaded_at: string;
-  reviewed_at: string | null;
-  reviewed_by: string | null;
-  created_at: string;
-  updated_at: string;
+  metadata?: {
+    fileSize: number;
+    mimeType: string;
+    [key: string]: unknown;
+  };
 }
 
 export interface DocumentTypeInfo {

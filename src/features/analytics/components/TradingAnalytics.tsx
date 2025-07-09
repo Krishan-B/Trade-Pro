@@ -1,7 +1,7 @@
 import React from "react";
-import { useOrderApi } from "../services/tradingApi";
-import { usePositionApi } from "../services/tradingApi";
-import type { Order } from "../types/orders";
+import { useOrderApi } from "@/services/tradingApi";
+// import { usePositionApi } from "@/services/tradingApi"; // Not implemented, remove or stub if needed
+import type { Order } from "@/types/orders";
 
 interface Position {
   id: string;
@@ -17,8 +17,7 @@ interface Position {
 }
 
 export default function TradingAnalytics() {
-  const { getOrders } = useOrderApi();
-  const { getPositions } = usePositionApi();
+  const { getOrders, getPositions } = useOrderApi();
   const [orders, setOrders] = React.useState<Order[]>([]);
   const [positions, setPositions] = React.useState<Position[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -28,8 +27,8 @@ export default function TradingAnalytics() {
     Promise.all([getOrders(), getPositions()])
       .then(([orders, positions]) => {
         if (mounted) {
-          setOrders(orders);
-          setPositions(positions);
+          setOrders(orders as unknown as Order[]);
+          setPositions(positions as Position[]);
         }
       })
       .finally(() => mounted && setLoading(false));

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ErrorHandler } from "@/services/errorHandling";
@@ -8,6 +7,7 @@ export interface Asset {
   name: string;
   symbol: string;
   price: number;
+  change24h: number;
   change_percentage: number;
   volume: string;
   market_cap?: string;

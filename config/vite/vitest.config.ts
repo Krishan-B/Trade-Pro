@@ -5,11 +5,21 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    include: ["src/__tests__/**/*.test.ts", "tests/diagnostics/**/*.test.ts"],
+    setupFiles: "../../tests/setup.ts",
+    include: [
+      "src/__tests__/**/*.test.ts",
+      "src/__tests__/**/*.test.tsx",
+      "src/**/*.test.ts",
+      "src/**/*.test.tsx",
+      "tests/diagnostics/**/*.test.ts",
+    ],
   },
   resolve: {
     alias: {
-      "@": path.resolve(process.cwd(), "src"),
+      // ALIAS_SYNC_START
+      "@": path.resolve(__dirname, "../../src"),
+      "@shared": path.resolve(__dirname, "../../src/shared"),
+      // ALIAS_SYNC_END
     },
   },
 });

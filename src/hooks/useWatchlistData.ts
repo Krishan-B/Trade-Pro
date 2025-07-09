@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Asset } from "./useMarketData";
+import type { Asset } from "./useMarketData";
 import { useQuery } from "@tanstack/react-query";
 import { ErrorHandler } from "@/services/errorHandling";
 
@@ -10,6 +9,7 @@ const SAMPLE_DATA: Asset[] = [
     name: "Bitcoin",
     symbol: "BTCUSD",
     price: 67543.21,
+    change24h: 1621.35,
     change_percentage: 2.4,
     market_type: "Crypto",
     volume: "$42.1B",
@@ -19,6 +19,7 @@ const SAMPLE_DATA: Asset[] = [
     name: "Apple Inc.",
     symbol: "AAPL",
     price: 189.56,
+    change24h: -1.25,
     change_percentage: 0.8,
     market_type: "Stock",
     volume: "$4.2B",
@@ -28,6 +29,7 @@ const SAMPLE_DATA: Asset[] = [
     name: "S&P 500",
     symbol: "US500",
     price: 5204.34,
+    change24h: 28.58,
     change_percentage: 0.4,
     market_type: "Index",
     volume: "$5.1B",
@@ -36,6 +38,7 @@ const SAMPLE_DATA: Asset[] = [
     name: "EUR/USD",
     symbol: "EURUSD",
     price: 1.0934,
+    change24h: -0.0012,
     change_percentage: -0.12,
     market_type: "Forex",
     volume: "$98.3B",
@@ -44,6 +47,7 @@ const SAMPLE_DATA: Asset[] = [
     name: "Gold",
     symbol: "XAUUSD",
     price: 2325.6,
+    change24h: 12.4,
     change_percentage: 1.3,
     market_type: "Commodity",
     volume: "$15.8B",

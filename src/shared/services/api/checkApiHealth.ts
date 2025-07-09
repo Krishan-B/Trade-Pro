@@ -18,11 +18,7 @@ export async function checkApiHealth(): Promise<boolean> {
     return true;
   } catch (error) {
     ErrorHandler.handleError(
-      "API Health Check Failed",
-      error instanceof Error ? error : "Connection failed",
-      {
-        description: "Unable to verify API health status",
-      }
+      error instanceof Error ? error : "Connection failed"
     );
     return false;
   }

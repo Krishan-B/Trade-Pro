@@ -1,15 +1,14 @@
-import MarketOverview from "@/components/MarketOverview";
+import MarketOverview from "@/features/market/components/MarketOverview";
 import NewsWidget from "@/components/NewsWidget";
 import PortfolioCard from "@/components/PortfolioCard";
-import QuickTradePanel from "@/components/trade/QuickTradePanel";
+import QuickTradePanel from "@/features/trading/components/QuickTradePanel";
 import KYCBanner from "@/components/kyc/KYCBanner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import WatchlistTable from "@/components/watchlist/WatchlistTable";
 import { Activity, DollarSign, PieChart, TrendingUp } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import RealTimeEventsWidget from "@/components/RealTimeEventsWidget";
-import MarketStatusIndicator from "@/components/MarketStatusIndicator";
+import RealTimeEventsWidget from "@/features/analytics/components/RealTimeEventsWidget";
+import MarketStatusIndicator from "@/features/market/components/MarketStatusIndicator";
 
 // Define a type for asset
 interface AssetType {
@@ -21,8 +20,6 @@ interface AssetType {
 }
 
 const Index = () => {
-  const navigate = useNavigate();
-
   // State for selected asset in QuickTradePanel
   const [selectedAsset, setSelectedAsset] = useState<AssetType>({
     name: "EUR/USD",
@@ -64,7 +61,9 @@ const Index = () => {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today's P&L</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Today&apos;s P&amp;L
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

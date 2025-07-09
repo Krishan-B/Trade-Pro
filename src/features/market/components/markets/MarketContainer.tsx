@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Separator } from "@/shared/ui/separator";
-import { Asset } from "@/hooks/useMarketData";
+import type { Asset } from "@/hooks/useMarketData";
 import { isMarketOpen } from "@/utils/marketHours";
 import MarketHeader from "@/components/markets/MarketHeader";
 import MarketSearch from "@/components/markets/MarketSearch";
@@ -27,6 +27,7 @@ const MarketContainerComponent: React.FC<MarketContainerProps> = ({
     name: "Bitcoin",
     symbol: "BTCUSD",
     price: 67432.21,
+    change24h: 1621.35,
     change_percentage: 2.4,
     market_type: "Crypto",
     volume: "14.2B",
@@ -34,7 +35,6 @@ const MarketContainerComponent: React.FC<MarketContainerProps> = ({
 
   const chartSectionRef = useRef<HTMLDivElement>(null);
 
-  // Check if the selected market is open
   const marketIsOpen = selectedAsset
     ? isMarketOpen(selectedAsset.market_type)
     : false;
@@ -78,17 +78,18 @@ const MarketContainerComponent: React.FC<MarketContainerProps> = ({
         <MarketOrderForm selectedAsset={selectedAsset} />
 
         {/* News section */}
-        <div className="mt-6">
-          <EnhancedNewsWidget marketType={selectedAsset.market_type} />
-        </div>
+        {selectedAsset && (
+          <div className="mt-8">
+            <EnhancedNewsWidget marketType={selectedAsset.market_type} />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-const MarketContainerWrapped = withErrorBoundary(
+export const MarketContainer = withErrorBoundary(
   MarketContainerComponent,
-  "market_container"
+  "MarketContainer"
 );
-export { MarketContainerWrapped as MarketContainer };
-export default MarketContainerWrapped;
+export default MarketContainer;

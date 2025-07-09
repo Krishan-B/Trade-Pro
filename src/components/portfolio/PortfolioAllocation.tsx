@@ -1,3 +1,4 @@
+// ...existing code...
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { ChartContainer, ChartTooltipContent } from "@/shared/ui/chart";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
@@ -28,13 +29,15 @@ const PortfolioAllocation = ({
 
   // Use the correct type for Recharts custom tooltip content: (props: object) => React.ReactNode
   // Recharts passes a generic object, so use Record<string, unknown> for type safety
-  const renderTooltipContent = (props: Record<string, unknown>) => {
+
+  const renderTooltipContent = (props: {
+    active?: boolean;
+    payload?: Array<{ name: string; value: number }>;
+  }) => {
     // Type guard for expected shape
-    if (!("active" in props) || !("payload" in props)) return null;
-    const { active, payload } = props as {
-      active?: boolean;
-      payload?: Array<{ name: string; value: number }>;
-    };
+    // eslint-disable-next-line react/prop-types
+    const { active, payload } = props;
+    // ...existing code...
     if (!active || !payload || !payload.length) {
       return null;
     }

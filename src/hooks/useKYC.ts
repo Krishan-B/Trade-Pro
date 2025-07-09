@@ -8,6 +8,7 @@ export const useKYC = () => {
   const [documents, setDocuments] = useState<KYCDocument[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [kycStatus, setKycStatus] = useState<{ status: string } | null>(null);
   const { user } = useAuth();
 
   const fetchDocuments = useCallback(async () => {
@@ -192,11 +193,13 @@ export const useKYC = () => {
         });
       }
 
+      setKycStatus(data);
       return data;
     } catch (error) {
       ErrorHandler.handleError(error, {
         description: "Unable to retrieve your KYC verification status.",
       });
+      setKycStatus(null);
       return null;
     }
   }, [user]);
@@ -205,6 +208,7 @@ export const useKYC = () => {
     fetchDocuments();
   }, [fetchDocuments]);
 
+  const isKYCComplete = kycStatus?.status === "APPROVED";
   return {
     documents,
     loading,
@@ -213,5 +217,6 @@ export const useKYC = () => {
     uploadDocument,
     deleteDocument,
     getKYCStatus,
+    isKYCComplete,
   };
 };

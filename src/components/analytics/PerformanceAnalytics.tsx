@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import type { PostgrestError } from "@supabase/supabase-js";
 import { Activity, Award, Target, TrendingUp } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -46,7 +45,6 @@ const PerformanceAnalytics = () => {
   const [analytics, setAnalytics] = useState<TradeAnalytics | null>(null);
   const [performanceData, setPerformanceData] = useState<PerformanceData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<PostgrestError | null>(null);
   const { user } = useAuth();
 
   const generateMockData = (): TradeAnalytics => ({
@@ -81,7 +79,6 @@ const PerformanceAnalytics = () => {
 
     try {
       setLoading(true);
-      setError(null);
 
       const { data, error } = await supabase
         .from("trade_analytics")
@@ -92,7 +89,6 @@ const PerformanceAnalytics = () => {
         .single();
 
       if (error && error.code !== "PGRST116") {
-        setError(error);
         return;
       }
 
@@ -100,7 +96,6 @@ const PerformanceAnalytics = () => {
       setPerformanceData(generatePerformanceData());
     } catch (err) {
       console.error("Error fetching analytics:", err);
-      setError(err as PostgrestError);
     } finally {
       setLoading(false);
     }

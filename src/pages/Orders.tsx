@@ -4,11 +4,11 @@ import { Button } from "@/shared/ui/button";
 import { Link } from "react-router-dom";
 import { TrendingUp } from "lucide-react";
 import OrderTabs from "@/components/orders/OrderTabs";
-import OrderForm from "../components/OrderForm";
-import OrderList from "../components/OrderList";
-import PendingOrders from "../components/PendingOrders";
-import PositionsList from "../components/PositionsList";
-import TradingAnalytics from "../components/TradingAnalytics";
+import OrderForm from "@/features/trading/components/OrderForm";
+import OrderList from "@/features/trading/components/OrderList";
+import PendingOrders from "@/features/trading/components/PendingOrders";
+import PositionsList from "@/features/trading/components/PositionsList";
+import TradingAnalytics from "@/features/analytics/components/TradingAnalytics";
 
 const Orders = () => {
   const [activeTab, setActiveTab] = useState("open");
@@ -61,7 +61,7 @@ const Orders = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Today's Trades
+              Today&apos;s Trades
             </CardTitle>
           </CardHeader>
           <CardContent>

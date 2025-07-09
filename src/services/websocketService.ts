@@ -3,132 +3,140 @@ import type { Order } from "@/types/order";
 import type { Position } from "@/types/position";
 import { ErrorHandler } from "@/services/errorHandling";
 
-// Dynamically determine WebSocket URL for local, Codespaces, and production
+type WebSocketEventMap = {
+  ACCOUNT_METRICS_UPDATE: Account;
+  ORDER_FILLED: Order;
+  ORDER_PENDING: Order;
+  ORDER_CANCELLED: Order;
+  POSITION_CLOSED: Position;
+};
+
+type WebSocketEventType = keyof WebSocketEventMap;
+type EventHandler<T extends WebSocketEventType> = (
+  data: WebSocketEventMap[T]
+) => void;
+
 const getWebSocketUrl = () => {
   const envUrl = import.meta.env.VITE_WEBSOCKET_URL;
   if (envUrl) return envUrl;
-  // Always use ws:// for local and Codespaces to avoid handshake issues
   const protocol = "ws";
   let host = window.location.hostname;
-  // Codespaces: map frontend port (8080) to backend port (3001)
   if (host.endsWith("app.github.dev")) {
     host = host.replace(/-\d+\./, "-3001.");
     return `${protocol}://${host}`;
   }
-  // Local dev
   if (host === "localhost" || host === "127.0.0.1") {
     return `${protocol}://localhost:3001`;
   }
-  // Fallback: use current host, port 3001
   return `${protocol}://${host}:3001`;
 };
 
 let socket: WebSocket | null = null;
 let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 5;
-const RECONNECT_DELAY = 1000; // 1 second
+const RECONNECT_DELAY = 1000;
 
-type WebSocketPayload = Account | Order | Position | Record<string, unknown>;
+const eventHandlers = new Map<
+  WebSocketEventType,
+  Set<EventHandler<WebSocketEventType>>
+>();
 
-const listeners = new Map<string, ((data: WebSocketPayload) => void)[]>();
-
-function connect() {
-  try {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      return;
-    }
-    const url = getWebSocketUrl();
-    socket = new WebSocket(url);
-
-    socket.onopen = () => {
-      console.log("WebSocket connected");
-      reconnectAttempts = 0; // Reset reconnect attempts on successful connection
-    };
-
-    socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type && listeners.has(data.type)) {
-          listeners
-            .get(data.type)
-            ?.forEach((callback) => callback(data.payload));
-        }
-      } catch (error) {
-        ErrorHandler.handleError({
-          code: "realtime_subscription_error",
-          message: "Failed to parse WebSocket message",
-          details: error,
-          retryable: false,
-        });
+class WebSocketService {
+  connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (socket?.readyState === WebSocket.OPEN) {
+        resolve();
+        return;
       }
-    };
 
-    socket.onerror = (error) => {
-      ErrorHandler.handleError({
-        code: "realtime_subscription_error",
-        message: "WebSocket connection error",
-        details: error,
-        retryable: true,
-      });
-    };
+      const wsUrl = getWebSocketUrl();
+      socket = new WebSocket(wsUrl);
 
-    socket.onclose = () => {
-      if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
-        reconnectAttempts++;
-        setTimeout(() => {
-          ErrorHandler.handleError({
-            code: "realtime_subscription_error",
-            message: `WebSocket disconnected. Attempting to reconnect (${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})...`,
-            details: { reconnectAttempt: reconnectAttempts },
-            retryable: true,
+      socket.onopen = () => {
+        reconnectAttempts = 0;
+        console.log("WebSocket connected");
+        resolve();
+      };
+
+      socket.onclose = () => {
+        console.log("WebSocket disconnected");
+        this.handleReconnect();
+      };
+
+      socket.onerror = (error) => {
+        ErrorHandler.handleError(error, {
+          description: "There was an error with the WebSocket connection",
+          duration: 5000,
+          retryFn: async () => {
+            await this.connect();
+          },
+        });
+        reject(error);
+      };
+
+      socket.onmessage = (event) => {
+        try {
+          const { type, payload } = JSON.parse(event.data);
+          const handlers = eventHandlers.get(type as WebSocketEventType);
+          handlers?.forEach((handler) => handler(payload));
+        } catch (error) {
+          ErrorHandler.handleError(error, {
+            description:
+              "There was an error processing the incoming WebSocket message",
+            duration: 3000,
           });
-          connect();
-        }, RECONNECT_DELAY * reconnectAttempts);
-      } else {
-        ErrorHandler.handleError({
-          code: "realtime_subscription_error",
-          message: "WebSocket connection failed after maximum retry attempts",
-          details: { maxAttempts: MAX_RECONNECT_ATTEMPTS },
-          retryable: false,
-        });
-      }
-    };
-  } catch (error) {
-    ErrorHandler.handleError({
-      code: "realtime_subscription_error",
-      message: "Failed to establish WebSocket connection",
-      details: error,
-      retryable: true,
+        }
+      };
     });
   }
-}
 
-function on(eventType: string, callback: (data: WebSocketPayload) => void) {
-  if (!listeners.has(eventType)) {
-    listeners.set(eventType, []);
+  on<T extends WebSocketEventType>(event: T, handler: EventHandler<T>) {
+    if (!eventHandlers.has(event)) {
+      eventHandlers.set(event, new Set());
+    }
+    eventHandlers.get(event)?.add(handler as EventHandler<WebSocketEventType>);
   }
-  listeners.get(eventType)?.push(callback);
-}
 
-function off(eventType: string, callback: (data: WebSocketPayload) => void) {
-  if (listeners.has(eventType)) {
-    const eventListeners = listeners
-      .get(eventType)
-      ?.filter((cb) => cb !== callback);
-    listeners.set(eventType, eventListeners || []);
+  off<T extends WebSocketEventType>(event: T, handler: EventHandler<T>) {
+    eventHandlers
+      .get(event)
+      ?.delete(handler as EventHandler<WebSocketEventType>);
   }
-}
 
-function disconnect() {
-  if (socket) {
-    socket.close();
+  disconnect() {
+    socket?.close();
     socket = null;
   }
+
+  private handleReconnect() {
+    if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+      console.error("Max reconnection attempts reached");
+      return;
+    }
+
+    setTimeout(
+      async () => {
+        reconnectAttempts++;
+        try {
+          await this.connect();
+        } catch (error) {
+          console.error("Reconnection attempt failed:", error);
+        }
+      },
+      RECONNECT_DELAY * Math.pow(2, reconnectAttempts)
+    );
+  }
+
+  send<T extends WebSocketEventType>(type: T, payload: WebSocketEventMap[T]) {
+    if (socket?.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type, payload }));
+    } else {
+      console.warn("WebSocket is not connected. Message not sent:", {
+        type,
+        payload,
+      });
+    }
+  }
 }
 
-export const websocketService = {
-  connect,
-  disconnect,
-  on,
-  off,
-};
+export const websocketService = new WebSocketService();

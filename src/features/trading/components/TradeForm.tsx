@@ -1,9 +1,10 @@
-import { OrderTypeSelector, TradeSummary } from "@/components/trade";
+import OrderTypeSelector from "./OrderTypeSelector";
+import { TradeSummary } from "./TradeSummary";
 import { Asset } from "@/hooks/useMarketData";
 import { getLeverageForAssetType } from "@/utils/leverageUtils";
 import { useEffect, useState } from "react";
-import { useInterval } from "../../hooks/useCleanup";
-import { tradeInputSchema } from "../../lib/validationSchemas";
+import { useInterval } from "@/hooks/useCleanup";
+import { tradeInputSchema } from "@/lib/validationSchemas";
 import { AssetCategorySelector } from "./AssetCategorySelector";
 import { AssetSelector } from "./AssetSelector";
 import { StopLossCheckbox } from "./StopLossCheckbox";
@@ -23,8 +24,14 @@ interface TradeFormProps {
   isLoading: boolean;
   isExecuting: boolean;
   marketIsOpen: boolean;
-  fixedLeverage?: number;
-  onSubmit: (amount: string, orderType: string, leverage?: number[]) => void;
+  onSubmit: (
+    amount: number,
+    orderType: string,
+    leverage?: number[],
+    rate?: number,
+    stopLoss?: number,
+    takeProfit?: number
+  ) => void;
   availableFunds?: number;
   marketData?: Asset[];
 }
@@ -36,7 +43,6 @@ const TradeForm = ({
   isLoading,
   isExecuting,
   marketIsOpen,
-  fixedLeverage = 1, // Default to 1:1 (no leverage) if not provided
   onSubmit,
   availableFunds = 10000,
   marketData = [],
@@ -129,7 +135,25 @@ const TradeForm = ({
     }
 
     setFormErrors(undefined);
-    onSubmit(units, orderType, [leverage]);
+
+    // Convert all numeric fields to numbers before sending to backend
+    const parsedUnits = parseFloat(units);
+    const parsedRate =
+      orderType === "entry" ? parseFloat(entryOrderRate) : undefined;
+    const parsedStopLoss = hasStopLoss ? parseFloat(stopLossRate) : undefined;
+    const parsedTakeProfit = hasTakeProfit
+      ? parseFloat(takeProfitRate)
+      : undefined;
+
+    // Pass all parsed numeric values to onSubmit
+    onSubmit(
+      parsedUnits,
+      orderType,
+      [leverage],
+      parsedRate,
+      parsedStopLoss,
+      parsedTakeProfit
+    );
   };
 
   // Add a useEffect for real-time validation

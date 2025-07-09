@@ -10,7 +10,7 @@
     "^.+\\.tsx?$": [
       "ts-jest",
       {
-        "tsconfig": "config/typescript/test.json"
+        "tsconfig": "tsconfig.test.json"
       }
     ]
   },

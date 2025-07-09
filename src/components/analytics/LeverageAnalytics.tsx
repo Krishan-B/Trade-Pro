@@ -56,13 +56,6 @@ const LeverageAnalytics = () => {
     }
   }, [user, loadMarginCalculations]);
 
-  useEffect(() => {
-    if (marginCalculations.length > 0) {
-      generateAnalyticsData();
-    }
-    setLoading(false);
-  }, [marginCalculations, generateAnalyticsData]);
-
   const generateAnalyticsData = useCallback(() => {
     // Generate asset-specific leverage analytics
     const assetGroups = marginCalculations.reduce(
@@ -115,6 +108,13 @@ const LeverageAnalytics = () => {
 
     setMarginEfficiencyData(efficiencyData);
   }, [marginCalculations]);
+
+  useEffect(() => {
+    if (marginCalculations.length > 0) {
+      generateAnalyticsData();
+    }
+    setLoading(false);
+  }, [marginCalculations, generateAnalyticsData]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -174,7 +174,7 @@ const LeverageAnalytics = () => {
         <TabsContent value="overview" className="space-y-6">
           {/* Asset Leverage Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {assetLeverageData.map((asset, index) => (
+            {assetLeverageData.map((asset) => (
               <Card key={asset.asset_class}>
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between">
@@ -283,7 +283,7 @@ const LeverageAnalytics = () => {
                       fill="#8884d8"
                       dataKey="efficiency"
                     >
-                      {marginEfficiencyData.map((entry, index) => (
+                      {marginEfficiencyData.map((_, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={COLORS[index % COLORS.length]}

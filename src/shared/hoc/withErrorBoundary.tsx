@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from "react";
+import { Component, ComponentType } from "react";
 import { ErrorHandler } from "@/shared/services/errorHandling";
 
 interface ErrorBoundaryState {
@@ -19,10 +19,7 @@ export function withErrorBoundary<P extends object>(
     }
 
     componentDidCatch(error: Error) {
-      ErrorHandler.handleError("Component Error", error, {
-        description:
-          "An unexpected error occurred while rendering this component.",
-      });
+      ErrorHandler.handleError(error);
     }
 
     render() {

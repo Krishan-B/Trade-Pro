@@ -1,4 +1,3 @@
-import React from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import {

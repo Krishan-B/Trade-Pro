@@ -1,5 +1,5 @@
 import React from "react";
-import { useOrderApi } from "../services/tradingApi";
+import { useOrderApi } from "@/services/tradingApi";
 import { ErrorHandler } from "@/services/errorHandling";
 import { useCleanup, useInterval } from "@/hooks/useCleanup";
 import Spinner from "./Spinner";
@@ -250,10 +250,7 @@ const PositionsListComponent: React.FC = () => {
 };
 
 // Create a wrapped version with error boundary
-const PositionsListWrapped = withErrorBoundary(
-  PositionsListComponent,
-  "positions_list"
-);
+const PositionsListWrapped = withErrorBoundary(PositionsListComponent);
 
 // Export both named and default for flexibility
 export { PositionsListWrapped as PositionsList };

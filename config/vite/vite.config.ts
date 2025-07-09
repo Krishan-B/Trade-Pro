@@ -1,33 +1,22 @@
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { defineConfig } from "vite";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-    proxy: {
-      "/api": "http://localhost:3001", // Proxy API requests to backend-api
-    },
-  },
+export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(process.cwd(), "./src"),
+      // ALIAS_SYNC_START
+      "@": path.resolve(__dirname, "../../src"),
+      "@shared": path.resolve(__dirname, "../../src/shared"),
+      // ALIAS_SYNC_END
     },
-    dedupe: ["react"], // Ensure only one React instance is used
+    dedupe: ["react", "react-dom"],
   },
-  build: {
-    chunkSizeWarningLimit: 1000, // Increase warning limit (optional)
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            return "vendor";
-          }
-        },
-      },
-    },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "../../tests/setup.ts",
+    exclude: ["**/node_modules/**", "**/dist/**", "**/backups/**"],
   },
-}));
+});

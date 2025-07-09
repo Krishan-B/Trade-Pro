@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent } from "@/shared/ui/card";
 import {
   ArrowUp,

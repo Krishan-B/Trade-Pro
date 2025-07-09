@@ -17,8 +17,6 @@ interface MarginCalculation {
   margin_level: number;
   max_leverage: number;
   leverage_used: number;
-  required_funds: number;
-  available_margin: number;
 }
 
 const LeverageManager = ({

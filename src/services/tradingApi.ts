@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { safeFetch } from "./safeFetch";
 import type { Position, OrderRequest, OrderUpdate } from "@/types/positions";
+import { omitUndefined, normalizeDates } from "@/utils/objectUtils";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
@@ -43,7 +44,7 @@ export function useOrderApi() {
       return safeFetch(`${API_URL}/orders/market`, {
         method: "POST",
         headers: authHeaders(token),
-        body: JSON.stringify(order),
+        body: JSON.stringify(omitUndefined(normalizeDates(order))),
       });
     },
     [token]
@@ -56,7 +57,7 @@ export function useOrderApi() {
       return safeFetch(`${API_URL}/orders/entry`, {
         method: "POST",
         headers: authHeaders(token),
-        body: JSON.stringify(order),
+        body: JSON.stringify(omitUndefined(normalizeDates(order))),
       });
     },
     [token]
@@ -85,7 +86,7 @@ export function useOrderApi() {
       return safeFetch(`${API_URL}/orders/${id}`, {
         method: "PATCH",
         headers: authHeaders(token),
-        body: JSON.stringify(updates),
+        body: JSON.stringify(omitUndefined(normalizeDates(updates))),
       });
     },
     [token]

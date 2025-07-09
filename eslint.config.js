@@ -1,42 +1,66 @@
-import js from "@eslint/js";
 import globals from "globals";
-import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginPrettier from "eslint-plugin-prettier";
+import configPrettier from "eslint-config-prettier";
 
-export default tseslint.config(
+export default [
   {
     ignores: [
-      "dist",
-      "coverage",
-      "**/coverage",
-      "**/lcov-report",
-      "build",
-      ".next",
-      ".nuxt",
-      ".vuepress/dist",
-      ".docusaurus",
-      "node_modules",
+      "node_modules/",
+      "dist/",
+      "coverage/",
+      "public/",
+      "backups/",
+      "scripts/",
+      "server/",
+      "supabase/",
+      "tests/",
+      "docs/",
+      "config/",
+      "**/*.cjs",
+      "**/*.md",
+      "**/*.sql",
     ],
   },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.es2021,
+        ...globals.node,
+      },
     },
     plugins: {
-      "react-hooks": reactHooks,
-      "react-refresh": reactRefresh,
+      "@typescript-eslint": tseslint.plugin,
+      react: pluginReact,
+      "react-hooks": pluginReactHooks,
+      prettier: pluginPrettier,
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
-      "@typescript-eslint/no-unused-vars": "off",
+      ...configPrettier.rules,
+      ...tseslint.configs.recommended.rules,
+      ...pluginReact.configs.recommended.rules,
+      ...pluginReactHooks.configs.recommended.rules,
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
     },
-  }
-);
+  },
+];

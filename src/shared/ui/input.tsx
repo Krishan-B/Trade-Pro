@@ -1,11 +1,16 @@
+// ...existing code...
 import * as React from "react";
 
-import { cn } from "@/shared/utils";
+// Update the import path if needed, or create the utils file with a cn function.
+import { cn } from "../utils";
+// If your utils file is elsewhere, adjust the path accordingly.
 
 const Input = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement>
->(({ className, type, ...props }, ref) => {
+>((props, ref) => {
+  // eslint-disable-next-line react/prop-types
+  const { className, type, ...rest } = props;
   return (
     <input
       type={type}
@@ -14,7 +19,7 @@ const Input = React.forwardRef<
         className
       )}
       ref={ref}
-      {...props}
+      {...rest}
     />
   );
 });

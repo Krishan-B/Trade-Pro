@@ -1,4 +1,5 @@
-module.exports = {
+import animate from "tailwindcss-animate";
+export default {
   darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
@@ -99,6 +100,6 @@ module.exports = {
       },
     },
   },
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  plugins: [require("tailwindcss-animate")],
+
+  plugins: [animate],
 };

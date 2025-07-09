@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Navigation, Sidebar } from "../features/navigation";
 import { motion } from "framer-motion";
 import { cn } from "../shared/utils";

@@ -1,4 +1,3 @@
-
 import AuthPage from "@/features/auth/AuthPage";
 
 const Auth = () => {

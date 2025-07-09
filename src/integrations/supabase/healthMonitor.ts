@@ -1,19 +1,21 @@
 import { checkSupabaseHealth, HealthCheckResult } from "./healthCheck";
 
 interface HealthMonitorConfig {
-  checkInterval: number; // milliseconds
+  checkInterval?: number; // milliseconds
   onHealthChange?: (health: HealthCheckResult) => void;
   onError?: (error: Error) => void;
 }
 
 class SupabaseHealthMonitor {
-  private interval: NodeJS.Timer | null = null;
+  private interval: ReturnType<typeof setInterval> | null = null;
   private lastHealth: HealthCheckResult | null = null;
-  private config: HealthMonitorConfig;
+  private config: Required<HealthMonitorConfig>;
 
   constructor(config: HealthMonitorConfig) {
     this.config = {
       checkInterval: 60000, // Default to 1 minute
+      onHealthChange: () => {}, // Default no-op
+      onError: () => {}, // Default no-op
       ...config,
     };
   }

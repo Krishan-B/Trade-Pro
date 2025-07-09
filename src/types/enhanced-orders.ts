@@ -1,14 +1,17 @@
+export type OrderCategory =
+  | "primary"
+  | "stop_loss"
+  | "take_profit"
+  | "trailing_stop";
 
-export type OrderCategory = 'primary' | 'stop_loss' | 'take_profit' | 'trailing_stop';
-
-export type EnhancedOrderType = 
-  | 'market' 
-  | 'limit' 
-  | 'stop' 
-  | 'stop_limit' 
-  | 'stop_loss' 
-  | 'take_profit' 
-  | 'trailing_stop';
+export type EnhancedOrderType =
+  | "market"
+  | "limit"
+  | "stop"
+  | "stop_limit"
+  | "stop_loss"
+  | "take_profit"
+  | "trailing_stop";
 
 export interface StopLossTakeProfitConfig {
   enableStopLoss: boolean;
@@ -28,7 +31,7 @@ export interface EnhancedOrder {
   asset_class: string;
   order_type: EnhancedOrderType;
   order_category: OrderCategory;
-  direction: 'buy' | 'sell';
+  direction: "buy" | "sell";
   units: number;
   requested_price: number;
   execution_price?: number;

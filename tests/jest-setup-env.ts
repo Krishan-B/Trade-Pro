@@ -16,7 +16,7 @@ console.log = (...args) => {
 
 // Load environment variables silently
 config({
-  path: resolve(__dirname, "../.env"),
+  path: resolve(__dirname, "../.env.test"),
   override: true,
   debug: false,
 });

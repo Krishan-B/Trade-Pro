@@ -106,9 +106,9 @@ export const usePositionTracking = () => {
         (update) => {
           setPositionUpdates((prev) => ({
             ...prev,
-            [update.position_id]: [
+            [update.position_id as string]: [
               update,
-              ...(prev[update.position_id] || []).slice(0, 49), // Keep last 50 updates
+              ...(prev[update.position_id as string] || []).slice(0, 49), // Keep last 50 updates
             ],
           }));
         }

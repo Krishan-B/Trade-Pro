@@ -1,3 +1,4 @@
+// ...existing code...
 import * as React from "react";
 
 import { cn } from "@/shared/utils";
@@ -5,7 +6,9 @@ import { cn } from "@/shared/utils";
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   React.TextareaHTMLAttributes<HTMLTextAreaElement>
->(({ className, ...props }, ref) => {
+>((props, ref) => {
+  // eslint-disable-next-line react/prop-types
+  const { className, ...rest } = props;
   return (
     <textarea
       className={cn(
@@ -13,7 +16,7 @@ const Textarea = React.forwardRef<
         className
       )}
       ref={ref}
-      {...props}
+      {...rest}
     />
   );
 });

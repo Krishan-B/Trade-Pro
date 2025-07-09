@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -27,11 +27,21 @@ const RealTimePositionTracker = () => {
     positions,
     loading,
     realTimeEnabled,
-    totals,
     startRealTimeTracking,
     stopRealTimeTracking,
     updatePositionPrice,
   } = usePositionTracking();
+
+  // Compute totals from positions
+  const totals = positions.reduce(
+    (acc, pos) => {
+      acc.unrealizedPnL += pos.unrealized_pnl ?? 0;
+      acc.dailyPnL += pos.daily_pnl ?? 0;
+      acc.marginUsed += pos.margin_used ?? 0;
+      return acc;
+    },
+    { unrealizedPnL: 0, dailyPnL: 0, marginUsed: 0 }
+  );
 
   const [simulateUpdates, setSimulateUpdates] = useState(false);
 

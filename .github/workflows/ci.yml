@@ -38,6 +38,15 @@ jobs:
       - name: Start Supabase
         run: npx supabase start
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests (Vitest)
+        run: npm run test:unit
+
+      - name: Run integration tests (Jest)
+        run: npm run test:integration
+
       - name: Run comprehensive health checks
         run: |
           chmod +x ./scripts/health-check-all.sh

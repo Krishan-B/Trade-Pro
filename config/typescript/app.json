@@ -19,14 +19,11 @@
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": false,
 
-    "baseUrl": "../../",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@/shared/*": ["./src/shared/*"],
-      "@/features/*": ["./src/features/*"],
-      "@/layouts/*": ["./src/layouts/*"]
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src", "shared"]
+  "include": ["src", "src/shared", "src/__tests__"]
 }

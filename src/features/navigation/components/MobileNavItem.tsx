@@ -8,12 +8,7 @@ interface MobileNavItemProps extends React.HTMLAttributes<HTMLDivElement> {
   href: string;
 }
 
-const MobileNavItem = ({
-  children,
-  title,
-  href,
-  ...props
-}: MobileNavItemProps) => {
+const MobileNavItem = ({ title, href }: MobileNavItemProps) => {
   const navigate = useNavigate();
 
   const onClick = () => {

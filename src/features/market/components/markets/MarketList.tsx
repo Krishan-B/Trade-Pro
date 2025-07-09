@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
-import { ArrowUp, ArrowDown, Star, Bell, Info } from "lucide-react";
+import { ArrowUp, ArrowDown, Star, Bell } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 import { Tooltip } from "@/shared/ui/tooltip";
 import {
@@ -15,7 +15,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/ui/tooltip";
-import { Checkbox } from "@/shared/ui/checkbox";
 import { ErrorHandler } from "@/services/errorHandling";
 import { formatCurrency, formatNumber } from "@/utils/formatUtils";
 

@@ -1,8 +1,7 @@
-import React from "react";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Download, Calendar } from "lucide-react";
-import { TradeButton } from "@/components/trade";
+import { TradeButton } from "@/components/trade/index.tsx";
 
 interface QuickActionsProps {
   onExport: () => void;

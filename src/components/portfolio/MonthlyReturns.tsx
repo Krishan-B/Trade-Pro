@@ -1,5 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { ChartContainer, ChartTooltipContent } from "@/shared/ui/chart";
+// ...existing code...
+// Update the path below to the correct location of your card components
+import { Card, CardContent, CardHeader, CardTitle } from "../../shared/ui/card";
+import { ChartContainer, ChartTooltipContent } from "../../shared/ui/chart";
 import {
   Bar,
   BarChart,

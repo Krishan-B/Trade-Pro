@@ -42,3 +42,21 @@ dist-ssr
 # TypeScript compiled output
 dist
 *.tsbuildinfo
+
+# Coverage reports
+coverage/
+server/coverage/
+
+# Generated report files
+all-eslint-final.json
+all-eslint-latest.json
+all-lint-errors.json
+auth-eslint-errors.json
+feature-audit-report.md
+lint-error-files.json
+market-eslint-latest.json
+precommit-lint-errors.txt
+priority-modules-eslint-latest.json
+ui-eslint-errors-fixed.json
+ui-eslint-errors-latest.json
+ui-eslint-errors.json

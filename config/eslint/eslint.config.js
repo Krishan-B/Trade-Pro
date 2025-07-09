@@ -20,47 +20,124 @@ export default tseslint.config(
       "typescript-fix",
     ],
   },
+  // Base config
   {
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
-    ],
-    files: ["**/*.{ts,tsx}"],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-        project: [
-          "./tsconfig.json",
-          "./tsconfig.node.json",
-          "./config/typescript/base.json",
-        ],
-        tsconfigRootDir: process.cwd(),
-      },
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      react: react,
-    },
-    // extends: ["plugin:react/recommended"],
-    rules: {
-      ...reactHooks.configs.recommended.rules,
+        react: react,
+        "@typescript-eslint": tseslint.plugin,
+      },
+      languageOptions: {
+        ecmaVersion: 2020,
+      globals: globals.browser,
+        parser: tseslint.parser,
+        parserOptions: {
+          ecmaFeatures: { jsx: true },
+        },
+      },
+      settings: {
+        react: {
+          version: "detect",
+        },
+      },
+      rules: {
+        ...reactHooks.configs.recommended.rules,
       ...react.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
-      "@typescript-eslint/no-unused-vars": "off",
-      // Disable prop-types rule for TypeScript projects
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
+        "react-refresh/only-export-components": [
+          "warn",
+          { allowConstantExport: true },
+        ],
+      "@typescript-eslint/no-unused-vars": "warn",
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+      },
     },
-  }
+  // Config for main application code (src, shared, root .ts/tsx files, EXCLUDING tests)
+    {
+      files: ["src/**/*.{ts,tsx}", "shared/**/*.{ts,tsx}", "*.{ts,tsx}"],
+      // excludedFiles: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"], // Exclude test files -> This was the error
+      // extends: [
+      //   js.configs.recommended,
+      extends: [
+        js.configs.recommended,
+        ...tseslint.configs.strictTypeChecked,
+        ...tseslint.configs.stylisticTypeChecked,
+      ],
+      languageOptions: {
+        // parser: tseslint.parser, // Already part of tseslint.configs.*
+        parserOptions: {
+          // ecmaFeatures: { jsx: true }, // Already part of tseslint.configs.*
+          project: "./tsconfig.json", // Revert to root tsconfig
+          tsconfigRootDir: process.cwd(),
+        },
+      },
+    },
+    // Config for test files (Jest and Vitest)
+    {
+      files: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "tests/**/*.{ts,tsx}"], // More specific for tests
+      extends: [
+        js.configs.recommended,
+        ...tseslint.configs.strictTypeChecked,
+        ...tseslint.configs.stylisticTypeChecked,
+      ],
+      languageOptions: {
+        globals: { ...globals.jest, ...globals.node }, // Add node globals for tests too
+        parserOptions: {
+          project: "./tsconfig.json", // Revert to root tsconfig
+          tsconfigRootDir: process.cwd(),
+        },
+      },
+      rules: {
+        // Relax rules common in tests, or add test-specific plugins later if needed
+        "@typescript-eslint/no-unsafe-assignment": "warn",
+        "@typescript-eslint/no-unsafe-member-access": "warn",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unsafe-argument": "warn",
+        // It's common to have non-null assertions in tests
+        "@typescript-eslint/no-non-null-assertion": "off",
+      }
+    },
+    // Config for server code
+    {
+      files: ["server/src/**/*.ts"],
+      extends: [
+        js.configs.recommended,
+      ...tseslint.configs.strictTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+      ],
+      languageOptions: {
+      globals: globals.node,
+        parserOptions: {
+          project: "./server/tsconfig.json",
+          tsconfigRootDir: process.cwd(),
+        },
+      },
+    },
+  // Config for scripts and config files (e.g. vite.config.ts, scripts/*.ts)
+    {
+    files: ["scripts/**/*.ts", "config/**/*.ts", "*.config.ts", "test-health.ts", "./*.ts"], // Added ./*.ts for root level scripts like test-health.ts
+      extends: [
+        js.configs.recommended,
+      ...tseslint.configs.strictTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+      ],
+      languageOptions: {
+      globals: globals.node,
+        parserOptions: {
+        project: "./tsconfig.node.json", // Ensure tsconfig.node.json covers these files
+          tsconfigRootDir: process.cwd(),
+        },
+      },
+      rules: {
+      // Relax rules for scripts if necessary, or fix the scripts
+        "@typescript-eslint/no-unsafe-assignment": "warn",
+        "@typescript-eslint/no-unsafe-member-access": "warn",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/no-unsafe-argument": "warn",
+      "@typescript-eslint/no-unsafe-return": "warn",
+      "@typescript-eslint/no-explicit-any": "warn", // Allow any for scripts for now
+      }
+    }
 );

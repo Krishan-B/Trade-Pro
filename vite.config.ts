@@ -19,6 +19,12 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./tests/setup.ts",
-    exclude: ["**/node_modules/**", "**/dist/**", "**/backups/**"],
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/backups/**",
+      "**/server/src/__tests__/**", // Exclude server tests from frontend Vitest run
+      "**/tests/integration/**", // Exclude Jest integration tests
+    ],
   },
 });

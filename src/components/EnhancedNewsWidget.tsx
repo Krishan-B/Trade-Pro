@@ -33,13 +33,18 @@ const EnhancedNewsWidget = ({
   const fetchNews = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase.functions.invoke(
+
+      // Define the expected response type for the Supabase function
+
+      const { data, error } = await supabase.functions.invoke<FetchMarketNewsResponse>(
         "fetch-market-news",
         {
           body: { market_type: marketType },
         }
       );
       if (error) throw error;
+
+      // Now `data` is typed, and `data.data` is known to be NewsItem[] or undefined
       if (data?.data) {
         setNews(data.data);
       }

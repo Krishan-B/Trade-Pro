@@ -24,7 +24,7 @@ export const tradeInputSchema = z.object({
       const num = safeParseFloat(val);
       return num !== null && num > 0;
     },
-    { message: "Units must be a positive number." }
+    "Units must be a positive number."
   ),
   rate: z
     .string()
@@ -35,7 +35,7 @@ export const tradeInputSchema = z.object({
         const num = safeParseFloat(val);
         return num === null || num > 0;
       },
-      { message: "Rate must be a positive number if provided." }
+      "Rate must be a positive number if provided."
     ),
   stopLoss: z
     .string()
@@ -46,7 +46,7 @@ export const tradeInputSchema = z.object({
         const num = safeParseFloat(val);
         return num === null || num > 0;
       },
-      { message: "Stop loss must be a positive number if provided." }
+      "Stop loss must be a positive number if provided."
     ),
   takeProfit: z
     .string()
@@ -57,6 +57,6 @@ export const tradeInputSchema = z.object({
         const num = safeParseFloat(val);
         return num === null || num > 0;
       },
-      { message: "Take profit must be a positive number if provided." }
+      "Take profit must be a positive number if provided."
     ),
 });

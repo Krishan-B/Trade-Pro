@@ -1,25 +1,27 @@
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react"; // Changed from @testing-library/react-hooks
 import { useTrading } from "../useTrading";
 import { useOrderApi } from "@/services/tradingApi";
 import { EnhancedOrder, OrderRequest } from "@shared/types/trading";
 
+import { vi } from 'vitest';
+
 // Mock the trading API
-jest.mock("@/services/tradingApi");
+vi.mock("@/services/tradingApi");
 
 const mockOrderApi = {
-  placeMarketOrder: jest.fn(),
-  placeEntryOrder: jest.fn(),
-  modifyOrder: jest.fn(),
-  cancelOrder: jest.fn(),
-  getPositions: jest.fn(),
-  closePosition: jest.fn(),
+  placeMarketOrder: vi.fn(),
+  placeEntryOrder: vi.fn(),
+  modifyOrder: vi.fn(),
+  cancelOrder: vi.fn(),
+  getPositions: vi.fn(),
+  closePosition: vi.fn(),
 };
 
-(useOrderApi as jest.Mock).mockReturnValue(mockOrderApi);
+(useOrderApi as ReturnType<typeof vi.fn>).mockReturnValue(mockOrderApi);
 
 describe("useTrading", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const mockOrder: EnhancedOrder = {
@@ -86,7 +88,7 @@ describe("useTrading", () => {
       const error = new Error("Failed to place order");
       mockOrderApi.placeMarketOrder.mockRejectedValueOnce(error);
 
-      const onOrderError = jest.fn();
+      const onOrderError = vi.fn();
       const { result } = renderHook(() => useTrading({ onOrderError }));
 
       await act(async () => {

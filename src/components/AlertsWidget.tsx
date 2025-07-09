@@ -29,13 +29,19 @@ const AlertsWidget = () => {
     try {
       setIsLoading(true);
 
-      const { data, error } = await supabase.functions.invoke("market-alerts", {
+      // Define the expected response type for the Supabase function
+      interface MarketAlertsResponse {
+        data: MarketAlert[];
+      }
+
+      const { data, error } = await supabase.functions.invoke<MarketAlertsResponse>("market-alerts", {
         method: "POST",
         body: {},
       });
 
       if (error) throw error;
 
+      // Now `data` is typed, and `data.data` is known to be MarketAlert[] or undefined
       if (data?.data) {
         setAlerts(data.data);
       }

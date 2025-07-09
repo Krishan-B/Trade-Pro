@@ -103,7 +103,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (event === "SIGNED_IN" && newSession?.user) {
         // Defer profile fetching to prevent auth deadlocks
         setTimeout(() => {
-          fetchProfile(newSession.user);
+          fetchProfile(newSession.user).catch(error => {
+            // Log or handle error, though fetchProfile itself has error handling
+            console.error("Error fetching profile in setTimeout:", error);
+            ErrorHandler.handleError(
+              error instanceof Error ? error : String(error)
+            );
+          });
 
           // Only show welcome toast for non-initial sessions and only once per login
           if (initialized && !hasShownWelcomeRef.current) {
@@ -123,45 +129,49 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Initialize auth on component mount
   useEffect(() => {
+    let authSubscriptionUnsubscribe: (() => void) | undefined;
+
     const initializeAuth = async () => {
       try {
         setLoading(true);
 
         // Check current auth session
-        const { data } = await void supabase.auth.getSession();
-        setSession(data.session);
+        const { data: sessionData } = await supabase.auth.getSession();
+        setSession(sessionData.session);
 
-        if (data.session?.user) {
-          setUser(data.session.user);
-          await fetchProfile(data.session.user);
+        if (sessionData.session?.user) {
+          setUser(sessionData.session.user);
+          await fetchProfile(sessionData.session.user);
         }
 
         // Set up auth state change listener
         const { data: authListener } = supabase.auth.onAuthStateChange(
           handleAuthStateChange
         );
+        authSubscriptionUnsubscribe = () => authListener.subscription.unsubscribe();
 
         setInitialized(true);
-        return () => {
-          authListener.subscription.unsubscribe();
-        };
       } catch (error) {
         ErrorHandler.handleError(
           error instanceof Error ? error : String(error)
         );
-        return undefined;
       } finally {
         setLoading(false);
       }
     };
 
-    const cleanup = initializeAuth();
+    initializeAuth().catch(error => {
+      // Catch any error from the async initializeAuth itself
+      ErrorHandler.handleError(error instanceof Error ? error : String(error));
+    });
 
     return () => {
       // Cleanup listener on unmount
-      cleanup.then((unsub) => unsub && unsub());
+      if (authSubscriptionUnsubscribe) {
+        authSubscriptionUnsubscribe();
+      }
     };
-  }, [handleAuthStateChange, fetchProfile]);
+  }, [handleAuthStateChange, fetchProfile]); // fetchProfile is stable due to useCallback([])
 
   // Method to refresh the auth session
   const refreshSession = useCallback(async () => {

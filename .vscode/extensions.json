@@ -5,6 +5,7 @@
     "supabase.vscode-supabase-extension",
     "eamodio.gitlens",
     "bradlc.vscode-tailwindcss-intellisense",
-    "github.copilot-chat"
+    "github.copilot-chat",
+    "github.copilot"
   ]
 }

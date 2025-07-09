@@ -6,10 +6,18 @@ import minimist from "minimist";
 import { DisposableRegistry } from "./DisposableRegistry";
 
 // CLI arg parsing
-const argv = minimist(process.argv.slice(2));
+
+interface Argv {
+  warn?: number;
+  exitOnLeak?: boolean;
+  gha?: boolean;
+  traceAbove?: number;
+  [key: string]: unknown;
+}
+const argv = minimist(process.argv.slice(2)) as Argv;
 const warnThreshold = typeof argv.warn === "number" ? argv.warn : 10;
-const exitOnLeak = !!argv.exitOnLeak;
-const gha = !!argv.gha;
+const exitOnLeak = Boolean(argv.exitOnLeak);
+const gha = Boolean(argv.gha);
 const traceAbove = typeof argv.traceAbove === "number" ? argv.traceAbove : null;
 
 const registry = new DisposableRegistry(true, warnThreshold);
@@ -42,10 +50,27 @@ if (traceAbove !== null) {
 console.log(
   `[checkListeners] Checking for leaks above threshold (${warnThreshold})...`
 );
+
+// Type guard for registry.heatmap
+function getHeatmap(reg: unknown): Map<string, number> | undefined {
+  if (
+    reg &&
+    typeof reg === "object" &&
+    "heatmap" in reg &&
+    reg["heatmap"] instanceof Map
+  ) {
+    return reg["heatmap"] as Map<string, number>;
+  }
+  return undefined;
+}
+
 let leaks = 0;
-[...registry["heatmap"].values()].forEach((count) => {
-  if (count > warnThreshold) leaks++;
-});
+const heatmap = getHeatmap(registry);
+if (heatmap) {
+  for (const count of heatmap.values()) {
+    if (count > warnThreshold) leaks++;
+  }
+}
 
 if (leaks > 0) {
   if (gha) {

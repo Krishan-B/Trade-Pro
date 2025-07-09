@@ -11,12 +11,15 @@ export default [
       "node_modules/",
       "dist/",
       "coverage/",
+      "**/coverage/",
+      "**/coverage/**",
+      "**/lcov-report/",
+      "**/lcov-report/**",
       "public/",
       "backups/",
-      "scripts/",
-      "server/",
+      // "scripts/", // allow linting scripts
       "supabase/",
-      "tests/",
+      // "tests/", // allow linting tests
       "docs/",
       "config/",
       "**/*.cjs",
@@ -58,6 +61,8 @@ export default [
       ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
       "react/react-in-jsx-scope": "off",
+      // Disable prop-types rule for TypeScript projects
+      "react/prop-types": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/no-explicit-any": "warn",

@@ -32,15 +32,22 @@ function App() {
   useEffect(() => {
     const runHealthCheck = async () => {
       if (document.visibilityState === "visible") {
-        await checkApiHealth();
+        try {
+          await checkApiHealth();
+        } catch (err) {
+          // Optionally log or handle error
+        }
       }
     };
-    runHealthCheck();
+    // Immediately invoke and handle promise
+    void runHealthCheck();
     const onVisibility = () => {
-      if (document.visibilityState === "visible") runHealthCheck();
+      if (document.visibilityState === "visible") void runHealthCheck();
     };
     document.addEventListener("visibilitychange", onVisibility);
-    intervalRef.current = setInterval(runHealthCheck, 15000); // every 15s
+    intervalRef.current = setInterval(() => {
+      void runHealthCheck();
+    }, 15000); // every 15s
     return () => {
       document.removeEventListener("visibilitychange", onVisibility);
       if (intervalRef.current) clearInterval(intervalRef.current);

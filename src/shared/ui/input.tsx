@@ -9,7 +9,6 @@ const Input = React.forwardRef<
   HTMLInputElement,
   React.InputHTMLAttributes<HTMLInputElement>
 >((props, ref) => {
-  // eslint-disable-next-line react/prop-types
   const { className, type, ...rest } = props;
   return (
     <input

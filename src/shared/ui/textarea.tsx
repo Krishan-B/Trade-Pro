@@ -7,7 +7,6 @@ const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   React.TextareaHTMLAttributes<HTMLTextAreaElement>
 >((props, ref) => {
-  // eslint-disable-next-line react/prop-types
   const { className, ...rest } = props;
   return (
     <textarea

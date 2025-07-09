@@ -9,15 +9,27 @@ import fs from "fs";
 import minimist from "minimist";
 import path from "path";
 
-const argv = minimist(process.argv.slice(2));
-const tables = (argv.tables || "")
-  .split(",")
-  .map((t: string) => t.trim())
-  .filter(Boolean);
-const seedPath = argv.seed || "./supabase/seed.sql";
-const failOnMismatch = !!argv.failOnMismatch;
-const output = argv.output || "pretty";
-const gha = !!argv.gha;
+interface Argv {
+  tables?: string;
+  seed?: string;
+  failOnMismatch?: boolean;
+  output?: string;
+  gha?: boolean;
+  [key: string]: unknown;
+}
+const argv = minimist(process.argv.slice(2)) as Argv;
+const tables =
+  typeof argv.tables === "string"
+    ? argv.tables
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
+const seedPath =
+  typeof argv.seed === "string" ? argv.seed : "./supabase/seed.sql";
+const failOnMismatch = Boolean(argv.failOnMismatch);
+const output = typeof argv.output === "string" ? argv.output : "pretty";
+const gha = Boolean(argv.gha);
 
 if (!tables.length) {
   console.error("No tables specified. Use --tables orders,positions,...");
@@ -43,21 +55,23 @@ function getDbColumns(
   return result
     .split("\n")
     .map((line) => {
-      const [column, is_nullable] = line
+      const parts = line
         .trim()
         .split("|")
         .map((s) => s.trim());
+      if (parts.length !== 2) return null;
+      const [column, is_nullable] = parts;
       return column ? { column, is_nullable } : null;
     })
-    .filter(Boolean) as { column: string; is_nullable: string }[];
+    .filter((v): v is { column: string; is_nullable: string } => v !== null);
 }
 
 function parseSeedColumns(seed: string, table: string): string[] {
   // Remove all unnecessary escapes for lint compliance
-  const regex = new RegExp(`insert into [\\w.]*${table} *(([^)]+))`, "i"); // no unnecessary escapes
-  // If lint still complains, use: /insert into [\w.]*${table} *\(([^)]+)\)/i
+  const regex = new RegExp(`insert into [\\w.]*${table} *\\(([^)]+)\\)`, "i");
   const match = seed.match(regex);
-  if (!match) return [];
+  if (!match || !Array.isArray(match) || typeof match[1] !== "string")
+    return [];
   return match[1].split(",").map((s) => s.trim().replace(/['"`]/g, ""));
 }
 

@@ -21,13 +21,22 @@ export default tseslint.config(
     ],
   },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+    ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
         ecmaFeatures: { jsx: true },
+        project: [
+          "./tsconfig.json",
+          "./tsconfig.node.json",
+          "./config/typescript/base.json",
+        ],
+        tsconfigRootDir: process.cwd(),
       },
     },
     settings: {
@@ -49,6 +58,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "@typescript-eslint/no-unused-vars": "off",
+      // Disable prop-types rule for TypeScript projects
       "react/prop-types": "off",
       "react/react-in-jsx-scope": "off",
     },

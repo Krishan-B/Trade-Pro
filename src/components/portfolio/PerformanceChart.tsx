@@ -41,7 +41,6 @@ const PerformanceChart = ({
     payload?: Array<{ name: string; value: number }>;
   }) => {
     // Type guard for expected shape
-    // eslint-disable-next-line react/prop-types
     const { active, payload } = props;
     // ...existing code...
     if (!active || !payload || !payload.length) {

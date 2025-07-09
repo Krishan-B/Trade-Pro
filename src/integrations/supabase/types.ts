@@ -7,1059 +7,458 @@ export type Json =
   | Json[];
 
 export type Database = {
+  // Allows to automatically instanciate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "12.2.3 (519615d)";
+  };
   public: {
     Tables: {
-      account_metrics: {
+      accounts: {
         Row: {
-          available_funds: number;
-          balance: number;
-          bonus: number;
-          equity: number;
+          account_type: string | null;
+          balance: number | null;
+          created_at: string | null;
+          equity: number | null;
           id: string;
-          last_updated: string;
-          margin_level: number;
-          open_positions_count: number;
-          pending_orders_count: number;
-          realized_pnl: number;
-          total_exposure: number;
-          unrealized_pnl: number;
-          used_margin: number;
-          user_id: string;
+          is_active: boolean | null;
+          margin_used: number | null;
+          reset_count: number | null;
+          user_id: string | null;
         };
         Insert: {
-          available_funds?: number;
-          balance?: number;
-          bonus?: number;
-          equity?: number;
+          account_type?: string | null;
+          balance?: number | null;
+          created_at?: string | null;
+          equity?: number | null;
           id?: string;
-          last_updated?: string;
-          margin_level?: number;
-          open_positions_count?: number;
-          pending_orders_count?: number;
-          realized_pnl?: number;
-          total_exposure?: number;
-          unrealized_pnl?: number;
-          used_margin?: number;
-          user_id: string;
+          is_active?: boolean | null;
+          margin_used?: number | null;
+          reset_count?: number | null;
+          user_id?: string | null;
         };
         Update: {
-          available_funds?: number;
-          balance?: number;
-          bonus?: number;
-          equity?: number;
+          account_type?: string | null;
+          balance?: number | null;
+          created_at?: string | null;
+          equity?: number | null;
           id?: string;
-          last_updated?: string;
-          margin_level?: number;
-          open_positions_count?: number;
-          pending_orders_count?: number;
-          realized_pnl?: number;
-          total_exposure?: number;
-          unrealized_pnl?: number;
-          used_margin?: number;
-          user_id?: string;
+          is_active?: boolean | null;
+          margin_used?: number | null;
+          reset_count?: number | null;
+          user_id?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "accounts_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
-      asset_leverage_config: {
+      assets: {
         Row: {
-          asset_class: string;
-          created_at: string;
+          asset_class: string | null;
+          base_currency: string | null;
+          contract_size: number | null;
           id: string;
-          maintenance_margin: number;
-          margin_call_level: number;
-          max_leverage: number;
-          min_margin_requirement: number;
-          symbol: string | null;
-          updated_at: string;
+          is_active: boolean | null;
+          leverage_max: number | null;
+          name: string;
+          quote_currency: string | null;
+          spread_base: number | null;
+          symbol: string;
+          user_id: string | null;
         };
         Insert: {
-          asset_class: string;
-          created_at?: string;
+          asset_class?: string | null;
+          base_currency?: string | null;
+          contract_size?: number | null;
           id?: string;
-          maintenance_margin: number;
-          margin_call_level?: number;
-          max_leverage: number;
-          min_margin_requirement: number;
-          symbol?: string | null;
-          updated_at?: string;
+          is_active?: boolean | null;
+          leverage_max?: number | null;
+          name: string;
+          quote_currency?: string | null;
+          spread_base?: number | null;
+          symbol: string;
+          user_id?: string | null;
         };
         Update: {
-          asset_class?: string;
-          created_at?: string;
+          asset_class?: string | null;
+          base_currency?: string | null;
+          contract_size?: number | null;
           id?: string;
-          maintenance_margin?: number;
-          margin_call_level?: number;
-          max_leverage?: number;
-          min_margin_requirement?: number;
-          symbol?: string | null;
-          updated_at?: string;
-        };
-        Relationships: [];
-      };
-      historical_market_data: {
-        Row: {
-          close_price: number;
-          high_price: number;
-          id: string;
-          low_price: number;
-          market_type: string;
-          open_price: number;
-          symbol: string;
-          timestamp: string;
-          volume: number | null;
-        };
-        Insert: {
-          close_price: number;
-          high_price: number;
-          id?: string;
-          low_price: number;
-          market_type: string;
-          open_price: number;
-          symbol: string;
-          timestamp: string;
-          volume?: number | null;
-        };
-        Update: {
-          close_price?: number;
-          high_price?: number;
-          id?: string;
-          low_price?: number;
-          market_type?: string;
-          open_price?: number;
+          is_active?: boolean | null;
+          leverage_max?: number | null;
+          name?: string;
+          quote_currency?: string | null;
+          spread_base?: number | null;
           symbol?: string;
-          timestamp?: string;
-          volume?: number | null;
+          user_id?: string | null;
         };
         Relationships: [];
       };
       kyc_documents: {
         Row: {
-          category: string;
+          category: string | null;
           comments: string | null;
-          created_at: string | null;
-          document_type: string;
+          document_type: string | null;
           file_name: string | null;
           file_url: string;
           id: string;
           reviewed_at: string | null;
           reviewed_by: string | null;
-          status: string;
-          updated_at: string | null;
+          status: string | null;
           uploaded_at: string | null;
-          user_id: string;
+          user_id: string | null;
         };
         Insert: {
-          category: string;
+          category?: string | null;
           comments?: string | null;
-          created_at?: string | null;
-          document_type: string;
+          document_type?: string | null;
           file_name?: string | null;
           file_url: string;
           id?: string;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
-          status?: string;
-          updated_at?: string | null;
+          status?: string | null;
           uploaded_at?: string | null;
-          user_id: string;
+          user_id?: string | null;
         };
         Update: {
-          category?: string;
+          category?: string | null;
           comments?: string | null;
-          created_at?: string | null;
-          document_type?: string;
+          document_type?: string | null;
           file_name?: string | null;
           file_url?: string;
           id?: string;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
-          status?: string;
-          updated_at?: string | null;
+          status?: string | null;
           uploaded_at?: string | null;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
-      margin_calculations: {
-        Row: {
-          calculated_at: string;
-          free_margin: number;
-          id: string;
-          initial_margin: number;
-          leverage_used: number;
-          maintenance_margin: number;
-          margin_level: number;
-          position_id: string | null;
-          used_margin: number;
-          user_id: string;
-        };
-        Insert: {
-          calculated_at?: string;
-          free_margin: number;
-          id?: string;
-          initial_margin: number;
-          leverage_used: number;
-          maintenance_margin: number;
-          margin_level: number;
-          position_id?: string | null;
-          used_margin: number;
-          user_id: string;
-        };
-        Update: {
-          calculated_at?: string;
-          free_margin?: number;
-          id?: string;
-          initial_margin?: number;
-          leverage_used?: number;
-          maintenance_margin?: number;
-          margin_level?: number;
-          position_id?: string | null;
-          used_margin?: number;
-          user_id?: string;
+          user_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "margin_calculations_position_id_fkey";
-            columns: ["position_id"];
+            foreignKeyName: "kyc_documents_user_id_fkey";
+            columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "positions";
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
       };
       market_data: {
         Row: {
-          change_percentage: number;
-          high_price: number | null;
-          id: string;
-          last_price: number | null;
-          last_updated: string | null;
-          low_price: number | null;
-          market_cap: string | null;
-          market_type: string;
-          name: string;
-          open_price: number | null;
-          previous_close: number | null;
+          id: number;
           price: number;
           symbol: string;
-          timestamp: string | null;
-          volume: string;
+          timestamp: string;
+          user_id: string | null;
         };
         Insert: {
-          change_percentage: number;
-          high_price?: number | null;
-          id?: string;
-          last_price?: number | null;
-          last_updated?: string | null;
-          low_price?: number | null;
-          market_cap?: string | null;
-          market_type: string;
-          name: string;
-          open_price?: number | null;
-          previous_close?: number | null;
+          id?: number;
           price: number;
           symbol: string;
-          timestamp?: string | null;
-          volume: string;
+          timestamp?: string;
+          user_id?: string | null;
         };
         Update: {
-          change_percentage?: number;
-          high_price?: number | null;
-          id?: string;
-          last_price?: number | null;
-          last_updated?: string | null;
-          low_price?: number | null;
-          market_cap?: string | null;
-          market_type?: string;
-          name?: string;
-          open_price?: number | null;
-          previous_close?: number | null;
+          id?: number;
           price?: number;
           symbol?: string;
-          timestamp?: string | null;
-          volume?: string;
-        };
-        Relationships: [];
-      };
-      order_history: {
-        Row: {
-          action: string;
-          details: Json | null;
-          id: string;
-          order_id: string;
-          timestamp: string;
-          user_id: string;
-        };
-        Insert: {
-          action: string;
-          details?: Json | null;
-          id?: string;
-          order_id: string;
           timestamp?: string;
-          user_id: string;
-        };
-        Update: {
-          action?: string;
-          details?: Json | null;
-          id?: string;
-          order_id?: string;
-          timestamp?: string;
-          user_id?: string;
+          user_id?: string | null;
         };
         Relationships: [];
       };
       orders: {
         Row: {
-          asset_class: string;
-          cancelled_at: string | null;
-          created_at: string;
-          direction: string;
-          executed_at: string | null;
-          execution_price: number | null;
-          expiration_date: string | null;
+          asset_class: string | null;
+          created_at: string | null;
+          direction: string | null;
           id: string;
-          margin_required: number;
-          order_type: string;
-          position_value: number;
-          rejected_reason: string | null;
-          requested_price: number;
-          status: string;
-          stop_loss: number | null;
+          margin_required: number | null;
+          order_type: string | null;
+          position_value: number | null;
+          price: number | null;
+          quantity: number | null;
+          requested_price: number | null;
+          side: string | null;
+          status: string | null;
+          stop_loss_price: number | null;
           symbol: string;
-          take_profit: number | null;
-          units: number;
-          user_id: string;
+          take_profit_price: number | null;
+          user_id: string | null;
         };
         Insert: {
-          asset_class: string;
-          cancelled_at?: string | null;
-          created_at?: string;
-          direction: string;
-          executed_at?: string | null;
-          execution_price?: number | null;
-          expiration_date?: string | null;
+          asset_class?: string | null;
+          created_at?: string | null;
+          direction?: string | null;
           id?: string;
-          margin_required: number;
-          order_type: string;
-          position_value: number;
-          rejected_reason?: string | null;
-          requested_price: number;
-          status?: string;
-          stop_loss?: number | null;
+          margin_required?: number | null;
+          order_type?: string | null;
+          position_value?: number | null;
+          price?: number | null;
+          quantity?: number | null;
+          requested_price?: number | null;
+          side?: string | null;
+          status?: string | null;
+          stop_loss_price?: number | null;
           symbol: string;
-          take_profit?: number | null;
-          units: number;
-          user_id: string;
+          take_profit_price?: number | null;
+          user_id?: string | null;
         };
         Update: {
-          asset_class?: string;
-          cancelled_at?: string | null;
-          created_at?: string;
-          direction?: string;
-          executed_at?: string | null;
-          execution_price?: number | null;
-          expiration_date?: string | null;
+          asset_class?: string | null;
+          created_at?: string | null;
+          direction?: string | null;
           id?: string;
-          margin_required?: number;
-          order_type?: string;
-          position_value?: number;
-          rejected_reason?: string | null;
-          requested_price?: number;
-          status?: string;
-          stop_loss?: number | null;
+          margin_required?: number | null;
+          order_type?: string | null;
+          position_value?: number | null;
+          price?: number | null;
+          quantity?: number | null;
+          requested_price?: number | null;
+          side?: string | null;
+          status?: string | null;
+          stop_loss_price?: number | null;
           symbol?: string;
-          take_profit?: number | null;
-          units?: number;
-          user_id?: string;
+          take_profit_price?: number | null;
+          user_id?: string | null;
         };
         Relationships: [];
       };
-      position_history: {
+      orders_ext: {
         Row: {
-          action: string;
+          account_id: string | null;
+          asset_id: string | null;
+          avg_fill_price: number | null;
+          created_at: string | null;
+          expires_at: string | null;
+          filled_at: string | null;
+          filled_quantity: number | null;
           id: string;
-          margin_impact: number | null;
-          notes: string | null;
-          pnl: number | null;
-          position_id: string;
-          price: number;
-          timestamp: string;
-          units: number | null;
-          user_id: string;
+          order_type: string | null;
+          price: number | null;
+          quantity: number;
+          side: string | null;
+          status: string | null;
+          stop_price: number | null;
         };
         Insert: {
-          action: string;
+          account_id?: string | null;
+          asset_id?: string | null;
+          avg_fill_price?: number | null;
+          created_at?: string | null;
+          expires_at?: string | null;
+          filled_at?: string | null;
+          filled_quantity?: number | null;
           id?: string;
-          margin_impact?: number | null;
-          notes?: string | null;
-          pnl?: number | null;
-          position_id: string;
-          price: number;
-          timestamp?: string;
-          units?: number | null;
-          user_id: string;
+          order_type?: string | null;
+          price?: number | null;
+          quantity: number;
+          side?: string | null;
+          status?: string | null;
+          stop_price?: number | null;
         };
         Update: {
-          action?: string;
+          account_id?: string | null;
+          asset_id?: string | null;
+          avg_fill_price?: number | null;
+          created_at?: string | null;
+          expires_at?: string | null;
+          filled_at?: string | null;
+          filled_quantity?: number | null;
           id?: string;
-          margin_impact?: number | null;
-          notes?: string | null;
-          pnl?: number | null;
-          position_id?: string;
-          price?: number;
-          timestamp?: string;
-          units?: number | null;
-          user_id?: string;
+          order_type?: string | null;
+          price?: number | null;
+          quantity?: number;
+          side?: string | null;
+          status?: string | null;
+          stop_price?: number | null;
         };
         Relationships: [
           {
-            foreignKeyName: "position_history_position_id_fkey";
-            columns: ["position_id"];
+            foreignKeyName: "orders_ext_account_id_fkey";
+            columns: ["account_id"];
             isOneToOne: false;
-            referencedRelation: "positions";
+            referencedRelation: "accounts";
             referencedColumns: ["id"];
           },
-        ];
-      };
-      position_updates: {
-        Row: {
-          created_at: string;
-          id: string;
-          market_session: string | null;
-          pnl_change: number;
-          position_id: string | null;
-          price_update: number;
-          timestamp: string;
-          unrealized_pnl: number;
-          user_id: string;
-        };
-        Insert: {
-          created_at?: string;
-          id?: string;
-          market_session?: string | null;
-          pnl_change: number;
-          position_id?: string | null;
-          price_update: number;
-          timestamp?: string;
-          unrealized_pnl: number;
-          user_id: string;
-        };
-        Update: {
-          created_at?: string;
-          id?: string;
-          market_session?: string | null;
-          pnl_change?: number;
-          position_id?: string | null;
-          price_update?: number;
-          timestamp?: string;
-          unrealized_pnl?: number;
-          user_id?: string;
-        };
-        Relationships: [
           {
-            foreignKeyName: "position_updates_position_id_fkey";
-            columns: ["position_id"];
+            foreignKeyName: "orders_ext_asset_id_fkey";
+            columns: ["asset_id"];
             isOneToOne: false;
-            referencedRelation: "positions";
+            referencedRelation: "assets";
             referencedColumns: ["id"];
           },
         ];
       };
       positions: {
         Row: {
-          asset_class: string;
-          close_price: number | null;
-          closed_at: string | null;
-          current_price: number;
-          daily_pnl: number | null;
-          direction: string;
-          entry_price: number;
-          id: string;
-          initial_margin: number | null;
-          last_updated: string;
-          leverage_ratio: number | null;
-          maintenance_margin: number | null;
-          margin_level: number | null;
-          margin_used: number;
-          opened_at: string;
-          order_id: string | null;
-          pip_difference: number | null;
-          pip_value: number | null;
-          position_value: number;
-          realized_pnl: number | null;
-          session_pnl: number | null;
-          status: string;
-          stop_loss: number | null;
-          swap_charges: number | null;
-          symbol: string;
-          take_profit: number | null;
-          total_fees: number | null;
-          units: number;
-          unrealized_pnl: number | null;
-          user_id: string;
-        };
-        Insert: {
-          asset_class: string;
-          close_price?: number | null;
-          closed_at?: string | null;
-          current_price: number;
-          daily_pnl?: number | null;
-          direction: string;
-          entry_price: number;
-          id?: string;
-          initial_margin?: number | null;
-          last_updated?: string;
-          leverage_ratio?: number | null;
-          maintenance_margin?: number | null;
-          margin_level?: number | null;
-          margin_used: number;
-          opened_at?: string;
-          order_id?: string | null;
-          pip_difference?: number | null;
-          pip_value?: number | null;
-          position_value: number;
-          realized_pnl?: number | null;
-          session_pnl?: number | null;
-          status?: string;
-          stop_loss?: number | null;
-          swap_charges?: number | null;
-          symbol: string;
-          take_profit?: number | null;
-          total_fees?: number | null;
-          units: number;
-          unrealized_pnl?: number | null;
-          user_id: string;
-        };
-        Update: {
-          asset_class?: string;
-          close_price?: number | null;
-          closed_at?: string | null;
-          current_price?: number;
-          daily_pnl?: number | null;
-          direction?: string;
-          entry_price?: number;
-          id?: string;
-          initial_margin?: number | null;
-          last_updated?: string;
-          leverage_ratio?: number | null;
-          maintenance_margin?: number | null;
-          margin_level?: number | null;
-          margin_used?: number;
-          opened_at?: string;
-          order_id?: string | null;
-          pip_difference?: number | null;
-          pip_value?: number | null;
-          position_value?: number;
-          realized_pnl?: number | null;
-          session_pnl?: number | null;
-          status?: string;
-          stop_loss?: number | null;
-          swap_charges?: number | null;
-          symbol?: string;
-          take_profit?: number | null;
-          total_fees?: number | null;
-          units?: number;
-          unrealized_pnl?: number | null;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "positions_order_id_fkey";
-            columns: ["order_id"];
-            isOneToOne: false;
-            referencedRelation: "orders";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      price_alerts: {
-        Row: {
-          asset_name: string;
-          asset_symbol: string;
-          condition: string;
           created_at: string | null;
+          entry_price: number | null;
           id: string;
-          is_triggered: boolean | null;
-          market_type: string;
-          target_price: number;
-          triggered_at: string | null;
+          leverage: number | null;
+          liquidation_price: number | null;
+          quantity: number | null;
+          symbol: string;
           user_id: string | null;
         };
         Insert: {
-          asset_name: string;
-          asset_symbol: string;
-          condition: string;
           created_at?: string | null;
+          entry_price?: number | null;
           id?: string;
-          is_triggered?: boolean | null;
-          market_type: string;
-          target_price: number;
-          triggered_at?: string | null;
+          leverage?: number | null;
+          liquidation_price?: number | null;
+          quantity?: number | null;
+          symbol: string;
           user_id?: string | null;
         };
         Update: {
-          asset_name?: string;
-          asset_symbol?: string;
-          condition?: string;
           created_at?: string | null;
+          entry_price?: number | null;
           id?: string;
-          is_triggered?: boolean | null;
-          market_type?: string;
-          target_price?: number;
-          triggered_at?: string | null;
+          leverage?: number | null;
+          liquidation_price?: number | null;
+          quantity?: number | null;
+          symbol?: string;
           user_id?: string | null;
         };
         Relationships: [];
+      };
+      positions_ext: {
+        Row: {
+          account_id: string | null;
+          asset_id: string | null;
+          current_price: number | null;
+          entry_price: number;
+          id: string;
+          leverage: number | null;
+          margin_required: number | null;
+          opened_at: string | null;
+          quantity: number;
+          rollover_charges: number | null;
+          side: string | null;
+          stop_loss: number | null;
+          take_profit: number | null;
+          unrealized_pnl: number | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          account_id?: string | null;
+          asset_id?: string | null;
+          current_price?: number | null;
+          entry_price: number;
+          id?: string;
+          leverage?: number | null;
+          margin_required?: number | null;
+          opened_at?: string | null;
+          quantity: number;
+          rollover_charges?: number | null;
+          side?: string | null;
+          stop_loss?: number | null;
+          take_profit?: number | null;
+          unrealized_pnl?: number | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          account_id?: string | null;
+          asset_id?: string | null;
+          current_price?: number | null;
+          entry_price?: number;
+          id?: string;
+          leverage?: number | null;
+          margin_required?: number | null;
+          opened_at?: string | null;
+          quantity?: number;
+          rollover_charges?: number | null;
+          side?: string | null;
+          stop_loss?: number | null;
+          take_profit?: number | null;
+          unrealized_pnl?: number | null;
+          updated_at?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "positions_ext_account_id_fkey";
+            columns: ["account_id"];
+            isOneToOne: false;
+            referencedRelation: "accounts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "positions_ext_asset_id_fkey";
+            columns: ["asset_id"];
+            isOneToOne: false;
+            referencedRelation: "assets";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       profiles: {
         Row: {
-          avatar_url: string | null;
-          created_at: string;
-          id: string;
-          updated_at: string;
-          username: string | null;
-        };
-        Insert: {
-          avatar_url?: string | null;
-          created_at?: string;
-          id: string;
-          updated_at?: string;
-          username?: string | null;
-        };
-        Update: {
-          avatar_url?: string | null;
-          created_at?: string;
-          id?: string;
-          updated_at?: string;
-          username?: string | null;
-        };
-        Relationships: [];
-      };
-      risk_metrics: {
-        Row: {
-          available_margin: number | null;
-          correlation_risk: number | null;
-          diversification_score: number | null;
-          id: string;
-          last_calculated: string;
-          margin_level: number | null;
-          max_position_size: number | null;
-          portfolio_var: number | null;
-          risk_score: number | null;
-          total_exposure: number | null;
-          used_margin: number | null;
-          user_id: string;
-        };
-        Insert: {
-          available_margin?: number | null;
-          correlation_risk?: number | null;
-          diversification_score?: number | null;
-          id?: string;
-          last_calculated?: string;
-          margin_level?: number | null;
-          max_position_size?: number | null;
-          portfolio_var?: number | null;
-          risk_score?: number | null;
-          total_exposure?: number | null;
-          used_margin?: number | null;
-          user_id: string;
-        };
-        Update: {
-          available_margin?: number | null;
-          correlation_risk?: number | null;
-          diversification_score?: number | null;
-          id?: string;
-          last_calculated?: string;
-          margin_level?: number | null;
-          max_position_size?: number | null;
-          portfolio_var?: number | null;
-          risk_score?: number | null;
-          total_exposure?: number | null;
-          used_margin?: number | null;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
-      trade_analytics: {
-        Row: {
-          avg_loss: number | null;
-          avg_win: number | null;
-          created_at: string;
-          id: string;
-          losing_trades: number | null;
-          max_drawdown: number | null;
-          net_pnl: number | null;
-          period_end: string;
-          period_start: string;
-          profit_factor: number | null;
-          sharpe_ratio: number | null;
-          total_fees: number | null;
-          total_pnl: number | null;
-          total_trades: number | null;
-          updated_at: string;
-          user_id: string;
-          win_rate: number | null;
-          winning_trades: number | null;
-        };
-        Insert: {
-          avg_loss?: number | null;
-          avg_win?: number | null;
-          created_at?: string;
-          id?: string;
-          losing_trades?: number | null;
-          max_drawdown?: number | null;
-          net_pnl?: number | null;
-          period_end: string;
-          period_start: string;
-          profit_factor?: number | null;
-          sharpe_ratio?: number | null;
-          total_fees?: number | null;
-          total_pnl?: number | null;
-          total_trades?: number | null;
-          updated_at?: string;
-          user_id: string;
-          win_rate?: number | null;
-          winning_trades?: number | null;
-        };
-        Update: {
-          avg_loss?: number | null;
-          avg_win?: number | null;
-          created_at?: string;
-          id?: string;
-          losing_trades?: number | null;
-          max_drawdown?: number | null;
-          net_pnl?: number | null;
-          period_end?: string;
-          period_start?: string;
-          profit_factor?: number | null;
-          sharpe_ratio?: number | null;
-          total_fees?: number | null;
-          total_pnl?: number | null;
-          total_trades?: number | null;
-          updated_at?: string;
-          user_id?: string;
-          win_rate?: number | null;
-          winning_trades?: number | null;
-        };
-        Relationships: [];
-      };
-      trading_orders: {
-        Row: {
-          asset_class: string;
-          cancelled_at: string | null;
-          created_at: string;
-          direction: string;
-          executed_at: string | null;
-          execution_price: number | null;
-          expiration_date: string | null;
-          fees: number | null;
-          id: string;
-          leverage_ratio: number;
-          margin_required: number;
-          order_type: string;
-          position_value: number;
-          rejected_reason: string | null;
-          requested_price: number;
-          slippage: number | null;
-          status: string;
-          stop_loss_price: number | null;
-          symbol: string;
-          take_profit_price: number | null;
-          units: number;
-          user_id: string;
-        };
-        Insert: {
-          asset_class: string;
-          cancelled_at?: string | null;
-          created_at?: string;
-          direction: string;
-          executed_at?: string | null;
-          execution_price?: number | null;
-          expiration_date?: string | null;
-          fees?: number | null;
-          id?: string;
-          leverage_ratio?: number;
-          margin_required: number;
-          order_type: string;
-          position_value: number;
-          rejected_reason?: string | null;
-          requested_price: number;
-          slippage?: number | null;
-          status?: string;
-          stop_loss_price?: number | null;
-          symbol: string;
-          take_profit_price?: number | null;
-          units: number;
-          user_id: string;
-        };
-        Update: {
-          asset_class?: string;
-          cancelled_at?: string | null;
-          created_at?: string;
-          direction?: string;
-          executed_at?: string | null;
-          execution_price?: number | null;
-          expiration_date?: string | null;
-          fees?: number | null;
-          id?: string;
-          leverage_ratio?: number;
-          margin_required?: number;
-          order_type?: string;
-          position_value?: number;
-          rejected_reason?: string | null;
-          requested_price?: number;
-          slippage?: number | null;
-          status?: string;
-          stop_loss_price?: number | null;
-          symbol?: string;
-          take_profit_price?: number | null;
-          units?: number;
-          user_id?: string;
-        };
-        Relationships: [];
-      };
-      trading_positions: {
-        Row: {
-          asset_class: string;
-          current_price: number;
-          daily_pnl: number | null;
-          direction: string;
-          entry_price: number;
-          id: string;
-          last_updated: string;
-          leverage_ratio: number;
-          margin_used: number;
-          opened_at: string;
-          order_id: string | null;
-          position_value: number;
-          status: string;
-          stop_loss_price: number | null;
-          symbol: string;
-          take_profit_price: number | null;
-          total_fees: number | null;
-          units: number;
-          unrealized_pnl: number | null;
-          user_id: string;
-        };
-        Insert: {
-          asset_class: string;
-          current_price: number;
-          daily_pnl?: number | null;
-          direction: string;
-          entry_price: number;
-          id?: string;
-          last_updated?: string;
-          leverage_ratio?: number;
-          margin_used: number;
-          opened_at?: string;
-          order_id?: string | null;
-          position_value: number;
-          status?: string;
-          stop_loss_price?: number | null;
-          symbol: string;
-          take_profit_price?: number | null;
-          total_fees?: number | null;
-          units: number;
-          unrealized_pnl?: number | null;
-          user_id: string;
-        };
-        Update: {
-          asset_class?: string;
-          current_price?: number;
-          daily_pnl?: number | null;
-          direction?: string;
-          entry_price?: number;
-          id?: string;
-          last_updated?: string;
-          leverage_ratio?: number;
-          margin_used?: number;
-          opened_at?: string;
-          order_id?: string | null;
-          position_value?: number;
-          status?: string;
-          stop_loss_price?: number | null;
-          symbol?: string;
-          take_profit_price?: number | null;
-          total_fees?: number | null;
-          units?: number;
-          unrealized_pnl?: number | null;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "trading_positions_order_id_fkey";
-            columns: ["order_id"];
-            isOneToOne: false;
-            referencedRelation: "trading_orders";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      user_account: {
-        Row: {
-          available_funds: number;
-          cash_balance: number;
-          equity: number;
-          id: string;
-          last_updated: string | null;
-          realized_pnl: number;
-          unrealized_pnl: number;
-          used_margin: number;
-        };
-        Insert: {
-          available_funds?: number;
-          cash_balance?: number;
-          equity?: number;
-          id: string;
-          last_updated?: string | null;
-          realized_pnl?: number;
-          unrealized_pnl?: number;
-          used_margin?: number;
-        };
-        Update: {
-          available_funds?: number;
-          cash_balance?: number;
-          equity?: number;
-          id?: string;
-          last_updated?: string | null;
-          realized_pnl?: number;
-          unrealized_pnl?: number;
-          used_margin?: number;
-        };
-        Relationships: [];
-      };
-      user_portfolio: {
-        Row: {
-          asset_name: string;
-          asset_symbol: string;
-          average_price: number;
-          current_price: number;
-          id: string;
-          last_updated: string | null;
-          market_type: string;
-          pnl: number;
-          pnl_percentage: number;
-          total_value: number;
-          units: number;
-          user_id: string | null;
-        };
-        Insert: {
-          asset_name: string;
-          asset_symbol: string;
-          average_price: number;
-          current_price: number;
-          id?: string;
-          last_updated?: string | null;
-          market_type: string;
-          pnl: number;
-          pnl_percentage: number;
-          total_value: number;
-          units: number;
-          user_id?: string | null;
-        };
-        Update: {
-          asset_name?: string;
-          asset_symbol?: string;
-          average_price?: number;
-          current_price?: number;
-          id?: string;
-          last_updated?: string | null;
-          market_type?: string;
-          pnl?: number;
-          pnl_percentage?: number;
-          total_value?: number;
-          units?: number;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
-      user_trades: {
-        Row: {
-          asset_name: string;
-          asset_symbol: string;
-          closed_at: string | null;
           created_at: string | null;
-          executed_at: string | null;
-          expiration_date: string | null;
+          email: string | null;
           id: string;
-          market_type: string;
-          order_type: string;
-          pnl: number | null;
-          price_per_unit: number;
-          status: string;
-          stop_loss: number | null;
-          take_profit: number | null;
-          total_amount: number;
-          trade_type: string;
-          units: number;
-          user_id: string | null;
+          updated_at: string | null;
         };
         Insert: {
-          asset_name: string;
-          asset_symbol: string;
-          closed_at?: string | null;
           created_at?: string | null;
-          executed_at?: string | null;
-          expiration_date?: string | null;
-          id?: string;
-          market_type: string;
-          order_type: string;
-          pnl?: number | null;
-          price_per_unit: number;
-          status: string;
-          stop_loss?: number | null;
-          take_profit?: number | null;
-          total_amount: number;
-          trade_type: string;
-          units: number;
-          user_id?: string | null;
+          email?: string | null;
+          id: string;
+          updated_at?: string | null;
         };
         Update: {
-          asset_name?: string;
-          asset_symbol?: string;
-          closed_at?: string | null;
           created_at?: string | null;
-          executed_at?: string | null;
-          expiration_date?: string | null;
+          email?: string | null;
           id?: string;
-          market_type?: string;
-          order_type?: string;
-          pnl?: number | null;
-          price_per_unit?: number;
-          status?: string;
-          stop_loss?: number | null;
-          take_profit?: number | null;
-          total_amount?: number;
-          trade_type?: string;
-          units?: number;
-          user_id?: string | null;
+          updated_at?: string | null;
         };
         Relationships: [];
       };
-      user_watchlist: {
+      users: {
         Row: {
-          added_at: string | null;
-          asset_name: string;
-          asset_symbol: string;
+          created_at: string | null;
+          email: string;
+          experience_level: string | null;
+          first_name: string | null;
           id: string;
-          market_type: string;
-          user_id: string | null;
+          is_verified: boolean | null;
+          kyc_status: string | null;
+          last_login: string | null;
+          last_name: string | null;
+          password_hash: string;
+          preferences: Json | null;
         };
         Insert: {
-          added_at?: string | null;
-          asset_name: string;
-          asset_symbol: string;
+          created_at?: string | null;
+          email: string;
+          experience_level?: string | null;
+          first_name?: string | null;
           id?: string;
-          market_type: string;
-          user_id?: string | null;
+          is_verified?: boolean | null;
+          kyc_status?: string | null;
+          last_login?: string | null;
+          last_name?: string | null;
+          password_hash: string;
+          preferences?: Json | null;
         };
         Update: {
-          added_at?: string | null;
-          asset_name?: string;
-          asset_symbol?: string;
+          created_at?: string | null;
+          email?: string;
+          experience_level?: string | null;
+          first_name?: string | null;
           id?: string;
-          market_type?: string;
-          user_id?: string | null;
+          is_verified?: boolean | null;
+          kyc_status?: string | null;
+          last_login?: string | null;
+          last_name?: string | null;
+          password_hash?: string;
+          preferences?: Json | null;
         };
         Relationships: [];
       };
@@ -1068,64 +467,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      calculate_position_margin: {
-        Args: {
-          p_asset_class: string;
-          p_symbol: string;
-          p_position_value: number;
-          p_leverage?: number;
-        };
-        Returns: {
-          max_leverage: number;
-          initial_margin: number;
-          maintenance_margin: number;
-          margin_level: number;
-          leverage_used: number;
-        }[];
-      };
-      calculate_position_pnl: {
-        Args: {
-          p_direction: string;
-          p_entry_price: number;
-          p_current_price: number;
-          p_units: number;
-        };
-        Returns: number;
-      };
-      calculate_position_pnl_realtime: {
-        Args: {
-          p_direction: string;
-          p_entry_price: number;
-          p_current_price: number;
-          p_units: number;
-        };
-        Returns: number;
-      };
-      calculate_realtime_pnl: {
-        Args: { p_position_id: string; p_new_price: number };
-        Returns: {
-          unrealized_pnl: number;
-          daily_pnl: number;
-          pip_difference: number;
-          pip_value: number;
-        }[];
-      };
-      execute_market_order: {
-        Args: { p_order_id: string; p_execution_price: number };
-        Returns: boolean;
-      };
-      update_account_metrics: {
-        Args: { p_user_id: string };
-        Returns: undefined;
-      };
-      update_position_leverage: {
-        Args: { p_position_id: string; p_leverage?: number };
-        Returns: boolean;
-      };
-      update_position_realtime: {
-        Args: { p_position_id: string; p_new_price: number };
-        Returns: boolean;
-      };
+      [_ in never]: never;
     };
     Enums: {
       [_ in never]: never;
@@ -1136,21 +478,28 @@ export type Database = {
   };
 };
 
-type DefaultSchema = Database[Extract<keyof Database, "public">];
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<
+  keyof Database,
+  "public"
+>];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database;
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R;
     }
     ? R
@@ -1168,14 +517,16 @@ export type Tables<
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database;
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I;
     }
     ? I
@@ -1191,14 +542,16 @@ export type TablesInsert<
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database;
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U;
     }
     ? U
@@ -1214,14 +567,16 @@ export type TablesUpdate<
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof Database;
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never;
@@ -1229,14 +584,16 @@ export type Enums<
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database;
+    schema: keyof DatabaseWithoutInternals;
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals;
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never;

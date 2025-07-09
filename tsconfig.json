@@ -1,24 +1,23 @@
 {
   "extends": "./config/typescript/base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
       "@shared/*": ["src/shared/*"]
-    },
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react-jsx",
-    "strict": true
+    }
   },
-  "include": ["./src/**/*", "./shared/**/*", "./src/__tests__/**/*"],
-  "exclude": ["node_modules", "dist", "build", "coverage", "public"]
+  "include": [
+    "src",
+    "shared",
+    "src/__tests__",
+    "server",
+    "scripts",
+    "tests",
+    "config",
+    "public",
+    "tailwind.config.ts",
+    "vite.config.ts",
+    "test-health.ts"
+  ]
 }

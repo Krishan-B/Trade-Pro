@@ -35,9 +35,6 @@ const EnhancedNewsWidget = ({
       setIsLoading(true);
 
       // Define the expected response type for the Supabase function
-      interface FetchMarketNewsResponse {
-        data: NewsItem[];
-      }
 
       const { data, error } = await supabase.functions.invoke<FetchMarketNewsResponse>(
         "fetch-market-news",

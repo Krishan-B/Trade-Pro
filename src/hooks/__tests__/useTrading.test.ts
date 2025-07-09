@@ -17,7 +17,7 @@ const mockOrderApi = {
   closePosition: vi.fn(),
 };
 
-(useOrderApi as ReturnType<typeof vi.fn>).mockReturnValue(mockOrderApi);
+vi.mocked(useOrderApi).mockReturnValue(mockOrderApi);
 
 describe("useTrading", () => {
   beforeEach(() => {

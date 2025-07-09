@@ -17,7 +17,7 @@ export const positionTrackingService = {
       .order("opened_at", { ascending: false });
 
     if (error) throw error;
-    return (data || []) as Position[];
+    return data || [];
   },
 
   async updatePositionPrice(
@@ -55,7 +55,7 @@ export const positionTrackingService = {
       .limit(limit);
 
     if (error) throw error;
-    return (data || []) as PositionUpdate[];
+    return data || [];
   },
 
   subscribeToPositionUpdates(
@@ -74,7 +74,7 @@ export const positionTrackingService = {
           filter: `user_id=eq.${userId}`,
         },
         (payload) => {
-          onPositionUpdate(payload.new as Position);
+          onPositionUpdate(payload.new);
         }
       )
       .on(
@@ -86,7 +86,7 @@ export const positionTrackingService = {
           filter: `user_id=eq.${userId}`,
         },
         (payload) => {
-          onPositionUpdateEvent(payload.new as PositionUpdate);
+          onPositionUpdateEvent(payload.new);
         }
       )
       .subscribe();

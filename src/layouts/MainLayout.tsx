@@ -45,7 +45,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (isMobile && isSidebarOpen) {
         const sidebar = document.querySelector("aside");
-        const target = event.target as Node;
+        const target = event.target;
 
         if (sidebar && !sidebar.contains(target)) {
           setIsSidebarOpen(false);

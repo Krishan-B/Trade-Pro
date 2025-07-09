@@ -22,14 +22,14 @@ function createFetchResponse(data: unknown, ok = true): Response {
     ok,
     status: ok ? 200 : 500,
     json: () => Promise.resolve(data),
-    // ...other Response properties as needed
-  } as unknown as Response;
+    // ...other Response properties
+  };
 }
 
 beforeEach(() => {
   global.fetch = vi.fn(() => Promise.resolve(createFetchResponse([])));
   // Provide a mock session for the useAuth hook
-  (useAuth as Mock).mockReturnValue({
+  useAuth.mockReturnValue({
     session: { access_token: "test-token" },
   });
 });
@@ -53,7 +53,7 @@ describe("useOrderApi", () => {
   });
 
   it("handles fetch errors", async () => {
-    (global.fetch as Mock).mockImplementationOnce(() =>
+    global.fetch.mockImplementationOnce(() =>
       Promise.reject(new Error("Network error"))
     );
     const { result } = renderHook(() => useOrderApi());
@@ -62,7 +62,7 @@ describe("useOrderApi", () => {
 
   it("throws an error if not authenticated", async () => {
     // Override the mock to simulate no session
-    (useAuth as Mock).mockReturnValue({ session: null });
+    useAuth.mockReturnValue({ session: null });
     const { result } = renderHook(() => useOrderApi());
     await expect(result.current.getOrders()).rejects.toThrow(
       "Not authenticated"

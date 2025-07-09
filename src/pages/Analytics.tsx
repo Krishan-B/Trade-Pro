@@ -52,5 +52,5 @@ const AnalyticsPage: React.FC = () => {
 };
 
 const AnalyticsWrapped = withErrorBoundary(AnalyticsPage, "analytics_page");
-export { AnalyticsWrapped as Analytics };
+export { AnalyticsWrapped };
 export default AnalyticsWrapped;

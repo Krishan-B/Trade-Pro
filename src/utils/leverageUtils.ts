@@ -19,7 +19,9 @@ export const getLeverageForAssetType = (marketType: string): number => {
   const normalizedType =
     marketType === "Cryptocurrency" ? "Crypto" : marketType;
 
-  return FIXED_LEVERAGE[normalizedType as keyof typeof FIXED_LEVERAGE] || 10; // Default to 10:1 if not found
+  return (
+    FIXED_LEVERAGE[normalizedType] || Object.values(FIXED_LEVERAGE)[0] || 10
+  ); // Default to 10:1 if not found
 };
 
 /**
@@ -51,7 +53,7 @@ export const calculateMaxPositionSize = (
 };
 
 /**
- * Format the leverage ratio as a string (e.g., "20:1")
+ * Format the leverage ratio string (e.g., "20:1")
  * @param leverage The leverage value
  * @returns Formatted leverage string
  */

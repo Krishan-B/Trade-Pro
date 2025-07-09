@@ -2,22 +2,48 @@
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@shared/*": ["src/shared/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ]
     },
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist",
+    "sourceMap": true
   },
-
-  "references": [{ "path": "./app.json" }, { "path": "./node.json" }],
-  "include": ["src", "shared", "tests", "test", "__tests__"]
+  "references": [
+    {
+      "path": "./app.json"
+    },
+    {
+      "path": "./node.json"
+    }
+  ],
+  "include": [
+    "src",
+    "shared",
+    "tests",
+    "test",
+    "__tests__"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

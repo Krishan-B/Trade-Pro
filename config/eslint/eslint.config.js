@@ -15,9 +15,9 @@ export default tseslint.config(
       "build",
       ".next",
       ".nuxt",
-      ".vuepress/dist",
       ".docusaurus",
       "node_modules",
+      "typescript-fix",
     ],
   },
   {

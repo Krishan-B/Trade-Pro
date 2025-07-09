@@ -4,7 +4,7 @@ import { Button } from "@/shared/ui/button";
 const NewsWidget = () => {
   const news = [
     {
-      title: "Bitcoin surges past $67K as institutional adoption increases",
+      title: "Bitcoin surges past $67K adoption increases",
       source: "CryptoNews",
       time: "2 hours ago",
       tag: "Crypto",
@@ -22,7 +22,7 @@ const NewsWidget = () => {
       tag: "Commodities",
     },
     {
-      title: "Tech stocks rally as AI investments continue to grow",
+      title: "Tech stocks rally investments continue to grow",
       source: "Bloomberg",
       time: "6 hours ago",
       tag: "Stocks",

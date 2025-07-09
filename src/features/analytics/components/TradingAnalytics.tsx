@@ -27,8 +27,8 @@ export default function TradingAnalytics() {
     Promise.all([getOrders(), getPositions()])
       .then(([orders, positions]) => {
         if (mounted) {
-          setOrders(orders as unknown as Order[]);
-          setPositions(positions as Position[]);
+          setOrders(orders);
+          setPositions(positions);
         }
       })
       .finally(() => mounted && setLoading(false));

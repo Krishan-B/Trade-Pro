@@ -19,7 +19,7 @@ export const formatCurrency = (value: number) => {
   return `$${value.toFixed(2)}`;
 };
 
-// Calculate available funds as balance + bonus
+// Calculate available funds + bonus
 export const calculateAvailableFunds = (balance: number, bonus: number) => {
   return balance + bonus;
 };

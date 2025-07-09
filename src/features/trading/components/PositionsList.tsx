@@ -49,7 +49,7 @@ const PositionsListComponent: React.FC = () => {
     setError("");
     try {
       const data = await getPositions();
-      setPositions(data as Position[]);
+      setPositions(data);
     } catch (err) {
       ErrorHandler.handleError(err, {
         description: "Failed to load positions",
@@ -73,7 +73,7 @@ const PositionsListComponent: React.FC = () => {
       setError("");
       try {
         const data = await getPositions();
-        if (mounted) setPositions(data as Position[]);
+        if (mounted) setPositions(data);
       } catch (err) {
         if (mounted) {
           ErrorHandler.handleError(err, {
@@ -253,5 +253,5 @@ const PositionsListComponent: React.FC = () => {
 const PositionsListWrapped = withErrorBoundary(PositionsListComponent);
 
 // Export both named and default for flexibility
-export { PositionsListWrapped as PositionsList };
+export { PositionsListWrapped };
 export default PositionsListWrapped;

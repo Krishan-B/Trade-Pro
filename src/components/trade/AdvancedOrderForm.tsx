@@ -131,5 +131,5 @@ export type AdvancedOrderFormValues = {
   orderRate?: number;
   stopLoss?: number;
   takeProfit?: number;
-  // Add more fields as needed for your form
+  // Add more fields for your form
 };

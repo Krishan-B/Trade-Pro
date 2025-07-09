@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           .single();
 
         if (profileError && profileError.code !== "PGRST116") {
-          // Ignore "not found" errors as the profile might not exist yet
+          // Ignore "not found" errors profile might not exist yet
           throw profileError;
         }
 
@@ -52,10 +52,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           throw accountError;
         }
 
-        // Parse preferences as Record<string, unknown> or default to empty object
+        // Parse preferences<string, unknown> or default to empty object
         const preferences =
           dbProfile?.preferences && typeof dbProfile.preferences === "object"
-            ? (dbProfile.preferences as Record<string, unknown>)
+            ? dbProfile.preferences
             : {};
 
         const profile: UserProfile = {
@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (event === "SIGNED_IN" && newSession?.user) {
         // Defer profile fetching to prevent auth deadlocks
         setTimeout(() => {
-          fetchProfile(newSession.user!);
+          fetchProfile(newSession.user);
 
           // Only show welcome toast for non-initial sessions and only once per login
           if (initialized && !hasShownWelcomeRef.current) {
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(true);
 
         // Check current auth session
-        const { data } = await supabase.auth.getSession();
+        const { data } = await void supabase.auth.getSession();
         setSession(data.session);
 
         if (data.session?.user) {
@@ -166,7 +166,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Method to refresh the auth session
   const refreshSession = useCallback(async () => {
     try {
-      const { data, error } = await supabase.auth.refreshSession();
+      const { data, error } = await void supabase.auth.refreshSession();
       if (error) throw error;
 
       setSession(data.session);
@@ -182,7 +182,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Method to sign out the user
   const signOut = useCallback(async () => {
     try {
-      await supabase.auth.signOut();
+      await void supabase.auth.signOut();
       setSession(null);
       setUser(null);
       setProfile(null);
@@ -210,9 +210,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         // Update the local profile state
         setProfile((prev) =>
-          prev
-            ? { ...prev, ...profileData }
-            : ({ id: user.id, ...profileData } as UserProfile)
+          prev ? { ...prev, ...profileData } : { id: user.id, ...profileData }
         );
 
         ErrorHandler.handleSuccess("Profile Updated", {

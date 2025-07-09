@@ -37,7 +37,7 @@ const AuthPage = () => {
     const checkSession = async () => {
       try {
         setCheckingSession(true);
-        const { data, error } = await supabase.auth.getSession();
+        const { data, error } = await void supabase.auth.getSession();
 
         if (error) {
           throw ErrorHandler.createError({
@@ -49,7 +49,7 @@ const AuthPage = () => {
 
         if (data.session) {
           console.log("Active session found, redirecting to:", from);
-          navigate(from, { replace: true });
+          void navigate(from, { replace: true });
         }
       } catch (error) {
         ErrorHandler.handleError(error, {
@@ -70,7 +70,7 @@ const AuthPage = () => {
       console.log("Auth state changed:", event);
       if (session && (event === "SIGNED_IN" || event === "TOKEN_REFRESHED")) {
         console.log("User signed in, redirecting to:", from);
-        navigate(from, { replace: true });
+        void navigate(from, { replace: true });
       }
     });
 
@@ -78,7 +78,7 @@ const AuthPage = () => {
   }, [navigate, from]);
 
   const navigateToHome = () => {
-    navigate("/");
+    void navigate("/");
   };
 
   if (checkingSession) {

@@ -62,7 +62,7 @@ const MarginOptimizer = () => {
         acc[assetClass].positions += 1;
         return acc;
       },
-      {} as Record<
+      {}<
         string,
         {
           totalMargin: number;

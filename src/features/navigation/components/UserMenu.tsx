@@ -1,3 +1,4 @@
+import { UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Button } from "@/shared/ui/button";
 import {
@@ -12,7 +13,7 @@ import {
 import { ErrorHandler } from "@/services/errorHandling";
 import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
-import { LogOut, Settings, User as UserIcon } from "lucide-react";
+import { LogOut, Settings, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 const UserMenu = () => {
@@ -48,8 +49,8 @@ const UserMenu = () => {
     );
   }
 
-  const userAvatarUrl = user.user_metadata?.avatar_url as string | undefined;
-  const userFullName = user.user_metadata?.full_name as string | undefined;
+  const userAvatarUrl = user.user_metadata?.avatar_url | undefined;
+  const userFullName = user.user_metadata?.full_name | undefined;
   const userEmail = user.email || "";
   const userInitial = userEmail.charAt(0).toUpperCase();
 

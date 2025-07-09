@@ -71,7 +71,7 @@ const RegisterForm = () => {
 
       // First attempt to sign out globally in case there's an existing session
       try {
-        await supabase.auth.signOut({ scope: "global" });
+        await void supabase.auth.signOut({ scope: "global" });
       } catch {
         // Ignore errors during cleanup
       }
@@ -104,7 +104,7 @@ const RegisterForm = () => {
       });
 
       // Use navigate instead of window.location to avoid full page reload
-      navigate("/auth");
+      void navigate("/auth");
     } catch (error) {
       // Use type guard for error
       console.error("Signup error:", error);

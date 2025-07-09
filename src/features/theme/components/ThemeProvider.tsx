@@ -4,7 +4,7 @@ import { getInitialTheme } from "./themeUtils";
 import { ErrorHandler } from "@/services/errorHandling";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => getInitialTheme() as Theme);
+  const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
 
   // Apply theme class to document
   useEffect(() => {

@@ -12,9 +12,9 @@ export { AuthProvider } from "./context/AuthProvider";
 // Components
 export { ProtectedRoute } from "./components/ProtectedRoute";
 // Export existing components
-export { default as LoginForm } from "./components/LoginForm";
-export { default as RegisterForm } from "./components/RegisterForm";
-export { default as PasswordResetDialog } from "./components/PasswordResetDialog";
+export { default } from "./components/LoginForm";
+export { default } from "./components/RegisterForm";
+export { default } from "./components/PasswordResetDialog";
 
 // Pages
-export { default as AuthPage } from "./AuthPage";
+export { default } from "./AuthPage";

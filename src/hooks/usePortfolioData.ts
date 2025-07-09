@@ -82,7 +82,7 @@ export const usePortfolioData = () => {
         ];
         return {
           name: name.charAt(0).toUpperCase() + name.slice(1),
-          value: value as number,
+          value: value,
           color: colors[index % colors.length],
         };
       }
@@ -93,7 +93,7 @@ export const usePortfolioData = () => {
       ([date, value]) => ({
         date,
         value: analytics?.portfolio_value
-          ? analytics.portfolio_value * (1 + (value as number) / 100)
+          ? analytics.portfolio_value * (1 + value / 100)
           : 0,
       })
     ),

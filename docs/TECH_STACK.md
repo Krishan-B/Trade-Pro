@@ -5,7 +5,6 @@
 - **React** (v18.x or v19.x, as compatible)
 - **TypeScript**
 - **Vite**
-- **Material-UI (MUI)**
 - **Radix UI (shadcn/ui)**
 - **Tailwind CSS** (custom theme, HSL variables)
 - **TradingView Charting Library**

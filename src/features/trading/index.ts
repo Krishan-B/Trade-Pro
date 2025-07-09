@@ -7,7 +7,7 @@
 
 // Components
 export { OrderForm } from "./components/OrderForm";
-export { default as TradingViewChart } from "./components/TradingViewChart";
+export { default } from "./components/TradingViewChart";
 
 // Re-export all trading components
 export * from "./components";

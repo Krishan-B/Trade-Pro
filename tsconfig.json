@@ -3,21 +3,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@shared/*": ["src/shared/*"]
-    }
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"]
+    },
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "types": ["node", "jest", "vite/client"]
   },
-  "include": [
-    "src",
-    "shared",
-    "src/__tests__",
-    "server",
-    "scripts",
-    "tests",
-    "config",
-    "public",
-    "tailwind.config.ts",
-    "vite.config.ts",
-    "test-health.ts"
-  ]
+  "include": ["src", "shared", "tests", "*.ts", "*.tsx", "*.d.ts"],
+  "exclude": ["node_modules", "typescript-fix"]
 }

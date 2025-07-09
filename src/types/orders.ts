@@ -1,4 +1,4 @@
-import type { Order as SharedOrder } from "@shared/types";
+import type { Order } from "@shared/types";
 
 export interface BaseOrder {
   id: string;

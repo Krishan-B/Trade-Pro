@@ -6,7 +6,7 @@ const CryptoChart: React.FC = () => {
   const theme = "dark";
   const locale = "en";
   const interval = "D";
-  const toolbarbg = "141413"; // Removed #, as it's part of the URL encoding
+  const toolbarbg = "141413"; // Removed #,'s part of the URL encoding
   const hideSideToolbar = "0"; // false corresponds to 0
   const allowSymbolChange = "1"; // true corresponds to 1
   const saveImage = "0"; // false corresponds to 0

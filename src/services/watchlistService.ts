@@ -2,7 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-// Define a type for the watchlist item (customize as needed)
+// Define a type for the watchlist item (customize)
 export interface WatchlistItem {
   id: string;
   symbol: string;

@@ -35,10 +35,10 @@ export const enhancedOrdersService = {
     };
 
     const enhancedOrders: EnhancedOrder[] = (data || []).map((order) => {
-      const raw = order as RawOrder;
+      const raw = order;
       return {
         ...order,
-        order_type: raw.order_type as EnhancedOrderType,
+        order_type: raw.order_type,
         order_category: (raw.order_category || "primary") as
           | "primary"
           | "stop_loss"
@@ -101,7 +101,7 @@ export const enhancedOrdersService = {
           user_id: userId,
           symbol,
           asset_class: assetClass,
-          order_type: "stop_loss" as EnhancedOrderType,
+          order_type: "stop_loss",
           order_category: "stop_loss",
           direction: direction === "buy" ? "sell" : "buy", // Opposite direction
           units,
@@ -129,7 +129,7 @@ export const enhancedOrdersService = {
           user_id: userId,
           symbol,
           asset_class: assetClass,
-          order_type: "take_profit" as EnhancedOrderType,
+          order_type: "take_profit",
           order_category: "take_profit",
           direction: direction === "buy" ? "sell" : "buy", // Opposite direction
           units,
@@ -157,7 +157,7 @@ export const enhancedOrdersService = {
           user_id: userId,
           symbol,
           asset_class: assetClass,
-          order_type: "trailing_stop" as EnhancedOrderType,
+          order_type: "trailing_stop",
           order_category: "trailing_stop",
           direction: direction === "buy" ? "sell" : "buy", // Opposite direction
           units,

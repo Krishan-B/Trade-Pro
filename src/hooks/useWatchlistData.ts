@@ -92,7 +92,7 @@ export const useWatchlistData = () => {
 
       if (data && data.length > 0) {
         console.log(`Found ${data.length} watchlist assets`);
-        return data as Asset[];
+        return data;
       }
 
       // If no data in Supabase yet, call the functions to populate it
@@ -129,7 +129,7 @@ export const useWatchlistData = () => {
           console.log(
             `Fetched ${refreshedData.length} refreshed watchlist assets`
           );
-          return refreshedData as Asset[];
+          return refreshedData;
         }
 
         // If still no data, use default data

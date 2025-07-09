@@ -46,13 +46,13 @@ export const useCombinedMarketData = (
       // Handle string comparison
       if (typeof a[sortBy] === "string" && typeof b[sortBy] === "string") {
         return order === "asc"
-          ? (a[sortBy] as string).localeCompare(b[sortBy] as string)
-          : (b[sortBy] as string).localeCompare(a[sortBy] as string);
+          ? a[sortBy].localeCompare(b[sortBy])
+          : b[sortBy].localeCompare(a[sortBy]);
       }
 
       // Handle numeric comparison
-      const aValue = a[sortBy] as number;
-      const bValue = b[sortBy] as number;
+      const aValue = a[sortBy];
+      const bValue = b[sortBy];
       return order === "asc" ? aValue - bValue : bValue - aValue;
     });
 

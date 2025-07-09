@@ -1,4 +1,3 @@
-
 const WatchlistTableHeader = () => {
   return (
     <thead>

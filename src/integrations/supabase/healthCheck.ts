@@ -44,7 +44,7 @@ async function checkDatabaseHealth(timeout = 5000): Promise<ServiceHealth> {
     const { error } = await Promise.race([checkPromise, timeoutPromise]);
 
     if (error) {
-      const e = error as Error;
+      const e = error;
       if (isSupabaseError(e)) {
         throw new Error(`Database error (status ${e.status}): ${e.message}`);
       }

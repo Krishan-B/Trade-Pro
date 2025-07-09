@@ -54,7 +54,7 @@ const fetchPortfolioAnalytics = async (userId: string) => {
       throw error;
     }
 
-    return data as PortfolioAnalytics;
+    return data;
   } catch (error) {
     ErrorHandler.handleError({
       code: "data_fetch_error",

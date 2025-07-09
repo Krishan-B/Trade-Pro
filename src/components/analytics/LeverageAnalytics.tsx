@@ -78,7 +78,7 @@ const LeverageAnalytics = () => {
 
         return acc;
       },
-      {} as Record<string, AssetLeverageData>
+      {}<string, AssetLeverageData>
     );
 
     // Calculate averages and risk scores

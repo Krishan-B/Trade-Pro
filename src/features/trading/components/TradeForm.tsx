@@ -128,9 +128,7 @@ const TradeForm = ({
     const validationResult = tradeInputSchema.safeParse(validationData);
 
     if (!validationResult.success) {
-      setFormErrors(
-        validationResult.error.flatten().fieldErrors as TradeFormErrorFields
-      );
+      setFormErrors(validationResult.error.flatten().fieldErrors);
       return;
     }
 
@@ -173,9 +171,7 @@ const TradeForm = ({
 
     const validationResult = tradeInputSchema.safeParse(validationData);
     if (!validationResult.success) {
-      setFormErrors(
-        validationResult.error.flatten().fieldErrors as TradeFormErrorFields
-      );
+      setFormErrors(validationResult.error.flatten().fieldErrors);
     } else {
       setFormErrors(undefined);
     }

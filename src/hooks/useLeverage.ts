@@ -181,7 +181,7 @@ export const useLeverage = () => {
         return {
           isWarning: true,
           isMarginCall: false,
-          severity: "warning" as const,
+          severity: "warning",
         };
       }
     },

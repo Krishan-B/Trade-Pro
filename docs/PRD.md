@@ -98,13 +98,11 @@ analytics.
 **Order Types:**
 
 1. **Market Orders**
-
    - Immediate execution at current market price
    - Slippage simulation based on market volatility
    - Maximum order size validation
 
 2. **Entry Orders**
-
    - **Limit Orders**: Execute when price reaches specified level
    - **Stop Orders**: Execute when price breaks specified level
    - **Stop-Limit Orders**: Combination of stop and limit
@@ -519,7 +517,7 @@ analytics.
 
 - **Framework**: React.js 18+ with TypeScript
 - **State Management**: Redux Toolkit or Zustand
-- **UI Library**: Material-UI or Ant Design
+- **UI Library**: Radix UI (shadcn/ui)
 - **Charting**: TradingView Charting Library
 - **Real-time**: Socket.io client
 - **Build Tool**: Vite

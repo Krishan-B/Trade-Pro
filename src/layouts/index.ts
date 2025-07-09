@@ -6,6 +6,6 @@
 
 export { MainLayout } from "./MainLayout";
 
-// Other layouts will be added here as they are created:
+// Other layouts will be added here are created:
 // export { AuthLayout } from './AuthLayout';
 // export { DashboardLayout } from './DashboardLayout';

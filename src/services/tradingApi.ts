@@ -1,15 +1,20 @@
 import { useCallback } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { safeFetch } from "./safeFetch";
-import type { Position, OrderRequest, OrderUpdate } from "@/types/positions";
+import type {
+  Position,
+  OrderRequest,
+  EnhancedOrder,
+  RiskManagementConfig,
+} from "@shared/types/trading";
 import { omitUndefined, normalizeDates } from "@/utils/objectUtils";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 function authHeaders(token: string) {
   return {
-    "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
   };
 }
 
@@ -39,7 +44,7 @@ export function useOrderApi() {
 
   // Place market order
   const placeMarketOrder = useCallback(
-    async (order: OrderRequest): Promise<Position> => {
+    async (order: OrderRequest): Promise<EnhancedOrder> => {
       if (!token) throw new Error("Not authenticated");
       return safeFetch(`${API_URL}/orders/market`, {
         method: "POST",
@@ -52,7 +57,7 @@ export function useOrderApi() {
 
   // Place entry order
   const placeEntryOrder = useCallback(
-    async (order: OrderRequest): Promise<Position> => {
+    async (order: OrderRequest): Promise<EnhancedOrder> => {
       if (!token) throw new Error("Not authenticated");
       return safeFetch(`${API_URL}/orders/entry`, {
         method: "POST",
@@ -63,8 +68,8 @@ export function useOrderApi() {
     [token]
   );
 
-  // Get all orders
-  const getOrders = useCallback(async (): Promise<Position[]> => {
+  // Get orders
+  const getOrders = useCallback(async (): Promise<EnhancedOrder[]> => {
     if (!token) throw new Error("Not authenticated");
     return safeFetch(`${API_URL}/orders`, {
       headers: authHeaders(token),
@@ -72,7 +77,7 @@ export function useOrderApi() {
   }, [token]);
 
   // Get pending orders
-  const getPendingOrders = useCallback(async (): Promise<Position[]> => {
+  const getPendingOrders = useCallback(async (): Promise<EnhancedOrder[]> => {
     if (!token) throw new Error("Not authenticated");
     return safeFetch(`${API_URL}/orders/pending`, {
       headers: authHeaders(token),
@@ -81,12 +86,15 @@ export function useOrderApi() {
 
   // Modify order
   const modifyOrder = useCallback(
-    async (id: string, updates: OrderUpdate): Promise<Position> => {
+    async (
+      id: string,
+      config: RiskManagementConfig
+    ): Promise<EnhancedOrder> => {
       if (!token) throw new Error("Not authenticated");
       return safeFetch(`${API_URL}/orders/${id}`, {
         method: "PATCH",
         headers: authHeaders(token),
-        body: JSON.stringify(omitUndefined(normalizeDates(updates))),
+        body: JSON.stringify(omitUndefined(normalizeDates(config))),
       });
     },
     [token]

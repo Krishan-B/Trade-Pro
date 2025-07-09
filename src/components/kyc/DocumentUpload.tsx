@@ -172,7 +172,7 @@ const DocumentUpload = ({ onUploadComplete }: DocumentUploadProps) => {
           <Select
             value={selectedCategory}
             onValueChange={(value) => {
-              setSelectedCategory(value as DocumentCategory);
+              setSelectedCategory(value);
               // Reset document type when category changes
               const newCategory = DOCUMENT_CATEGORIES.find(
                 (cat) => cat.category === value

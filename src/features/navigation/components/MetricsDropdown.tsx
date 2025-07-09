@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
-import { MetricItem as MetricItemType } from "@/types/account";
+import { MetricItem } from "@/types/account";
 
 interface MetricsDropdownProps {
   metrics: MetricItemType[];

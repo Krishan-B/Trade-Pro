@@ -27,7 +27,7 @@ interface Asset {
   volume: string;
   market_cap?: string;
   market_type: string;
-  // We'll simulate these values as they're not in the original data
+  // We'll simulate these values're not in the original data
   day_low?: number;
   day_high?: number;
   buy_price?: number;
@@ -186,16 +186,16 @@ const MarketList = ({
                     </TableCell>
                     <TableCell className="py-3 px-2 text-right">
                       <div className="flex items-center justify-end text-xs text-muted-foreground">
-                        <span>{formatCurrency(enhancedAsset.day_low!)}</span>
+                        <span>{formatCurrency(enhancedAsset.day_low)}</span>
                         <span className="mx-1">-</span>
-                        <span>{formatCurrency(enhancedAsset.day_high!)}</span>
+                        <span>{formatCurrency(enhancedAsset.day_high)}</span>
                       </div>
                     </TableCell>
                     <TableCell className="py-3 px-2 text-right font-mono text-warning">
-                      {formatCurrency(enhancedAsset.sell_price!)}
+                      {formatCurrency(enhancedAsset.sell_price)}
                     </TableCell>
                     <TableCell className="py-3 px-2 text-right font-mono text-success">
-                      {formatCurrency(enhancedAsset.buy_price!)}
+                      {formatCurrency(enhancedAsset.buy_price)}
                     </TableCell>
                     <TableCell className="py-3 px-2">
                       <div className="flex justify-center items-center gap-2">

@@ -153,5 +153,5 @@ const KYCPage: React.FC = () => {
 };
 
 const KYCWrapped = withErrorBoundary(KYCPage, "kyc_page");
-export { KYCWrapped as KYC };
+export { KYCWrapped };
 export default KYCWrapped;

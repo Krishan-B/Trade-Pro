@@ -142,7 +142,7 @@ export class ErrorHandler {
     // Log error for debugging
     console.error("Error handled:", {
       error: appError,
-      stack: (error as Error)?.stack,
+      stack: error?.stack,
     });
   }
 
@@ -157,8 +157,8 @@ export class ErrorHandler {
   }
 
   private static normalizeError(error: unknown): AppError {
-    if ((error as AppError).code) {
-      return error as AppError;
+    if (error.code) {
+      return error;
     }
 
     const message = error instanceof Error ? error.message : String(error);

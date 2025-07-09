@@ -43,7 +43,7 @@ const LoginFormComponent = () => {
       );
       if (!error) {
         ErrorHandler.showSuccess("Successfully logged in");
-        navigate("/");
+        void navigate("/");
       }
     } catch (error) {
       setFormError(error instanceof Error ? error.message : "Login failed");
@@ -158,5 +158,5 @@ const LoginFormComponent = () => {
 };
 
 const LoginFormWrapped = withErrorBoundary(LoginFormComponent, "login_form");
-export { LoginFormWrapped as LoginForm };
+export { LoginFormWrapped };
 export default LoginFormWrapped;

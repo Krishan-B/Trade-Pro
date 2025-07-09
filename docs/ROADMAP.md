@@ -9,7 +9,7 @@ phases, features, and technical requirements for the Multi Asset CFD Simulated T
 
 - Environment setup (Node.js 18+, VS Code, Git, env templates)
 - Initialize React + TypeScript frontend
-- Install dependencies: MUI, Redux Toolkit, React Router, Axios, Supabase JS, TradingView library
+- Install dependencies: Radix UI (shadcn/ui), Redux Toolkit, React Router, Axios, Supabase JS, TradingView library
 - Setup Supabase backend, enable RLS, configure authentication
 
 ## Phase 2: Database Schema Implementation
@@ -107,7 +107,7 @@ phases, features, and technical requirements for the Multi Asset CFD Simulated T
 ## AI Tools & Acceleration Tips
 
 - Use GitHub Copilot, ChatGPT/Claude, v0.dev, Cursor IDE, Bolt.new for rapid development
-- Leverage MUI/Ant Design, Supabase features, TradingView widgets, and template-based development
+- Leverage Radix UI (shadcn/ui), Supabase features, TradingView widgets, and template-based development
 - API-first approach for backend/frontend sync
 
 ## Daily Checkpoints (10-Day Plan)

@@ -46,7 +46,8 @@
     "deps:audit": "npm audit fix",
     "deps:check": "npx npm-check-updates",
     "deps:verify": "node scripts/verify-deps-update.js",
-    "analyze": "npm run validate && npm run diagnose:all && npm run health:all"
+    "analyze": "npm run validate && npm run diagnose:all && npm run health:all",
+    "build:clean": "rm -rf dist && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "5.1.1",
@@ -110,12 +111,14 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "16.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^30.0.0",
     "@types/minimist": "^1.2.5",
     "@types/node": "24.0.7",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@types/supertest": "^6.0.3",
+    "@types/testing-library__react-hooks": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "8.35.0",
     "@typescript-eslint/parser": "8.35.0",
     "@vitejs/plugin-react": "^4.6.0",

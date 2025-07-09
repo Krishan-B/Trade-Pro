@@ -15,8 +15,5 @@ const DOCUMENT_TYPE_VALUES: DocumentType[] = [
 ];
 
 export function isDocumentType(value: unknown): value is DocumentType {
-  return (
-    typeof value === "string" &&
-    DOCUMENT_TYPE_VALUES.includes(value as DocumentType)
-  );
+  return typeof value === "string" && DOCUMENT_TYPE_VALUES.includes(value);
 }

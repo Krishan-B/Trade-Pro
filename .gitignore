@@ -23,3 +23,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignore JS files with TS equivalents
+# This prevents duplicate files in the repository
+# Added by cleanup script on Wed Jul  9 19:25:02 UTC 2025
+**/*.js
+!**/*.config.js
+!**/vite.config.js
+!**/jest.config.js
+!**/babel.config.js
+!**/eslint.config.js
+!**/postcss.config.js
+!**/prettier.config.js
+!**/tailwind.config.js
+!**/node_modules/**
+!**/scripts/**/*.js
+
+# TypeScript compiled output
+dist
+*.tsbuildinfo

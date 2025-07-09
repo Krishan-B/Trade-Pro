@@ -1,5 +1,5 @@
 /**
- * Format number as currency with commas and two decimal places
+ * Format number with commas and two decimal places
  * @param value The number to format
  * @returns Formatted string in $X,XXX.XX format
  */

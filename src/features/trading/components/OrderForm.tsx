@@ -245,5 +245,5 @@ const OrderForm = () => {
 };
 
 const OrderFormWrapped = withErrorBoundary(OrderForm);
-export { OrderFormWrapped as OrderForm };
+export { OrderFormWrapped };
 export default OrderFormWrapped;

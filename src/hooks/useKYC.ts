@@ -31,7 +31,7 @@ export const useKYC = () => {
         });
       }
 
-      setDocuments((data || []) as KYCDocument[]);
+      setDocuments(data || []);
     } catch (error) {
       ErrorHandler.handleError(error, {
         description: "Unable to load your KYC documents. Please try again.",

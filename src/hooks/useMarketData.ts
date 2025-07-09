@@ -16,7 +16,7 @@ export interface Asset {
 
 interface UseMarketDataOptions {
   refetchInterval?: number;
-  initialData?: Asset[];
+  initialData?: Asset;
   enableRefresh?: boolean;
 }
 
@@ -62,7 +62,7 @@ export const useMarketData = (
           `Using cached data for ${marketTypeArray.join(", ")}`,
           existingData
         );
-        return existingData as Asset[];
+        return existingData;
       }
 
       console.log(`Fetching fresh data for ${marketTypeArray.join(", ")}`);
@@ -137,7 +137,7 @@ export const useMarketData = (
   return {
     data,
     isLoading,
-    error: error as Error | null,
+    error: error,
     refetch,
     isFetching,
   };

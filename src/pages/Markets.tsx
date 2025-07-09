@@ -20,5 +20,5 @@ const MarketsPage: React.FC = () => {
 };
 
 const MarketsPageWrapped = withErrorBoundary(MarketsPage, "markets_page");
-export { MarketsPageWrapped as Markets };
+export { MarketsPageWrapped };
 export default MarketsPageWrapped;

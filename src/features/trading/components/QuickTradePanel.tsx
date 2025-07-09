@@ -805,5 +805,5 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
 };
 
 const QuickTradePanelWrapped = withErrorBoundary(QuickTradePanel);
-export { QuickTradePanelWrapped as QuickTradePanel };
+export { QuickTradePanelWrapped };
 export default QuickTradePanelWrapped;

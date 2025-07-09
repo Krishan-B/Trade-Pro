@@ -11,5 +11,9 @@
     "types": ["node", "jest", "vite/client"]
   },
   "include": ["src", "shared", "tests", "*.ts", "*.tsx", "*.d.ts"],
-  "exclude": ["node_modules", "typescript-fix"]
+  "exclude": ["node_modules", "typescript-fix"],
+  "references": [
+    { "path": "./config/typescript/app.json" },
+    { "path": "./config/typescript/node.json" }
+  ]
 }

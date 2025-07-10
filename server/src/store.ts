@@ -1,4 +1,5 @@
 import { Order, Position, Account, AssetClass } from '@shared/types';
+import MarketDataService from './services/marketDataService';
 
 export const orders: Order[] = [];
 export const positions: Position[] = [];
@@ -32,6 +33,19 @@ export function getLeverageForAssetClass(assetClass: AssetClass): number {
     }
 }
 
-export function getMarketPrice(symbol: string): number {
+// Updated to use real market data
+export async function getMarketPrice(symbol: string): Promise<number> {
+    const marketDataService = MarketDataService.getInstance();
+    try {
+        return await marketDataService.getCurrentPrice(symbol);
+    } catch (error) {
+        console.error(`Error fetching real price for ${symbol}, using fallback:`, error);
+        // Fallback to a reasonable price if Yahoo Finance fails
+        return 100 + Math.random() * 200; // Between 100-300
+    }
+}
+
+// Keep the synchronous version for backward compatibility
+export function getMarketPriceSync(symbol: string): number {
     return Math.round((Math.random() * 900 + 100) * 100) / 100;
 }

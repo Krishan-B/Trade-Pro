@@ -53,7 +53,7 @@ function isMarketOpen(assetClass: string): boolean {
 router.post(
   "/market",
   requireAuth,
-  (req: Request & { user?: User }, res): void => {
+  async (req: Request & { user?: User }, res): Promise<void> => {
     const user = req.user;
     if (!user) {
       res.status(401).json({ error: "Unauthorized" });
@@ -80,59 +80,63 @@ router.post(
       return;
     }
 
-    const marketPrice = getMarketPrice(symbol);
-    const leverage = getLeverageForAssetClass(asset_class);
-    const marginRequired = (marketPrice * quantity) / leverage;
+    try {
+      const marketPrice = await getMarketPrice(symbol);
+      const leverage = getLeverageForAssetClass(asset_class);
+      const marginRequired = (marketPrice * quantity) / leverage;
 
-    // Pre-trade validation
-    if (account.availableFunds < marginRequired) {
-      res.status(400).json({ error: "Insufficient funds to place order." });
-      return;
+      // Pre-trade validation
+      if (account.availableFunds < marginRequired) {
+        res.status(400).json({ error: "Insufficient funds to place order." });
+        return;
+      }
+
+      const order: Order = {
+        id: uuidv4(),
+        user_id: user.id,
+        symbol,
+        asset_class,
+        order_type: "market",
+        direction,
+        quantity,
+        price: marketPrice,
+        status: "filled",
+        stop_loss_price: stop_loss_price || null,
+        take_profit_price: take_profit_price || null,
+        created_at: new Date().toISOString(),
+        filled_at: new Date().toISOString(),
+      };
+      orders.push(order);
+
+      // Create a new position since the market order is filled
+      const position: Position = {
+        id: uuidv4(),
+        user_id: user.id,
+        symbol,
+        direction,
+        quantity,
+        entryPrice: marketPrice,
+        marginRequired,
+        tp: take_profit_price || null,
+        sl: stop_loss_price || null,
+        createdAt: new Date().toISOString(),
+        unrealizedPnl: 0,
+      };
+      positions.push(position);
+
+      // Update account metrics
+      account.usedMargin += marginRequired;
+      account.availableFunds =
+        account.balance + account.realizedPnl - account.usedMargin;
+
+      broadcast({ type: "ORDER_FILLED", payload: { order, position } });
+      broadcast({ type: "ACCOUNT_METRICS_UPDATE", payload: account });
+
+      res.status(201).json({ order, position });
+    } catch (error) {
+      console.error("Error placing market order:", error);
+      res.status(500).json({ error: "Failed to place market order" });
     }
-
-    const order: Order = {
-      id: uuidv4(),
-      user_id: user.id,
-      symbol,
-      asset_class,
-      order_type: "market",
-      direction,
-      quantity,
-      price: marketPrice,
-      status: "filled",
-      stop_loss_price: stop_loss_price || null,
-      take_profit_price: take_profit_price || null,
-      created_at: new Date().toISOString(),
-      filled_at: new Date().toISOString(),
-    };
-    orders.push(order);
-
-    // Create a new position since the market order is filled
-    const position: Position = {
-      id: uuidv4(),
-      user_id: user.id,
-      symbol,
-      direction,
-      quantity,
-      entryPrice: marketPrice,
-      marginRequired,
-      tp: take_profit_price || null,
-      sl: stop_loss_price || null,
-      createdAt: new Date().toISOString(),
-      unrealizedPnl: 0,
-    };
-    positions.push(position);
-
-    // Update account metrics
-    account.usedMargin += marginRequired;
-    account.availableFunds =
-      account.balance + account.realizedPnl - account.usedMargin;
-
-    broadcast({ type: "ORDER_FILLED", payload: { order, position } });
-    broadcast({ type: "ACCOUNT_METRICS_UPDATE", payload: account });
-
-    res.status(201).json({ order, position });
-    return;
   }
 );
 

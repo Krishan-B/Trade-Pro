@@ -1,3 +1,6 @@
+// NOTE: This is a base TypeScript configuration.
+// Paths defined here are relative to this file's location (config/typescript/).
+// The primary, project-level path definitions are in the root tsconfig.json, which extends this file.
 {
   "compilerOptions": {
     "target": "ES2022",

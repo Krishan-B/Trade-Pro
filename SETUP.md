@@ -4,11 +4,13 @@
 
 - Clone the repository or open in GitHub Codespaces.
 - Install all dependencies:
+  For the frontend (root directory):
   ```bash
   npm install
-  cd src && npm install && cd ..
-  cd backend-api && npm install && cd ..
-  # cd mcp-server-sequentialthinking && npm install && cd ..
+  ```
+  For the backend API (server directory):
+  ```bash
+  cd server && npm install && cd ..
   ```
 - Set up your Git user/email:
   ```bash
@@ -36,11 +38,7 @@
   ```
 - Start the backend API:
   ```bash
-  cd backend-api && npm run dev
-  ```
-- (Optional) Start MCP server:
-  ```bash
-  # cd mcp-server-sequentialthinking && npm run start
+  cd server && npm run dev
   ```
 
 ## 4. Code Quality & Pre-commit Hooks
@@ -83,8 +81,9 @@
 - **Format:** `npx prettier --write .`
 - **Test:** `npm test` or `npm run test:unit`
 - **Start frontend:** `npm run dev`
-- **Start backend:** `cd backend-api && npm run dev`
+- **Start backend:** `cd server && npm run dev`
 - **Migrate/seed DB:** `bash scripts/db-migrate-seed.sh`
+- **Generate Supabase Types:** `npm run supabase:gen-types YOUR_SUPABASE_ACCESS_TOKEN` (replace `YOUR_SUPABASE_ACCESS_TOKEN` with your actual token)
 
 ## 8. Security & Best Practices
 

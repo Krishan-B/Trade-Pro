@@ -25,7 +25,7 @@ router.get("/", requireAuth, (req: Request & { user?: User }, res) => {
 router.post(
   "/:id/close",
   requireAuth,
-  (req: Request & { user?: User }, res) => {
+  async (req: Request & { user?: User }, res) => {
     const user = req.user;
     if (!user) {
       res.status(401).json({ error: "Unauthorized" });
@@ -42,28 +42,34 @@ router.post(
     }
 
     const position = positions[positionIndex];
-    const closingPrice = getMarketPrice(position.symbol); // Simulate closing price
+    
+    try {
+      const closingPrice = await getMarketPrice(position.symbol);
 
-    // Calculate P&L
-    const pnl =
-      position.direction === "buy"
-        ? (closingPrice - position.entryPrice) * position.quantity
-        : (position.entryPrice - closingPrice) * position.quantity;
+      // Calculate P&L
+      const pnl =
+        position.direction === "buy"
+          ? (closingPrice - position.entryPrice) * position.quantity
+          : (position.entryPrice - closingPrice) * position.quantity;
 
-    // Update account metrics
-    account.balance += pnl;
-    account.realizedPnl += pnl;
-    account.usedMargin -= position.marginRequired;
-    account.availableFunds =
-      account.balance + account.realizedPnl - account.usedMargin;
+      // Update account metrics
+      account.balance += pnl;
+      account.realizedPnl += pnl;
+      account.usedMargin -= position.marginRequired;
+      account.availableFunds =
+        account.balance + account.realizedPnl - account.usedMargin;
 
-    // Remove position from open positions
-    const closedPosition = positions.splice(positionIndex, 1)[0];
+      // Remove position from open positions
+      const closedPosition = positions.splice(positionIndex, 1)[0];
 
-    broadcast({ type: "POSITION_CLOSED", payload: { closedPosition, pnl } });
-    broadcast({ type: "ACCOUNT_METRICS_UPDATE", payload: account });
+      broadcast({ type: "POSITION_CLOSED", payload: { closedPosition, pnl } });
+      broadcast({ type: "ACCOUNT_METRICS_UPDATE", payload: account });
 
-    res.status(200).json({ closedPosition, pnl });
+      res.status(200).json({ closedPosition, pnl });
+    } catch (error) {
+      console.error("Error closing position:", error);
+      res.status(500).json({ error: "Failed to close position" });
+    }
   }
 );
 

@@ -110,7 +110,7 @@ export default tseslint.config(
       languageOptions: {
       globals: globals.node,
         parserOptions: {
-          project: "./server/tsconfig.json",
+          project: "./server/tsconfig.eslint.json",
           tsconfigRootDir: process.cwd(),
         },
       },

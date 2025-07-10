@@ -17,7 +17,7 @@ identified in the codebase.
 
 The TypeScript configuration is structured as follows:
 
-- `config/typescript/base.json` - Base configuration for the project
+- `config/typescript/base.jsonc` - Base configuration for the project
 - `config/typescript/app.json` - Application-specific settings
 - `config/typescript/node.json` - Node.js specific settings
 - `config/typescript/test.json` - Test-specific configuration

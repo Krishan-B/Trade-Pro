@@ -21,12 +21,12 @@
 
 #### TypeScript Configuration
 
-- ✅ Moved `tsconfig.json` to `/config/typescript/base.json`
+- ✅ Moved `tsconfig.json` to `/config/typescript/base.jsonc`
 - ✅ Moved `tsconfig.app.json` to `/config/typescript/app.json`
 - ✅ Moved `tsconfig.node.json` to `/config/typescript/node.json`
 - ✅ Moved `tsconfig.test.json` to `/config/typescript/test.json`
 - ✅ Created `/config/typescript/index.js` for configuration management
-- ✅ Created root `tsconfig.json` that extends from `/config/typescript/base.json`
+- ✅ Created root `tsconfig.json` that extends from `/config/typescript/base.jsonc`
 - ✅ Updated references in build scripts
 - ✅ Verified TypeScript compilation
 

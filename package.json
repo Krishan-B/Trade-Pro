@@ -17,7 +17,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --config ./config/prettier/prettier.config.json --write .",
-    "typecheck": "tsc --project ./config/typescript/base.json --noEmit",
+    "typecheck": "tsc --project ./config/typescript/base.jsonc --noEmit",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "vitest run --config ./vite.config.ts 'src/**/*.{test,spec}.{js,ts,jsx,tsx}' 'tests/diagnostics/**/*.{test,spec}.{js,ts,jsx,tsx}'",
     "test:watch": "vitest watch --config ./vite.config.ts 'src/**/*.{test,spec}.{js,ts,jsx,tsx}' 'tests/diagnostics/**/*.{test,spec}.{js,ts,jsx,tsx}'",

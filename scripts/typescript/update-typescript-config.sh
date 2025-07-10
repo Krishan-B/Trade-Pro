@@ -21,24 +21,24 @@ BACKUP_DIR="/workspaces/Trade-Pro/backups/tsconfig-$TIMESTAMP"
 mkdir -p "$BACKUP_DIR"
 
 cp /workspaces/Trade-Pro/tsconfig.json "$BACKUP_DIR/tsconfig.json" || echo "Warning: Failed to backup tsconfig.json" | tee -a "$LOG_FILE"
-cp /workspaces/Trade-Pro/config/typescript/base.json "$BACKUP_DIR/base.json" || echo "Warning: Failed to backup base.json" | tee -a "$LOG_FILE"
+cp /workspaces/Trade-Pro/config/typescript/base.jsonc "$BACKUP_DIR/base.jsonc" || echo "Warning: Failed to backup base.jsonc" | tee -a "$LOG_FILE"
 
 # Update the base TypeScript configuration
 echo "Updating base TypeScript configuration..." | tee -a "$LOG_FILE"
 
 # Check if outDir is already in base.json
-if ! grep -q "outDir" /workspaces/Trade-Pro/config/typescript/base.json; then
+if ! grep -q "outDir" /workspaces/Trade-Pro/config/typescript/base.jsonc; then
   # Create a temporary file
   TMP_FILE=$(mktemp)
   
   # Update the compilerOptions to include outDir and exclude the dist directory from compilation
-  cat /workspaces/Trade-Pro/config/typescript/base.json | 
+  cat /workspaces/Trade-Pro/config/typescript/base.jsonc |
   jq '.compilerOptions += {"outDir": "./dist", "sourceMap": true}' |
   jq '.include = if .include then .include else ["src", "shared", "tests", "test", "__tests__"] end' |
   jq '.exclude = if .exclude then .exclude + ["dist"] else ["node_modules", "dist"] end' > "$TMP_FILE"
   
   # Replace the original file with the updated one
-  mv "$TMP_FILE" /workspaces/Trade-Pro/config/typescript/base.json
+  mv "$TMP_FILE" /workspaces/Trade-Pro/config/typescript/base.jsonc
   
   echo "Updated base.json with outDir configuration" | tee -a "$LOG_FILE"
 else

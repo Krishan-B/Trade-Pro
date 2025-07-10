@@ -36,12 +36,12 @@ continuous testing to ensure functionality is preserved.
 
 #### Step 3: Migrate TypeScript Configuration
 
-1. Move `tsconfig.json` to `/config/typescript/base.json`
+1. Move `tsconfig.json` to `/config/typescript/base.jsonc`
 2. Move `tsconfig.app.json` to `/config/typescript/app.json`
 3. Move `tsconfig.node.json` to `/config/typescript/node.json`
 4. Move `tsconfig.test.json` to `/config/typescript/test.json`
 5. Create `/config/typescript/index.js` for configuration management
-6. Create root `tsconfig.json` that extends from `/config/typescript/base.json`
+6. Create root `tsconfig.json` that extends from `/config/typescript/base.jsonc`
 7. Update references in build scripts
 8. Test TypeScript compilation
 

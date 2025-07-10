@@ -26,7 +26,7 @@ async function checkDatabaseHealth(timeout = 5000): Promise<ServiceHealth> {
   const startTime = Date.now();
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutId = setTimeout(() => { controller.abort(); }, timeout);
 
     const { data, error } = await supabase
       .from("profiles")
@@ -54,7 +54,7 @@ async function checkAuthHealth(timeout = 5000): Promise<ServiceHealth> {
   const startTime = Date.now();
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutId = setTimeout(() => { controller.abort(); }, timeout);
 
     const { data, error } = await supabase.auth.admin.listUsers();
 
@@ -78,7 +78,7 @@ async function checkStorageHealth(timeout = 5000): Promise<ServiceHealth> {
   const startTime = Date.now();
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const timeoutId = setTimeout(() => { controller.abort(); }, timeout);
 
     // List buckets to check storage access
     const { data, error } = await supabase.storage.listBuckets();

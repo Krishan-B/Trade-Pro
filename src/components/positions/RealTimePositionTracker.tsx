@@ -60,7 +60,7 @@ const RealTimePositionTracker = () => {
       });
     }, 2000); // Update every 2 seconds
 
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); };
   }, [simulateUpdates, positions, updatePositionPrice]);
 
   const handleToggleRealTime = () => {

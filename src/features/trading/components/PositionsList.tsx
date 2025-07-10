@@ -3,7 +3,7 @@ import { useOrderApi } from "@/services/tradingApi";
 import { ErrorHandler } from "@/services/errorHandling";
 import { useCleanup, useInterval } from "@/hooks/useCleanup";
 import Spinner from "./Spinner";
-import { withErrorBoundary } from "./hoc/withErrorBoundary";
+import { withErrorBoundary } from "../../../shared/hoc/withErrorBoundary";
 
 interface Position {
   id: string;
@@ -145,7 +145,7 @@ const PositionsListComponent: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               className="px-2 py-1 border rounded"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onClick={() => { setPage((p) => Math.max(1, p - 1)); }}
               disabled={page === 1}
             >
               Prev
@@ -155,7 +155,7 @@ const PositionsListComponent: React.FC = () => {
             </span>
             <button
               className="px-2 py-1 border rounded"
-              onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+              onClick={() => { setPage((p) => Math.min(pageCount, p + 1)); }}
               disabled={page === pageCount}
             >
               Next
@@ -183,7 +183,7 @@ const PositionsListComponent: React.FC = () => {
             <React.Fragment key={p.id}>
               <tr
                 className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900"
-                onClick={() => setExpandedId(expandedId === p.id ? null : p.id)}
+                onClick={() => { setExpandedId(expandedId === p.id ? null : p.id); }}
                 title="Click to expand/collapse details"
               >
                 <td className="p-2 border" title={p.symbol}>

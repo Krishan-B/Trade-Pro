@@ -79,7 +79,7 @@ const PositionsTable = ({ assets, onViewDetails }: PositionsTableProps) => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => onViewDetails(asset.symbol)}
+                  onClick={() => { onViewDetails(asset.symbol); }}
                 >
                   <Eye className="h-4 w-4" />
                 </Button>

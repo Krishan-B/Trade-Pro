@@ -57,7 +57,7 @@ const MarketTabs = ({
     <Tabs
       defaultValue="Crypto"
       value={activeTab}
-      onValueChange={(value) => setActiveTab(value)}
+      onValueChange={(value) => { setActiveTab(value); }}
       className="w-full"
     >
       <TabsList className="grid w-full grid-cols-5 mb-4">

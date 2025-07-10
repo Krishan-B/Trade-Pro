@@ -1,9 +1,15 @@
-import { PostgrestError, AuthError, AuthResponse } from "@supabase/supabase-js";
+import { AuthError, AuthResponse } from "@supabase/supabase-js";
 
 export interface TestError {
   code: string;
   message: string;
   details?: string;
+}
+
+export interface PostgrestError {
+  code: string;
+  message: string;
+  details: string;
 }
 
 export type SupabaseError = PostgrestError | AuthError;
@@ -13,7 +19,9 @@ export function isTestError(error: unknown): error is TestError {
     typeof error === "object" &&
     error !== null &&
     "code" in error &&
-    "message" in error
+    typeof (error as TestError).code === "string" &&
+    "message" in error &&
+    typeof (error as TestError).message === "string"
   );
 }
 
@@ -22,8 +30,11 @@ export function isPostgrestError(error: unknown): error is PostgrestError {
     typeof error === "object" &&
     error !== null &&
     "code" in error &&
+    typeof (error as { code: unknown }).code === "string" &&
     "message" in error &&
-    "details" in error
+    typeof (error as { message: unknown }).message === "string" &&
+    "details" in error &&
+    typeof (error as { details: unknown }).details === "string"
   );
 }
 
@@ -32,10 +43,16 @@ export function isAuthError(error: unknown): error is AuthError {
     typeof error === "object" &&
     error !== null &&
     error instanceof Error &&
-    "message" in error &&
     "status" in error &&
-    error.name === "AuthError"
+    typeof (error as AuthError).status === "number" &&
+    (error as Error).name === "AuthError"
   );
+}
+
+interface ErrorWithStack {
+  message: string;
+  stack?: string;
+  status?: number;
 }
 
 export function formatError(error: unknown): TestError {
@@ -50,10 +67,11 @@ export function formatError(error: unknown): TestError {
     };
   }
   if (isAuthError(error)) {
+    const authError = error as AuthError & ErrorWithStack;
     return {
-      code: String(error.status),
-      message: error.message,
-      details: error.stack,
+      code: String(authError.status || "AUTH_ERROR"),
+      message: authError.message,
+      details: authError.stack,
     };
   }
   if (error instanceof Error) {
@@ -73,23 +91,29 @@ export function assertError<T>(result: {
   data: T | null;
   error: PostgrestError | null;
 }): asserts result is { data: null; error: PostgrestError } {
-  expect(result.error).not.toBeNull();
-  expect(isPostgrestError(result.error)).toBe(true);
+  if (!result.error || result.data !== null) {
+    throw new Error("Expected error result but got success");
+  }
+  if (!isPostgrestError(result.error)) {
+    throw new Error("Expected PostgrestError but got different error type");
+  }
 }
 
 export function assertSuccess<T>(result: {
   data: T | null;
   error: PostgrestError | null;
 }): asserts result is { data: T; error: null } {
-  expect(result.error).toBeNull();
-  expect(result.data).not.toBeNull();
+  if (result.error !== null || result.data === null) {
+    throw new Error("Expected success result but got error");
+  }
 }
 
 export function assertAuthSuccess(
   result: AuthResponse
 ): asserts result is AuthResponse & { error: null } {
-  expect(result.error).toBeNull();
-  expect(result.data).toBeDefined();
+  if (result.error !== null || !result.data) {
+    throw new Error("Expected auth success but got error");
+  }
 }
 
 export function assertAuthError(
@@ -98,6 +122,14 @@ export function assertAuthError(
   data: { user: null; session: null };
   error: AuthError;
 } {
-  expect(result.error).not.toBeNull();
-  expect(isAuthError(result.error)).toBe(true);
+  if (
+    result.error === null ||
+    !isAuthError(result.error) ||
+    result.data?.user !== null ||
+    result.data?.session !== null
+  ) {
+    throw new Error(
+      "Expected auth error but got success or invalid error type"
+    );
+  }
 }

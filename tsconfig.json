@@ -1,19 +1,13 @@
 {
   "extends": "./config/typescript/base.json",
+  "include": ["src", "tests", "shared"],
+  "exclude": ["node_modules", "dist", "build", "coverage"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@shared/*": ["./shared/*"]
-    },
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "types": ["node", "jest", "vite/client"]
-  },
-  "include": ["src", "shared", "tests", "*.ts", "*.tsx", "*.d.ts"],
-  "exclude": ["node_modules", "typescript-fix"],
-  "references": [
-    { "path": "./config/typescript/app.json" },
-    { "path": "./config/typescript/node.json" }
-  ]
+      "@/*": ["src/*"],
+      "@shared/*": ["shared/*"],
+      "@tests/*": ["tests/*"]
+    }
+  }
 }

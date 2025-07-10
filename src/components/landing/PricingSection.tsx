@@ -37,7 +37,7 @@ const PricingSection = () => {
             "5 watchlists",
           ]}
           ctaText="Start Free"
-          onClick={() => handlePricingAction("basic")}
+          onClick={() => { handlePricingAction("basic"); }}
         />
         <PricingCard
           title="Pro"
@@ -52,7 +52,7 @@ const PricingSection = () => {
           ]}
           ctaText="Upgrade to Pro"
           highlighted={true}
-          onClick={() => handlePricingAction("pro")}
+          onClick={() => { handlePricingAction("pro"); }}
         />
         <PricingCard
           title="Enterprise"
@@ -66,7 +66,7 @@ const PricingSection = () => {
             "Advanced risk management",
           ]}
           ctaText="Contact Sales"
-          onClick={() => handlePricingAction("enterprise")}
+          onClick={() => { handlePricingAction("enterprise"); }}
         />
       </div>
     </section>

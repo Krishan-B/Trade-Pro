@@ -23,7 +23,7 @@ export const TakeProfitCheckbox = ({
       <Checkbox
         id="takeProfit"
         checked={hasTakeProfit}
-        onCheckedChange={() => setHasTakeProfit(!hasTakeProfit)}
+        onCheckedChange={() => { setHasTakeProfit(!hasTakeProfit); }}
         disabled={isExecuting}
       />
       <div className="flex items-center">

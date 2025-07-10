@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Progress } from "@/shared/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { useAuth } from "@/hooks/useAuth";
-import { useLeverage } from "@/hooks/useLeverage";
+import { useLeverage, type MarginCalculation } from "@/hooks/useLeverage";
 import { AlertTriangle, BarChart3, Target } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -52,41 +52,42 @@ const LeverageAnalytics = () => {
 
   useEffect(() => {
     if (user) {
-      loadMarginCalculations();
+      void loadMarginCalculations();
     }
   }, [user, loadMarginCalculations]);
 
   const generateAnalyticsData = useCallback(() => {
     // Generate asset-specific leverage analytics
-    const assetGroups = marginCalculations.reduce(
-      (acc, calc) => {
-        const assetClass = "crypto"; // This would come from position data
-        if (!acc[assetClass]) {
-          acc[assetClass] = {
-            asset_class: assetClass,
-            max_leverage: 10,
-            current_utilization: 0,
-            margin_used: 0,
-            position_count: 0,
-            risk_score: 0,
-          };
-        }
+    const assetGroups = marginCalculations.reduce<
+      Record<string, AssetLeverageData>
+    >((acc, calc: MarginCalculation) => {
+      const assetClass = calc.asset_class; // This would come from position data
+      if (!acc[assetClass]) {
+        acc[assetClass] = {
+          asset_class: assetClass,
+          max_leverage: 10,
+          current_utilization: 0,
+          margin_used: 0,
+          position_count: 0,
+          risk_score: 0,
+        };
+      }
 
-        acc[assetClass].margin_used += calc.used_margin;
-        acc[assetClass].position_count += 1;
-        acc[assetClass].current_utilization += calc.leverage_used;
+      acc[assetClass].margin_used += calc.used_margin;
+      acc[assetClass].position_count += 1;
+      acc[assetClass].current_utilization += calc.leverage_used;
 
-        return acc;
-      },
-      {}<string, AssetLeverageData>
-    );
+      return acc;
+    }, {});
 
     // Calculate averages and risk scores
-    Object.keys(assetGroups).forEach((key) => {
-      const group = assetGroups[key];
-      group.current_utilization =
-        group.current_utilization / group.position_count;
-      group.risk_score = (group.current_utilization / group.max_leverage) * 100;
+    Object.values(assetGroups).forEach((group) => {
+      if (group.position_count > 0) {
+        group.current_utilization =
+          group.current_utilization / group.position_count;
+        group.risk_score =
+          (group.current_utilization / group.max_leverage) * 100;
+      }
     });
 
     setAssetLeverageData(Object.values(assetGroups));
@@ -237,9 +238,16 @@ const LeverageAnalytics = () => {
                   <XAxis dataKey="asset_class" />
                   <YAxis />
                   <Tooltip
+                    contentStyle={{
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      backdropFilter: "blur(5px)",
+                      border: "1px solid #E5E7EB",
+                      borderRadius: "0.5rem",
+                    }}
+                    labelStyle={{ fontWeight: "bold" }}
                     formatter={(value: number, name: string) => [
-                      `${value.toFixed(1)}:1`,
-                      name === "current_utilization" ? "Current" : "Maximum",
+                      `${value.toFixed(2)}%`,
+                      name.replace("_", " "),
                     ]}
                   />
                   <Bar
@@ -272,7 +280,7 @@ const LeverageAnalytics = () => {
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
-                      data={marginEfficiencyData}
+                      data={assetLeverageData}
                       cx="50%"
                       cy="50%"
                       labelLine={false}

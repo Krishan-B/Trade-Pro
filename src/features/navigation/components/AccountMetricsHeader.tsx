@@ -49,7 +49,7 @@ const AccountMetricsHeader = () => {
       });
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); };
   }, []);
 
   // Navigate to portfolio page when a metric is clicked

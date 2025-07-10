@@ -23,7 +23,7 @@ export function useApiHealth({ interval = 15000 } = {}) {
     const url = getApiHealthUrl();
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 3000);
+      const timeout = setTimeout(() => { controller.abort(); }, 3000);
       const res = await fetch(url, { signal: controller.signal });
       clearTimeout(timeout);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);

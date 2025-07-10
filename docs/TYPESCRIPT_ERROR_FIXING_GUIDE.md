@@ -10,7 +10,19 @@ identified in the codebase.
 
 1. Ensure you have the latest code pulled from the repository
 2. Run `npm install` to ensure all dependencies are up to date
-3. Familiarize yourself with the `TYPESCRIPT_SAFETY_PLAN.md` document
+3. Review the TypeScript configuration in `/config/typescript/`
+4. Familiarize yourself with the `TYPESCRIPT_SAFETY_PLAN.md` document
+
+## Configuration
+
+The TypeScript configuration is structured as follows:
+
+- `config/typescript/base.json` - Base configuration for the project
+- `config/typescript/app.json` - Application-specific settings
+- `config/typescript/node.json` - Node.js specific settings
+- `config/typescript/test.json` - Test-specific configuration
+
+See [CONFIGURATION.md](CONFIGURATION.md) for detailed configuration documentation.
 
 ## Getting Started
 

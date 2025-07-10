@@ -26,7 +26,7 @@ export const UnitsInput = ({
         id="units"
         type="number"
         value={units}
-        onChange={(e) => setUnits(e.target.value)}
+        onChange={(e) => { setUnits(e.target.value); }}
         placeholder="Enter units"
         className="w-full"
         disabled={isExecuting}
@@ -36,28 +36,28 @@ export const UnitsInput = ({
         <button
           type="button"
           className="text-xs text-primary"
-          onClick={() => setUnits("0.1")}
+          onClick={() => { setUnits("0.1"); }}
         >
           0.1
         </button>
         <button
           type="button"
           className="text-xs text-primary"
-          onClick={() => setUnits("1")}
+          onClick={() => { setUnits("1"); }}
         >
           1
         </button>
         <button
           type="button"
           className="text-xs text-primary"
-          onClick={() => setUnits("10")}
+          onClick={() => { setUnits("10"); }}
         >
           10
         </button>
         <button
           type="button"
           className="text-xs text-primary"
-          onClick={() => setUnits("100")}
+          onClick={() => { setUnits("100"); }}
         >
           100
         </button>

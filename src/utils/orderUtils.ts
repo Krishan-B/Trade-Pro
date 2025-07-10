@@ -39,8 +39,8 @@ export const calculateDuration = (startDate: string, endDate: string) => {
 // Format currency for display
 export const formatCurrency = (
   value: number,
-  currency: string = "USD",
-  locale: string = "en-US"
+  currency = "USD",
+  locale = "en-US"
 ) => {
   return new Intl.NumberFormat(locale, {
     style: "currency",
@@ -51,7 +51,7 @@ export const formatCurrency = (
 };
 
 // Format percentage for display
-export const formatPercentage = (value: number, digits: number = 2) => {
+export const formatPercentage = (value: number, digits = 2) => {
   return `${value >= 0 ? "+" : ""}${value.toFixed(digits)}%`;
 };
 
@@ -63,7 +63,7 @@ export const getPriceChangeColor = (change: number) => {
 // Calculate trading fees for a given order amount (simplified example)
 export const calculateTradingFees = (
   amount: number,
-  feePercentage: number = 0.1
+  feePercentage = 0.1
 ) => {
   return (amount * feePercentage) / 100;
 };

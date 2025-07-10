@@ -97,7 +97,7 @@ const ProfilePage = () => {
             <ProfileEditForm
               profile={profile}
               onSave={handleUpdateProfile}
-              onCancel={() => setIsEditing(false)}
+              onCancel={() => { setIsEditing(false); }}
             />
           ) : (
             <ProfileDisplay profile={profile} />

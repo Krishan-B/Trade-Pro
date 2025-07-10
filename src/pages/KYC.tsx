@@ -13,7 +13,7 @@ import { useKYC } from "@/hooks/useKYC";
 import { ErrorHandler } from "@/services/errorHandling";
 import { AlertTriangle, CheckCircle, Clock, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
-import { withErrorBoundary } from "@/components/hoc/withErrorBoundary";
+import { withErrorBoundary } from "@/shared/hoc/withErrorBoundary";
 
 const KYCPage: React.FC = () => {
   const { documents, fetchDocuments, getKYCStatus, isKYCComplete } = useKYC();
@@ -152,6 +152,6 @@ const KYCPage: React.FC = () => {
   );
 };
 
-const KYCWrapped = withErrorBoundary(KYCPage, "kyc_page");
+const KYCWrapped = withErrorBoundary(KYCPage);
 export { KYCWrapped };
 export default KYCWrapped;

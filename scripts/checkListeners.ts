@@ -33,8 +33,8 @@ function getHeatmap(reg) {
     if (reg &&
         typeof reg === "object" &&
         "heatmap" in reg &&
-        reg["heatmap"] instanceof Map) {
-        return reg["heatmap"];
+        reg.heatmap instanceof Map) {
+        return reg.heatmap;
     }
     return undefined;
 }

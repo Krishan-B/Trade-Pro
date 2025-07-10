@@ -32,12 +32,12 @@ const PortfolioAllocation = ({
 
   const renderTooltipContent = (props: {
     active?: boolean;
-    payload?: Array<{ name: string; value: number }>;
+    payload?: { name: string; value: number }[];
   }) => {
     // Type guard for expected shape
     const { active, payload } = props;
     // ...existing code...
-    if (!active || !payload || !payload.length) {
+    if (!active || !payload?.length) {
       return null;
     }
     return (
@@ -93,8 +93,8 @@ const PortfolioAllocation = ({
                   outerRadius={80}
                   paddingAngle={2}
                   dataKey="value"
-                  onMouseEnter={(_, index) => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
+                  onMouseEnter={(_, index) => { setActiveIndex(index); }}
+                  onMouseLeave={() => { setActiveIndex(null); }}
                 >
                   {allocationData.map((entry, index) => (
                     <Cell
@@ -115,8 +115,8 @@ const PortfolioAllocation = ({
             <div
               key={index}
               className="flex items-center p-2 rounded-lg hover:bg-secondary/40 transition-colors"
-              onMouseEnter={() => setActiveIndex(index)}
-              onMouseLeave={() => setActiveIndex(null)}
+              onMouseEnter={() => { setActiveIndex(index); }}
+              onMouseLeave={() => { setActiveIndex(null); }}
             >
               <div
                 className="w-3 h-3 rounded-full mr-2"

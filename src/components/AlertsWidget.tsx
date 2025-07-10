@@ -21,6 +21,10 @@ interface MarketAlert {
   created_at: string;
 }
 
+interface MarketAlertsResponse {
+  data: MarketAlert[];
+}
+
 const AlertsWidget = () => {
   const [alerts, setAlerts] = useState<MarketAlert[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,10 +35,14 @@ const AlertsWidget = () => {
 
       // Define the expected response type for the Supabase function
 
-      const { data, error } = await supabase.functions.invoke<MarketAlertsResponse>("market-alerts", {
-        method: "POST",
-        body: {},
-      });
+      const {
+        data,
+        error,
+      }: { data: MarketAlertsResponse | null; error: Error | null } =
+        await supabase.functions.invoke<MarketAlertsResponse>("market-alerts", {
+          method: "POST",
+          body: {},
+        });
 
       if (error) throw error;
 
@@ -59,7 +67,7 @@ const AlertsWidget = () => {
   }, []);
 
   useEffect(() => {
-    fetchAlerts();
+    void fetchAlerts();
   }, [fetchAlerts]);
 
   const getAlertIcon = (type: string) => {

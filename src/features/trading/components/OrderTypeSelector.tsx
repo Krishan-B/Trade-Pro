@@ -21,7 +21,7 @@ const OrderTypeSelector = ({
           type="button"
           variant={orderType === "market" ? "default" : "outline"}
           className={`flex-1 ${orderType === "market" ? "bg-sky-100 text-sky-900 hover:bg-sky-200 hover:text-sky-900" : ""}`}
-          onClick={() => onOrderTypeChange("market")}
+          onClick={() => { onOrderTypeChange("market"); }}
           disabled={disabled}
         >
           Market order
@@ -30,7 +30,7 @@ const OrderTypeSelector = ({
           type="button"
           variant={orderType === "entry" ? "default" : "outline"}
           className={`flex-1 ${orderType === "entry" ? "bg-amber-400 text-black hover:bg-amber-500 hover:text-black" : ""}`}
-          onClick={() => onOrderTypeChange("entry")}
+          onClick={() => { onOrderTypeChange("entry"); }}
           disabled={disabled}
         >
           Entry order

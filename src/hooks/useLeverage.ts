@@ -9,7 +9,7 @@ import { ErrorHandler } from "@/services/errorHandling";
 
 type LeverageConfig =
   Database["public"]["Tables"]["asset_leverage_config"]["Row"];
-type MarginCalculation =
+export type MarginCalculation =
   Database["public"]["Tables"]["margin_calculations"]["Row"];
 
 export const useLeverage = () => {
@@ -163,7 +163,7 @@ export const useLeverage = () => {
   );
 
   const checkMarginCall = useCallback(
-    (marginLevel: number, marginCallLevel: number = 1.0) => {
+    (marginLevel: number, marginCallLevel = 1.0) => {
       try {
         return leverageService.calculateMarginCallWarning(
           marginLevel,

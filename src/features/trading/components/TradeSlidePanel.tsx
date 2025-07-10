@@ -77,7 +77,7 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
       refetch();
     }, 1000);
 
-    return () => clearInterval(intervalId);
+    return () => { clearInterval(intervalId); };
   }, [refetch]);
 
   // Get the fixed leverage for the selected asset type
@@ -188,7 +188,7 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
       }
 
       // Close the panel after successful execution
-      setTimeout(() => onOpenChange(false), 1500);
+      setTimeout(() => { onOpenChange(false); }, 1500);
     } catch (error) {
       console.error("Trade execution error:", error);
       ErrorHandler.handleError(error, {
@@ -284,7 +284,7 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
               id="expirationDate"
               label="Expiration Date"
               checked={hasExpirationDate}
-              onCheckedChange={() => setHasExpirationDate(!hasExpirationDate)}
+              onCheckedChange={() => { setHasExpirationDate(!hasExpirationDate); }}
               tooltip="Set a date when your entry order should expire if not executed."
               disabled={isExecuting}
             />

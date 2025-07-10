@@ -15,7 +15,7 @@ const MarketSearch = ({ searchTerm, setSearchTerm }: MarketSearchProps) => {
         placeholder="Search markets..."
         className="pl-8"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => { setSearchTerm(e.target.value); }}
       />
     </div>
   );

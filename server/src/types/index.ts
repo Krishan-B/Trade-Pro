@@ -1,4 +1,4 @@
-import { Database } from "@shared/types";
+import type { Database, Json } from "../../../src/integrations/supabase/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface ServerConfig {
@@ -18,13 +18,13 @@ export interface ServerConfig {
 export interface ServerState {
   supabase: SupabaseClient<Database>;
   wsClients: Map<string, WebSocket>;
-  store: Map<string, any>;
+  store: Map<string, unknown>;
   config: ServerConfig;
 }
 
 export interface WebSocketMessage {
   type: string;
-  payload: any;
+  payload: Json;
   userId?: string;
   timestamp?: string;
   messageId?: string;

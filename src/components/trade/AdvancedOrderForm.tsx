@@ -41,7 +41,7 @@ export const AdvancedOrderForm: React.FC<AdvancedOrderFormProps> = ({
     availableFunds: {availableFunds} <br />
     assetCategory: {assetCategory} <br />
     isLoading: {String(isLoading)} <br />
-    <button onClick={() => onOrderSubmit({ orderType: "market" }, "buy")}>
+    <button onClick={() => { onOrderSubmit({ orderType: "market" }, "buy"); }}>
       Submit Order
     </button>
   </div>
@@ -66,7 +66,7 @@ export const OrderTypeSelector: React.FC<OrderTypeSelectorProps> = ({
     orderType: {orderType} <br />
     <button
       onClick={() =>
-        onOrderTypeChange(orderType === "market" ? "entry" : "market")
+        { onOrderTypeChange(orderType === "market" ? "entry" : "market"); }
       }
       disabled={disabled}
     >
@@ -125,11 +125,11 @@ export const MarketHoursDisplay: React.FC<MarketHoursDisplayProps> = ({
   </div>
 );
 
-export type AdvancedOrderFormValues = {
+export interface AdvancedOrderFormValues {
   orderType: string;
   units?: number;
   orderRate?: number;
   stopLoss?: number;
   takeProfit?: number;
   // Add more fields for your form
-};
+}

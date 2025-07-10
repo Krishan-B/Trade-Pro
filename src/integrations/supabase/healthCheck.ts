@@ -31,7 +31,7 @@ async function checkDatabaseHealth(timeout = 5000): Promise<ServiceHealth> {
   try {
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(
-        () => reject(new Error("Database health check timed out")),
+        () => { reject(new Error("Database health check timed out")); },
         timeout
       );
     });
@@ -69,7 +69,7 @@ async function checkAuthHealth(timeout = 5000): Promise<ServiceHealth> {
   try {
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(
-        () => reject(new Error("Auth health check timed out")),
+        () => { reject(new Error("Auth health check timed out")); },
         timeout
       );
     });
@@ -97,7 +97,7 @@ async function checkStorageHealth(timeout = 5000): Promise<ServiceHealth> {
   try {
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(
-        () => reject(new Error("Storage health check timed out")),
+        () => { reject(new Error("Storage health check timed out")); },
         timeout
       );
     });

@@ -18,6 +18,10 @@ interface NewsItem {
   sentiment?: string;
 }
 
+interface FetchMarketNewsResponse {
+  data: NewsItem[];
+}
+
 interface EnhancedNewsWidgetProps {
   marketType?: string;
   className?: string;
@@ -36,34 +40,43 @@ const EnhancedNewsWidget = ({
 
       // Define the expected response type for the Supabase function
 
-      const { data, error } = await supabase.functions.invoke<FetchMarketNewsResponse>(
+      const response = await supabase.functions.invoke<FetchMarketNewsResponse>(
         "fetch-market-news",
         {
           body: { market_type: marketType },
         }
       );
-      if (error) throw error;
+
+      if (response.error) throw response.error;
 
       // Now `data` is typed, and `data.data` is known to be NewsItem[] or undefined
-      if (data?.data) {
-        setNews(data.data);
+      if (response.data?.data) {
+        setNews(response.data.data);
       }
     } catch (error) {
       console.error("Error fetching market news:", error);
-      ErrorHandler.handleError({
-        code: "news_fetch_error",
-        message:
-          error instanceof Error ? error.message : "Unknown error occurred",
-        details: error,
-        retryable: true,
-      });
+      ErrorHandler.handleError(
+        ErrorHandler.createError({
+          code: "news_fetch_error",
+          message:
+            error instanceof Error
+              ? error.message
+              : "An unknown error occurred while fetching news.",
+          details: error,
+          retryable: true,
+        }),
+        {
+          description: "Could not load market news. You can try again.",
+          retryFn: fetchNews,
+        }
+      );
     } finally {
       setIsLoading(false);
     }
   }, [marketType]);
 
   useEffect(() => {
-    fetchNews();
+    void fetchNews();
   }, [fetchNews]);
 
   const formatTime = (timestamp: string) => {
@@ -74,11 +87,11 @@ const EnhancedNewsWidget = ({
     );
 
     if (diffMinutes < 60) {
-      return `${diffMinutes}m ago`;
+      return `${String(diffMinutes)}m ago`;
     } else if (diffMinutes < 24 * 60) {
-      return `${Math.floor(diffMinutes / 60)}h ago`;
+      return `${String(Math.floor(diffMinutes / 60))}h ago`;
     } else {
-      return `${Math.floor(diffMinutes / (60 * 24))}d ago`;
+      return `${String(Math.floor(diffMinutes / (60 * 24)))}d ago`;
     }
   };
 

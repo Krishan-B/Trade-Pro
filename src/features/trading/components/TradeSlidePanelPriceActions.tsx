@@ -30,7 +30,7 @@ export const TradeSlidePanelPriceActions = ({
         <div className="text-lg font-medium">${buyPrice.toFixed(4)}</div>
         <Button
           className="w-full bg-success hover:bg-success/90 text-white"
-          onClick={() => onExecuteTrade("buy")}
+          onClick={() => { onExecuteTrade("buy"); }}
           disabled={
             isExecuting ||
             (orderType === "market" && !marketIsOpen) ||
@@ -46,7 +46,7 @@ export const TradeSlidePanelPriceActions = ({
         <div className="text-lg font-medium">${sellPrice.toFixed(4)}</div>
         <Button
           className="w-full bg-warning hover:bg-warning/90 text-white"
-          onClick={() => onExecuteTrade("sell")}
+          onClick={() => { onExecuteTrade("sell"); }}
           disabled={
             isExecuting ||
             (orderType === "market" && !marketIsOpen) ||

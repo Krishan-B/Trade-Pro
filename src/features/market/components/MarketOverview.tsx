@@ -27,9 +27,9 @@ const MarketOverview = () => {
 
   const renderTooltipContent = (props: {
     active?: boolean;
-    payload?: Array<{ name: string; value: number }>;
+    payload?: { name: string; value: number }[];
   }) => {
-    if (!props.active || !props.payload || !props.payload.length) {
+    if (!props.active || !props.payload?.length) {
       return null;
     }
 
@@ -86,8 +86,8 @@ const MarketOverview = () => {
                   outerRadius={80}
                   paddingAngle={2}
                   dataKey="value"
-                  onMouseEnter={(_, index) => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
+                  onMouseEnter={(_, index) => { setActiveIndex(index); }}
+                  onMouseLeave={() => { setActiveIndex(null); }}
                 >
                   {data.map((entry, index) => (
                     <Cell
@@ -108,8 +108,8 @@ const MarketOverview = () => {
             <div
               key={index}
               className="flex items-center p-2 rounded-lg hover:bg-secondary/40 transition-colors"
-              onMouseEnter={() => setActiveIndex(index)}
-              onMouseLeave={() => setActiveIndex(null)}
+              onMouseEnter={() => { setActiveIndex(index); }}
+              onMouseLeave={() => { setActiveIndex(null); }}
             >
               <div
                 className="w-3 h-3 rounded-full mr-2"

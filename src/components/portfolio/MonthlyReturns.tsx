@@ -26,9 +26,9 @@ const MonthlyReturns = ({ data }: MonthlyReturnsProps) => {
     if (!("active" in props) || !("payload" in props)) return null;
     const { active, payload } = props as {
       active?: boolean;
-      payload?: Array<{ name: string; value: number }>;
+      payload?: { name: string; value: number }[];
     };
-    if (!active || !payload || !payload.length) {
+    if (!active || !payload?.length) {
       return null;
     }
 

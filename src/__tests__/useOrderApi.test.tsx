@@ -1,8 +1,60 @@
-import { renderHook, act } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useOrderApi } from "../services/tradingApi";
-import { vi, Mock, describe, it, expect, beforeEach, afterEach } from "vitest";
-// Update the import path below if your useAuth file is named differently or in a different location
+import { vi, describe, it, expect, beforeEach } from "vitest";
+import type { Session, User } from "@supabase/supabase-js";
+import type { AuthContextType } from "../features/auth/context/AuthContext";
 import { useAuth } from "../hooks/useAuth";
+
+// Define a minimal mock user and session
+const mockUser: User = {
+  id: "test-user",
+  aud: "authenticated",
+  created_at: new Date().toISOString(),
+  email: "test@example.com",
+  app_metadata: {},
+  user_metadata: {},
+  role: "",
+  updated_at: new Date().toISOString(),
+};
+
+const mockSession: Session = {
+  access_token: "test-token",
+  token_type: "bearer",
+  expires_in: 3600,
+  expires_at: Date.now() + 3600,
+  refresh_token: "test-refresh",
+  user: mockUser,
+};
+
+// Define the mock auth context
+const mockAuthContext: AuthContextType = {
+  session: mockSession,
+  user: mockUser,
+  profile: null,
+  loading: false,
+  profileLoading: false,
+  signOut: vi.fn(),
+  refreshSession: vi.fn().mockResolvedValue(mockSession),
+  updateProfile: vi.fn().mockResolvedValue(undefined),
+  refreshProfile: vi.fn().mockResolvedValue(undefined),
+};
+
+// Setup mocks
+vi.mock("../hooks/useAuth", () => ({
+  useAuth: () => mockAuthContext,
+}));
+
+// Setup fetch mock
+const mockFetch = vi.fn().mockImplementation(() =>
+  Promise.resolve(
+    new Response(JSON.stringify([]), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    })
+  )
+);
+
+global.fetch = mockFetch as unknown as typeof fetch;
 
 // Mock the ErrorHandler
 vi.mock("../services/errorHandling", () => ({
@@ -11,27 +63,20 @@ vi.mock("../services/errorHandling", () => ({
   },
 }));
 
-// Mock the useAuth hook
-vi.mock("../hooks/useAuth", () => ({
-  useAuth: vi.fn(),
-}));
-
-// Helper to create a minimal Response-like mock
-function createFetchResponse(data: unknown, ok = true): Response {
-  return {
-    ok,
-    status: ok ? 200 : 500,
-    json: () => Promise.resolve(data),
-    // ...other Response properties
-  };
-}
+const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 
 beforeEach(() => {
-  global.fetch = vi.fn(() => Promise.resolve(createFetchResponse([])));
+  vi.clearAllMocks();
+  mockFetch.mockImplementation(() =>
+    Promise.resolve(
+      new Response(JSON.stringify([]), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      })
+    )
+  );
   // Provide a mock session for the useAuth hook
-  useAuth.mockReturnValue({
-    session: { access_token: "test-token" },
-  });
+  mockUseAuth.mockReturnValue(mockAuthContext);
 });
 
 afterEach(() => {
@@ -41,28 +86,36 @@ afterEach(() => {
 describe("useOrderApi", () => {
   it("fetches orders successfully", async () => {
     const { result } = renderHook(() => useOrderApi());
-    let orders;
-    await act(async () => {
-      orders = await result.current.getOrders();
-    });
+    const orders = await result.current.getOrders();
+
     expect(orders).toEqual([]);
-    expect(global.fetch).toHaveBeenCalledWith(
+    expect(mockFetch).toHaveBeenCalledWith(
       expect.stringContaining("/orders"),
-      expect.any(Object)
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          Authorization: "Bearer test-token",
+        }),
+      })
     );
   });
 
-  it("handles fetch errors", async () => {
-    global.fetch.mockImplementationOnce(() =>
-      Promise.reject(new Error("Network error"))
+  it("handles error when fetch fails", async () => {
+    mockFetch.mockImplementationOnce(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ error: "Failed" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        })
+      )
     );
+
     const { result } = renderHook(() => useOrderApi());
-    await expect(result.current.getOrders()).rejects.toThrow("Network error");
+    await expect(result.current.getOrders()).rejects.toThrow();
   });
 
   it("throws an error if not authenticated", async () => {
     // Override the mock to simulate no session
-    useAuth.mockReturnValue({ session: null });
+    mockUseAuth.mockReturnValue({ ...mockAuthContext, session: null });
     const { result } = renderHook(() => useOrderApi());
     await expect(result.current.getOrders()).rejects.toThrow(
       "Not authenticated"

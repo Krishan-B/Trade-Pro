@@ -1,7 +1,7 @@
 import { User, Session } from "@supabase/supabase-js";
 import { UserProfile } from "../../profile/types";
 
-export type AuthContextType = {
+export interface AuthContextType {
   session: Session | null;
   user: User | null;
   profile: UserProfile | null;
@@ -17,4 +17,4 @@ export type AuthContextType = {
     password: string,
     profileData?: Partial<UserProfile>
   ) => Promise<void>;
-};
+}

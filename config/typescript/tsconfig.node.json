@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    "vite.config.ts",
+    "tailwind.config.ts",
+    "postcss.config.cjs", // Assuming this might become .ts or is fine as .cjs
+    "prettier.config.cjs", // Same assumption
+    "config/**/*.ts",
+    "scripts/**/*.ts",
+    "test-health.ts"
+  ],
+  "exclude": ["node_modules", "dist", "coverage", "server"]
+}

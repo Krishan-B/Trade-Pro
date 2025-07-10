@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (event === "SIGNED_IN" && newSession?.user) {
         // Defer profile fetching to prevent auth deadlocks
         setTimeout(() => {
-          fetchProfile(newSession.user).catch(error => {
+          fetchProfile(newSession.user).catch((error) => {
             // Log or handle error, though fetchProfile itself has error handling
             console.error("Error fetching profile in setTimeout:", error);
             ErrorHandler.handleError(
@@ -148,7 +148,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const { data: authListener } = supabase.auth.onAuthStateChange(
           handleAuthStateChange
         );
-        authSubscriptionUnsubscribe = () => authListener.subscription.unsubscribe();
+        authSubscriptionUnsubscribe = () => {
+          authListener.subscription.unsubscribe();
+        };
 
         setInitialized(true);
       } catch (error) {
@@ -160,7 +162,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    initializeAuth().catch(error => {
+    initializeAuth().catch((error) => {
       // Catch any error from the async initializeAuth itself
       ErrorHandler.handleError(error instanceof Error ? error : String(error));
     });
@@ -176,7 +178,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Method to refresh the auth session
   const refreshSession = useCallback(async () => {
     try {
-      const { data, error } = await void supabase.auth.refreshSession();
+      const { data, error } = await supabase.auth.refreshSession();
       if (error) throw error;
 
       setSession(data.session);
@@ -192,7 +194,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Method to sign out the user
   const signOut = useCallback(async () => {
     try {
-      await void supabase.auth.signOut();
+      await supabase.auth.signOut();
       setSession(null);
       setUser(null);
       setProfile(null);
@@ -219,9 +221,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (error) throw error;
 
         // Update the local profile state
-        setProfile((prev) =>
-          prev ? { ...prev, ...profileData } : { id: user.id, ...profileData }
-        );
+        setProfile((prev) => {
+          if (prev) {
+            return { ...prev, ...profileData };
+          }
+          // If no previous profile, we can't just spread a partial.
+          // This case should ideally not be hit if update is only called for existing profiles.
+          // However, to satisfy types, we'd need to construct a full UserProfile.
+          // For now, we'll assume update is only for existing profiles and just return null if not.
+          // A better implementation might be to throw an error or handle it more gracefully.
+          if (!profileData.email) {
+            // email is required, so if it's not in the partial, we can't create a valid profile.
+            return null;
+          }
+          return {
+            id: user.id,
+            email: profileData.email,
+            first_name: profileData.first_name || "",
+            last_name: profileData.last_name || "",
+            experience_level: profileData.experience_level || "BEGINNER",
+            preferences: profileData.preferences || {},
+            is_verified: profileData.is_verified || false,
+            kyc_status: profileData.kyc_status || "PENDING",
+            country: profileData.country || "",
+            phone_number: profileData.phone_number || "",
+            ...profileData,
+          };
+        });
 
         ErrorHandler.handleSuccess("Profile Updated", {
           description: "Your profile has been updated successfully.",

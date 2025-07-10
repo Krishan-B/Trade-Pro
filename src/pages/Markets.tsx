@@ -1,7 +1,7 @@
 import React from "react";
 import { useCombinedMarketData } from "@/hooks/useCombinedMarketData";
 import MarketContainer from "@/components/markets/MarketContainer";
-import { withErrorBoundary } from "@/components/hoc/withErrorBoundary";
+import { withErrorBoundary } from "@/shared/hoc/withErrorBoundary";
 
 const MarketsPage: React.FC = () => {
   // Use the combined market data hook with a 1-minute refetch interval for more real-time market data
@@ -19,6 +19,6 @@ const MarketsPage: React.FC = () => {
   );
 };
 
-const MarketsPageWrapped = withErrorBoundary(MarketsPage, "markets_page");
+const MarketsPageWrapped = withErrorBoundary(MarketsPage);
 export { MarketsPageWrapped };
 export default MarketsPageWrapped;

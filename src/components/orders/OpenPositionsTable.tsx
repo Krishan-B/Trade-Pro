@@ -155,7 +155,7 @@ const OpenPositionsTable: React.FC<OpenPositionsTableProps> = ({
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => onCloseTrade(trade.id)}
+                    onClick={() => { onCloseTrade(trade.id); }}
                   >
                     <X className="h-4 w-4 mr-1" /> Close
                   </Button>

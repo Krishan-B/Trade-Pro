@@ -101,7 +101,7 @@ const handlers = [
 const server = setupServer(...handlers);
 
 // Establish API mocking before all tests.
-beforeAll(() => server.listen());
+beforeAll(() => { server.listen(); });
 
 // Reset any request handlers that we may add during the tests,
 // so they don't affect other tests.
@@ -127,10 +127,10 @@ class MockWebSocket implements WebSocket {
   static server: MockWebSocket | null = null;
 
   binaryType: BinaryType = "blob";
-  bufferedAmount: number = 0;
-  extensions: string = "";
-  protocol: string = "";
-  url: string = "";
+  bufferedAmount = 0;
+  extensions = "";
+  protocol = "";
+  url = "";
 
   constructor(url: string | URL, protocols?: string | string[]) {
     this.url = url.toString();

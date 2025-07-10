@@ -21,7 +21,7 @@ const WatchlistTableRow = ({ asset, onSelect }: WatchlistTableRowProps) => {
   return (
     <tr
       className="border-b border-secondary/40 text-sm hover:bg-secondary/20 cursor-pointer"
-      onClick={() => onSelect(asset)}
+      onClick={() => { onSelect(asset); }}
     >
       <td className="py-3 px-2">
         <div className="flex items-center gap-2">

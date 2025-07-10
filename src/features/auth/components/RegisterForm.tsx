@@ -161,7 +161,7 @@ const RegisterForm = () => {
               type="text"
               placeholder="John"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => { setFirstName(e.target.value); }}
               className={fieldErrors.firstName ? "border-destructive" : ""}
             />
             {fieldErrors.firstName && (
@@ -177,7 +177,7 @@ const RegisterForm = () => {
               type="text"
               placeholder="Doe"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => { setLastName(e.target.value); }}
               className={fieldErrors.lastName ? "border-destructive" : ""}
             />
             {fieldErrors.lastName && (
@@ -231,7 +231,7 @@ const RegisterForm = () => {
               type="tel"
               placeholder="1234567890"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => { setPhoneNumber(e.target.value); }}
               className={`flex-1 rounded-l-none ${
                 fieldErrors.phoneNumber ? "border-destructive" : ""
               }`}
@@ -251,7 +251,7 @@ const RegisterForm = () => {
             type="email"
             placeholder="your.email@example.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value); }}
             className={fieldErrors.email ? "border-destructive" : ""}
           />
           {fieldErrors.email && (
@@ -267,7 +267,7 @@ const RegisterForm = () => {
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); }}
               className={
                 fieldErrors.password ? "border-destructive pr-10" : "pr-10"
               }
@@ -277,7 +277,7 @@ const RegisterForm = () => {
               variant="ghost"
               size="sm"
               className="absolute right-0 top-0 h-full px-3 py-1"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => { setShowPassword(!showPassword); }}
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -321,7 +321,7 @@ const RegisterForm = () => {
               type={showConfirmPassword ? "text" : "password"}
               placeholder="••••••••"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => { setConfirmPassword(e.target.value); }}
               className={
                 fieldErrors.confirmPassword
                   ? "border-destructive pr-10"
@@ -333,7 +333,7 @@ const RegisterForm = () => {
               variant="ghost"
               size="sm"
               className="absolute right-0 top-0 h-full px-3 py-1"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() => { setShowConfirmPassword(!showConfirmPassword); }}
             >
               {showConfirmPassword ? (
                 <EyeOff className="h-4 w-4 text-muted-foreground" />

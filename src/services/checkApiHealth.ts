@@ -6,7 +6,7 @@ export async function checkApiHealth() {
   console.info("[HealthCheck] Checking API health at:", url);
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
+    const timeout = setTimeout(() => { controller.abort(); }, 3000);
     const res = await fetch(url, { signal: controller.signal });
     clearTimeout(timeout);
     if (!res.ok) throw new Error(`Status: ${res.status}`);

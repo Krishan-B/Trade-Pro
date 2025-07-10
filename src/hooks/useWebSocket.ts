@@ -12,9 +12,9 @@ export function useWebSocket() {
   useEffect(() => {
     websocketService.connect();
 
-    const handleAccountUpdate = (data: Account) => setAccountMetrics(data);
-    const handleOrderUpdate = (data: Order) => setOrderUpdates(data);
-    const handlePositionUpdate = (data: Position) => setPositionUpdates(data);
+    const handleAccountUpdate = (data: Account) => { setAccountMetrics(data); };
+    const handleOrderUpdate = (data: Order) => { setOrderUpdates(data); };
+    const handlePositionUpdate = (data: Position) => { setPositionUpdates(data); };
 
     websocketService.on("ACCOUNT_METRICS_UPDATE", handleAccountUpdate);
     websocketService.on("ORDER_FILLED", handleOrderUpdate);

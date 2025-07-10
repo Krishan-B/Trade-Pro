@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+coverage/
+
+# Configuration files
+*.config.js
+*.config.ts
+*.config.cjs
+*.config.mjs
+
+# Documentation
+*.md
+docs/
+
+# Environment and IDE files
+.env*
+.vscode/
+.idea/

@@ -29,7 +29,7 @@ export const TradeSlidePanelOptionCheckbox = ({
       <Checkbox
         id={id}
         checked={checked}
-        onCheckedChange={() => onCheckedChange()}
+        onCheckedChange={() => { onCheckedChange(); }}
         disabled={disabled}
       />
       <div className="flex items-center">

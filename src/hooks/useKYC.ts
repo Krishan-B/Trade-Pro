@@ -35,7 +35,7 @@ export const useKYC = () => {
     } catch (error) {
       ErrorHandler.handleError(error, {
         description: "Unable to load your KYC documents. Please try again.",
-        retryFn: async () => await fetchDocuments(),
+        retryFn: async () => { await fetchDocuments(); },
       });
     } finally {
       setLoading(false);

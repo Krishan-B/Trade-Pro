@@ -1,6 +1,5 @@
-import { Toaster as Sonner } from "sonner";
 import { Toaster } from "./shared/ui/toaster";
-import { Toaster } from "sonner";
+import { Toaster as Sonner } from "sonner";
 import { TooltipProvider } from "./shared/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider, ProtectedRoute } from "./features/auth";

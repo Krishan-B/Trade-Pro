@@ -5,13 +5,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "isolatedModules": true,
-    "noEmit": true,
-
-    /* Node.js specific */
     "types": ["node"],
     "composite": true
   },

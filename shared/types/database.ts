@@ -24,16 +24,10 @@ export interface Database {
       };
       // Add other tables as needed
     };
-    Views: {
-      [key: string]: {
+    Views: Record<string, {
         Row: Record<string, unknown>;
-      };
-    };
-    Functions: {
-      [key: string]: unknown;
-    };
-    Enums: {
-      [key: string]: unknown;
-    };
+      }>;
+    Functions: Record<string, unknown>;
+    Enums: Record<string, unknown>;
   };
 }

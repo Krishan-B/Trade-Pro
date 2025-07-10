@@ -13,7 +13,7 @@ export interface PortfolioAnalytics {
   locked_funds: number;
   allocation: Record<string, number>;
   performance: Record<string, number>;
-  top_holdings: Array<{
+  top_holdings: {
     symbol: string;
     name: string;
     value: number;
@@ -23,8 +23,8 @@ export interface PortfolioAnalytics {
     price?: number;
     entry_price?: number;
     pnl?: number;
-  }>;
-  recent_trades: Array<{
+  }[];
+  recent_trades: {
     id: string;
     symbol: string;
     name: string;
@@ -38,7 +38,7 @@ export interface PortfolioAnalytics {
     exit_price?: number;
     pnl?: number;
     pnl_percentage?: number;
-  }>;
+  }[];
 }
 
 const fetchPortfolioAnalytics = async (userId: string) => {

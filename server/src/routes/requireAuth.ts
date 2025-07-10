@@ -21,7 +21,7 @@ export function requireAuth(
   res: Response,
   next: NextFunction
 ) {
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.headers.authorization;
   if (!authHeader) {
     res.status(401).json({ error: "Missing Authorization header" });
     return;

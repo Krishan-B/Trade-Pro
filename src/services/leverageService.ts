@@ -114,7 +114,7 @@ export const leverageService = {
   // Helper function to calculate margin call level
   calculateMarginCallWarning(
     marginLevel: number,
-    marginCallLevel: number = 1.0
+    marginCallLevel = 1.0
   ): {
     isWarning: boolean;
     isMarginCall: boolean;

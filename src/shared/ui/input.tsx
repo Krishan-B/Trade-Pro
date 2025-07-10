@@ -1,8 +1,7 @@
-// ...existing code...
 import * as React from "react";
 
 // Update the import path if needed, or create the utils file with a cn function.
-import { cn } from "../utils";
+import { cn } from "@/shared/utils";
 // If your utils file is elsewhere, adjust the path accordingly.
 
 const Input = React.forwardRef<

@@ -70,7 +70,7 @@ const LoginFormComponent = () => {
             type="email"
             placeholder="your.email@example.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value); }}
             className={fieldErrors.email ? "border-destructive" : ""}
           />
           {fieldErrors.email && (
@@ -85,7 +85,7 @@ const LoginFormComponent = () => {
               variant="link"
               type="button"
               className="p-0 h-auto text-sm"
-              onClick={() => setResetPasswordOpen(true)}
+              onClick={() => { setResetPasswordOpen(true); }}
             >
               Forgot password?
             </Button>
@@ -97,7 +97,7 @@ const LoginFormComponent = () => {
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); }}
               className={
                 fieldErrors.password ? "border-destructive pr-10" : "pr-10"
               }
@@ -107,7 +107,7 @@ const LoginFormComponent = () => {
               variant="ghost"
               size="sm"
               className="absolute right-0 top-0 h-full px-3 py-1"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => { setShowPassword(!showPassword); }}
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4 text-muted-foreground" />

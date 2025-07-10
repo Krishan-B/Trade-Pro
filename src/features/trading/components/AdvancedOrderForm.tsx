@@ -122,7 +122,7 @@ export function AdvancedOrderForm({
       setSellPrice(newPrice * 0.999);
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); };
   }, [currentPrice]);
 
   // Update form when asset category changes
@@ -233,7 +233,7 @@ export function AdvancedOrderForm({
             <div className="text-lg font-medium">${buyPrice.toFixed(4)}</div>
             <Button
               className="w-full bg-green-600 hover:bg-green-700 text-white mt-1"
-              onClick={() => handleSubmit("buy")}
+              onClick={() => { handleSubmit("buy"); }}
               disabled={isLoading || !canAfford}
             >
               Buy
@@ -244,7 +244,7 @@ export function AdvancedOrderForm({
             <div className="text-lg font-medium">${sellPrice.toFixed(4)}</div>
             <Button
               className="w-full bg-red-500 hover:bg-red-600 text-white mt-1"
-              onClick={() => handleSubmit("sell")}
+              onClick={() => { handleSubmit("sell"); }}
               disabled={isLoading || units <= 0}
             >
               Sell
@@ -286,7 +286,7 @@ export function AdvancedOrderForm({
                   ? "bg-primary text-primary-foreground"
                   : ""
               }`}
-              onClick={() => handleOrderTypeChange("market")}
+              onClick={() => { handleOrderTypeChange("market"); }}
             >
               Market order
             </Button>
@@ -298,7 +298,7 @@ export function AdvancedOrderForm({
                   ? "bg-yellow-500 text-white hover:bg-yellow-600"
                   : ""
               }`}
-              onClick={() => handleOrderTypeChange("entry")}
+              onClick={() => { handleOrderTypeChange("entry"); }}
             >
               Entry order
             </Button>
@@ -355,7 +355,7 @@ export function AdvancedOrderForm({
 
         {/* Advanced Order Options */}
         <Form {...form}>
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); }}>
             {/* Stop Loss */}
             <FormField
               control={form.control}

@@ -23,7 +23,7 @@ export const TradeSlidePanelEntryRate = ({
         type="number"
         step="0.0001"
         value={orderRate}
-        onChange={(e) => setOrderRate(e.target.value)}
+        onChange={(e) => { setOrderRate(e.target.value); }}
         className="w-full"
         disabled={isExecuting}
       />

@@ -68,7 +68,7 @@ const AccountMetrics = () => {
       }));
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); };
   }, []);
 
   // Format currency with $ and 2 decimal places

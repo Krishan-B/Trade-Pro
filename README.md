@@ -28,6 +28,15 @@ and educational tools.
 
 ## Configuration
 
+All configuration files are centralized in the `/config` directory, organized by tool (ESLint, Prettier, TypeScript, etc.). For detailed information about configuration structure, best practices, and usage, please refer to our [Configuration Guide](docs/CONFIGURATION.md).
+
+Key configuration areas:
+
+- Code Style & Linting: ESLint, Prettier
+- TypeScript & Build: TypeScript, Vite
+- Testing: Jest, Vitest
+- Database: Supabase
+
 - All configs are in `/config/` (eslint, jest, typescript, vite)
 - Environment variables use `VITE_SUPABASE_*` for frontend
 - Modular diagnostics scripts in `/scripts/diagnostics/`

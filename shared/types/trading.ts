@@ -167,8 +167,8 @@ export type WebSocketEventType =
   | "ORDER_CANCELLED"
   | "POSITION_CLOSED";
 
-export type WebSocketMessage<T extends WebSocketEventType, P = unknown> = {
+export interface WebSocketMessage<T extends WebSocketEventType, P = unknown> {
   type: T;
   payload: P;
   [key: string]: unknown;
-};
+}

@@ -44,7 +44,7 @@ router.get(
   ): Promise<void> => {
     // User info is attached by requireAuth middleware
     const user = req.user;
-    if (!user || !user.id) {
+    if (!user?.id) {
       res.status(401).json({ error: "Unauthorized" });
       return;
     }
@@ -75,7 +75,7 @@ router.patch(
     res: Response
   ): Promise<void> => {
     const user = req.user;
-    if (!user || !user.id) {
+    if (!user?.id) {
       res.status(401).json({ error: "Unauthorized" });
       return;
     }

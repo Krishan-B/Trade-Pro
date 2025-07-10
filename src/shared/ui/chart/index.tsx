@@ -17,7 +17,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
 
 interface ChartTooltipContentProps {
   active?: boolean;
-  payload?: Array<{ name: string; value: number | string; color?: string }>;
+  payload?: { name: string; value: number | string; color?: string }[];
   indicator?: "line" | "dot";
   formatter?: (value: number | string, name: string) => React.ReactNode;
 }

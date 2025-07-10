@@ -242,7 +242,7 @@ const TradeForm = ({
               className="flex-1 text-center border-y border-input bg-background py-2"
               placeholder="Enter rate"
               value={entryOrderRate}
-              onChange={(e) => setEntryOrderRate(e.target.value)}
+              onChange={(e) => { setEntryOrderRate(e.target.value); }}
             />
             <button
               type="button"
@@ -290,7 +290,7 @@ const TradeForm = ({
                   className="flex-1 text-center border-y border-input bg-background py-2"
                   placeholder="Rate"
                   value={stopLossRate}
-                  onChange={(e) => setStopLossRate(e.target.value)}
+                  onChange={(e) => { setStopLossRate(e.target.value); }}
                 />
                 <button
                   type="button"
@@ -368,7 +368,7 @@ const TradeForm = ({
                   className="flex-1 text-center border-y border-input bg-background py-2"
                   placeholder="Rate"
                   value={takeProfitRate}
-                  onChange={(e) => setTakeProfitRate(e.target.value)}
+                  onChange={(e) => { setTakeProfitRate(e.target.value); }}
                 />
                 <button
                   type="button"

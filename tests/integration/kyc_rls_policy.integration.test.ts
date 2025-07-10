@@ -43,7 +43,7 @@ async function loginUser(user: {
     supabase: createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       global: {
         headers: {
-          Authorization: `Bearer ${result.data.session!.access_token}`,
+          Authorization: `Bearer ${result.data.session.access_token}`,
         },
       },
     }),

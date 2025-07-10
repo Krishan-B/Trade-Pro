@@ -19,7 +19,7 @@ import { CreditCard } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useInterval } from "@/hooks/useCleanup";
 import { tradeInputSchema } from "@/lib/validationSchemas";
-import { withErrorBoundary } from "@/features/trading/components/hoc/withErrorBoundary";
+import { withErrorBoundary } from "../../../shared/hoc/withErrorBoundary";
 
 interface QuickTradePanelProps {
   asset: {
@@ -265,7 +265,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
           <OrderTypeSelector
             orderType={orderType}
             onOrderTypeChange={(type) =>
-              setOrderType(type as "market" | "entry")
+              { setOrderType(type as "market" | "entry"); }
             }
             disabled={isExecuting}
           />
@@ -296,7 +296,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
                   className="flex-1 text-center border-y border-input bg-background py-2"
                   placeholder="Enter rate"
                   value={entryOrderRate || currentPrice.toFixed(4)}
-                  onChange={(e) => setEntryOrderRate(e.target.value)}
+                  onChange={(e) => { setEntryOrderRate(e.target.value); }}
                 />
                 <button
                   type="button"
@@ -345,7 +345,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
                     className="flex-1 text-center border-y border-input bg-background py-2"
                     placeholder="Rate"
                     value={stopLossRate}
-                    onChange={(e) => setStopLossRate(e.target.value)}
+                    onChange={(e) => { setStopLossRate(e.target.value); }}
                   />
                   <button
                     type="button"
@@ -421,7 +421,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
                     className="flex-1 text-center border-y border-input bg-background py-2"
                     placeholder="Rate"
                     value={takeProfitRate}
-                    onChange={(e) => setTakeProfitRate(e.target.value)}
+                    onChange={(e) => { setTakeProfitRate(e.target.value); }}
                   />
                   <button
                     type="button"
@@ -476,7 +476,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
               id="expirationDate"
               label="Expiration Date"
               checked={hasExpirationDate}
-              onCheckedChange={() => setHasExpirationDate(!hasExpirationDate)}
+              onCheckedChange={() => { setHasExpirationDate(!hasExpirationDate); }}
               tooltip="Set a date when your entry order should expire if not executed."
               disabled={isExecuting}
             />
@@ -549,7 +549,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
           <OrderTypeSelector
             orderType={orderType}
             onOrderTypeChange={(type) =>
-              setOrderType(type as "market" | "entry")
+              { setOrderType(type as "market" | "entry"); }
             }
             disabled={isExecuting}
           />
@@ -580,7 +580,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
                   className="flex-1 text-center border-y border-input bg-background py-2"
                   placeholder="Enter rate"
                   value={entryOrderRate}
-                  onChange={(e) => setEntryOrderRate(e.target.value)}
+                  onChange={(e) => { setEntryOrderRate(e.target.value); }}
                 />
                 <button
                   type="button"
@@ -629,7 +629,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
                     className="flex-1 text-center border-y border-input bg-background py-2"
                     placeholder="Rate"
                     value={stopLossRate}
-                    onChange={(e) => setStopLossRate(e.target.value)}
+                    onChange={(e) => { setStopLossRate(e.target.value); }}
                   />
                   <button
                     type="button"
@@ -705,7 +705,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
                     className="flex-1 text-center border-y border-input bg-background py-2"
                     placeholder="Rate"
                     value={takeProfitRate}
-                    onChange={(e) => setTakeProfitRate(e.target.value)}
+                    onChange={(e) => { setTakeProfitRate(e.target.value); }}
                   />
                   <button
                     type="button"
@@ -760,7 +760,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
               id="expirationDate"
               label="Expiration Date"
               checked={hasExpirationDate}
-              onCheckedChange={() => setHasExpirationDate(!hasExpirationDate)}
+              onCheckedChange={() => { setHasExpirationDate(!hasExpirationDate); }}
               tooltip="Set a date when your entry order should expire if not executed."
               disabled={isExecuting}
             />

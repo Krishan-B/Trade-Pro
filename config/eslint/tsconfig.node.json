@@ -1,0 +1,4 @@
+// This file is intentionally left blank to satisfy TypeScript tooling for ESLint config.
+{
+  "extends": "../../tsconfig.node.json"
+}

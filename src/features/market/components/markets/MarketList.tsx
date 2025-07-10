@@ -161,7 +161,7 @@ const MarketList = ({
                   <TableRow
                     key={asset.symbol}
                     className="cursor-pointer border-b hover:bg-muted/40"
-                    onClick={() => onSelectAsset(enhancedAsset)}
+                    onClick={() => { onSelectAsset(enhancedAsset); }}
                   >
                     <TableCell className="font-medium py-3 px-2">
                       <div className="flex items-center gap-2">

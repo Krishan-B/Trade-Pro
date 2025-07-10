@@ -26,7 +26,7 @@ export const UnitsInput: React.FC<UnitsInputProps> = ({
     <input
       type="text"
       value={units}
-      onChange={(e) => setUnits(e.target.value)}
+      onChange={(e) => { setUnits(e.target.value); }}
       disabled={isExecuting}
     />
   </div>

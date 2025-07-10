@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
-const path = require("path");
-const { promisify } = require("util");
+import fs from "fs";
+import path from "path";
+import { promisify } from "util";
+import { glob as globFunction } from "glob";
 const readFile = promisify(fs.readFile);
-const glob = promisify(require("glob"));
+const glob = promisify(globFunction);
 
 // Headers that browsers restrict for security reasons
 const FORBIDDEN_HEADERS = new Set([
@@ -68,8 +69,25 @@ async function findFiles(baseDir) {
   return await glob(patterns.join("|"), { cwd: baseDir });
 }
 
-async function analyzeFile(filePath, baseDir) {
-  const issues = [];
+async function analyzeFile(
+  filePath: string,
+  baseDir: string
+): Promise<
+  {
+    file: string;
+    line: number;
+    header: string;
+    context: string;
+    suggestion: string;
+  }[]
+> {
+  const issues: {
+    file: string;
+    line: number;
+    header: string;
+    context: string;
+    suggestion: string;
+  }[] = [];
   const fullPath = path.join(baseDir, filePath);
   const content = await readFile(fullPath, "utf8");
 
@@ -117,10 +135,16 @@ async function main() {
     console.log("\n🔍 Scanning for unsafe header usage...\n");
 
     // Find all relevant files
-    const files = await findFiles(baseDir);
+    const files = (await findFiles(baseDir)) as string[];
 
     // Analyze each file
-    const allIssues = [];
+    const allIssues: {
+      file: string;
+      line: number;
+      header: string;
+      context: string;
+      suggestion: string;
+    }[] = [];
     for (const file of files) {
       const issues = await analyzeFile(file, baseDir);
       allIssues.push(...issues);

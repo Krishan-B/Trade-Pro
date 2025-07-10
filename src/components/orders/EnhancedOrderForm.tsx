@@ -119,7 +119,7 @@ const EnhancedOrderForm = ({
               <Input
                 id="symbol"
                 value={symbol}
-                onChange={(e) => setSymbol(e.target.value)}
+                onChange={(e) => { setSymbol(e.target.value); }}
                 placeholder="EURUSD"
               />
             </div>
@@ -145,7 +145,7 @@ const EnhancedOrderForm = ({
               <Label htmlFor="direction">Direction</Label>
               <Select
                 value={direction}
-                onValueChange={(value: "buy" | "sell") => setDirection(value)}
+                onValueChange={(value: "buy" | "sell") => { setDirection(value); }}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -172,7 +172,7 @@ const EnhancedOrderForm = ({
                 id="units"
                 type="number"
                 value={units}
-                onChange={(e) => setUnits(Number(e.target.value))}
+                onChange={(e) => { setUnits(Number(e.target.value)); }}
                 min="1"
               />
             </div>
@@ -183,7 +183,7 @@ const EnhancedOrderForm = ({
                 type="number"
                 step="0.00001"
                 value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
+                onChange={(e) => { setPrice(Number(e.target.value)); }}
               />
             </div>
           </div>
@@ -192,7 +192,7 @@ const EnhancedOrderForm = ({
             <Label htmlFor="orderType">Order Type</Label>
             <Select
               value={orderType}
-              onValueChange={(value: EnhancedOrderType) => setOrderType(value)}
+              onValueChange={(value: EnhancedOrderType) => { setOrderType(value); }}
             >
               <SelectTrigger>
                 <SelectValue />
@@ -222,10 +222,10 @@ const EnhancedOrderForm = ({
                   id="enableStopLoss"
                   checked={slTpConfig.enableStopLoss}
                   onCheckedChange={(checked) =>
-                    setSlTpConfig((prev) => ({
+                    { setSlTpConfig((prev) => ({
                       ...prev,
                       enableStopLoss: !!checked,
-                    }))
+                    })); }
                   }
                 />
                 <Label
@@ -246,10 +246,10 @@ const EnhancedOrderForm = ({
                       type="number"
                       value={slTpConfig.stopLossDistance}
                       onChange={(e) =>
-                        setSlTpConfig((prev) => ({
+                        { setSlTpConfig((prev) => ({
                           ...prev,
                           stopLossDistance: Number(e.target.value),
-                        }))
+                        })); }
                       }
                     />
                   </div>
@@ -261,10 +261,10 @@ const EnhancedOrderForm = ({
                       step="0.00001"
                       value={slTpConfig.stopLossPrice}
                       onChange={(e) =>
-                        setSlTpConfig((prev) => ({
+                        { setSlTpConfig((prev) => ({
                           ...prev,
                           stopLossPrice: Number(e.target.value),
-                        }))
+                        })); }
                       }
                     />
                   </div>
@@ -289,10 +289,10 @@ const EnhancedOrderForm = ({
                   id="enableTakeProfit"
                   checked={slTpConfig.enableTakeProfit}
                   onCheckedChange={(checked) =>
-                    setSlTpConfig((prev) => ({
+                    { setSlTpConfig((prev) => ({
                       ...prev,
                       enableTakeProfit: !!checked,
-                    }))
+                    })); }
                   }
                 />
                 <Label
@@ -313,10 +313,10 @@ const EnhancedOrderForm = ({
                       type="number"
                       value={slTpConfig.takeProfitDistance}
                       onChange={(e) =>
-                        setSlTpConfig((prev) => ({
+                        { setSlTpConfig((prev) => ({
                           ...prev,
                           takeProfitDistance: Number(e.target.value),
-                        }))
+                        })); }
                       }
                     />
                   </div>
@@ -328,10 +328,10 @@ const EnhancedOrderForm = ({
                       step="0.00001"
                       value={slTpConfig.takeProfitPrice}
                       onChange={(e) =>
-                        setSlTpConfig((prev) => ({
+                        { setSlTpConfig((prev) => ({
                           ...prev,
                           takeProfitPrice: Number(e.target.value),
-                        }))
+                        })); }
                       }
                     />
                   </div>
@@ -356,10 +356,10 @@ const EnhancedOrderForm = ({
                   id="enableTrailingStop"
                   checked={slTpConfig.enableTrailingStop}
                   onCheckedChange={(checked) =>
-                    setSlTpConfig((prev) => ({
+                    { setSlTpConfig((prev) => ({
                       ...prev,
                       enableTrailingStop: !!checked,
-                    }))
+                    })); }
                   }
                 />
                 <Label
@@ -382,10 +382,10 @@ const EnhancedOrderForm = ({
                       type="number"
                       value={slTpConfig.trailingStopDistance}
                       onChange={(e) =>
-                        setSlTpConfig((prev) => ({
+                        { setSlTpConfig((prev) => ({
                           ...prev,
                           trailingStopDistance: Number(e.target.value),
-                        }))
+                        })); }
                       }
                       className="w-32"
                     />

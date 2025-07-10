@@ -17,7 +17,7 @@ export const TakeProfitCheckbox: React.FC<TakeProfitCheckboxProps> = ({
     <input
       type="checkbox"
       checked={hasTakeProfit}
-      onChange={() => setHasTakeProfit(!hasTakeProfit)}
+      onChange={() => { setHasTakeProfit(!hasTakeProfit); }}
       disabled={isExecuting}
     />
   </div>

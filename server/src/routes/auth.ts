@@ -6,7 +6,8 @@ import bcrypt from "bcrypt";
 import { AuthResponse } from "./types";
 import type { Request } from "express";
 import type { RegisterRequest, LoginRequest } from "./types";
-import type { Database } from "@/integrations/supabase/types";
+import type { Database } from "../../../src/integrations/supabase/types";
+import type { Json } from "../../../src/integrations/supabase/types";
 
 dotenv.config();
 
@@ -96,10 +97,10 @@ router.post(
         {
           id: authData.user.id,
           email,
-          first_name,
-          last_name,
-          experience_level,
-          preferences,
+          first_name: first_name ?? "",
+          last_name: last_name ?? "",
+          experience_level: experience_level ?? "",
+          preferences: (preferences ?? {}) as Json, // ensure Json type
           password_hash,
         },
       ]);
@@ -203,10 +204,15 @@ router.post(
         user: {
           id: userProfile.id,
           email: userProfile.email,
-          first_name: userProfile.first_name,
-          last_name: userProfile.last_name,
-          experience_level: userProfile.experience_level,
-          preferences: userProfile.preferences,
+          first_name: userProfile.first_name ?? "",
+          last_name: userProfile.last_name ?? "",
+          experience_level: userProfile.experience_level ?? "",
+          preferences:
+            userProfile.preferences &&
+            typeof userProfile.preferences === "object" &&
+            !Array.isArray(userProfile.preferences)
+              ? (userProfile.preferences as Record<string, unknown>)
+              : {},
         },
         token: authData.session.access_token,
       };

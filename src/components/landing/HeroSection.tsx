@@ -10,7 +10,7 @@ const HeroSection = () => {
   const [imageLoaded, setImageLoaded] = useState(true);
 
   const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
+    e: React.SyntheticEvent<HTMLImageElement>
   ) => {
     ErrorHandler.handleError({
       code: "data_fetch_error",
@@ -94,7 +94,7 @@ const HeroSection = () => {
               alt="Trading Dashboard"
               className="w-full h-auto"
               onError={handleImageError}
-              onLoad={() => setImageLoaded(true)}
+              onLoad={() => { setImageLoaded(true); }}
             />
           </motion.div>
         )}

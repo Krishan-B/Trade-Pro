@@ -34,7 +34,7 @@ export const useEnhancedOrders = () => {
         }),
         {
           description: "Unable to load your orders. Please try again.",
-          retryFn: async () => await fetchOrders(),
+          retryFn: async () => { await fetchOrders(); },
         }
       );
     } finally {

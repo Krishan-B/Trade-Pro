@@ -102,7 +102,7 @@ export default function OrderList() {
           </div>
           <button
             onClick={() =>
-              setExpandedId(order.id === expandedId ? null : order.id)
+              { setExpandedId(order.id === expandedId ? null : order.id); }
             }
           >
             {order.id === expandedId ? "Less" : "More"}

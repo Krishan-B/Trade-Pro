@@ -144,7 +144,7 @@ const DocumentUpload = ({ onUploadComplete }: DocumentUploadProps) => {
       setSelectedFile(null);
       setComments("");
       // Reset progress after a brief delay
-      setTimeout(() => setUploadProgress(0), 1000);
+      setTimeout(() => { setUploadProgress(0); }, 1000);
       onUploadComplete?.();
     } catch (err) {
       console.error("Upload error:", err);
@@ -244,7 +244,7 @@ const DocumentUpload = ({ onUploadComplete }: DocumentUploadProps) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setSelectedFile(null)}
+                onClick={() => { setSelectedFile(null); }}
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -270,7 +270,7 @@ const DocumentUpload = ({ onUploadComplete }: DocumentUploadProps) => {
               id="comments"
               placeholder="Please describe the document you're uploading..."
               value={comments}
-              onChange={(e) => setComments(e.target.value)}
+              onChange={(e) => { setComments(e.target.value); }}
             />
           </div>
         )}

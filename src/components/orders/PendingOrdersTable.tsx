@@ -127,7 +127,7 @@ const PendingOrdersTable: React.FC<PendingOrdersTableProps> = ({
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => onCancelOrder(order.id)}
+                    onClick={() => { onCancelOrder(order.id); }}
                   >
                     <X className="h-4 w-4 mr-1" /> Cancel
                   </Button>

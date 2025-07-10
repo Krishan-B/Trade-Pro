@@ -70,7 +70,7 @@ function isPosition(
   );
 }
 
-function isValidPayload<T extends { [key: string]: unknown }>(
+function isValidPayload<T extends Record<string, unknown>>(
   payload: RealtimePostgresChangesPayload<T>,
   typeGuard: (data: unknown) => data is T
 ): payload is RealtimePostgresChangesPayload<T> & { new: T } {

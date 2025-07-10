@@ -74,7 +74,7 @@ const AuthPage = () => {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => { subscription.unsubscribe(); };
   }, [navigate, from]);
 
   const navigateToHome = () => {

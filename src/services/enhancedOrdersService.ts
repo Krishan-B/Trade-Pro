@@ -17,7 +17,7 @@ export const enhancedOrdersService = {
     if (error) throw error;
 
     // Define a type for the raw order from Supabase
-    type RawOrder = {
+    interface RawOrder {
       [key: string]: unknown;
       name?: string;
       symbol?: string;
@@ -32,7 +32,7 @@ export const enhancedOrdersService = {
       trailing_stop_distance?: number;
       order_group_id?: string;
       parent_order_id?: string;
-    };
+    }
 
     const enhancedOrders: EnhancedOrder[] = (data || []).map((order) => {
       const raw = order;

@@ -6,9 +6,9 @@
  */
 
 // Components
-export { default } from "./components/MarketOverview";
-export { default } from "./components/MarketStats";
-export { default } from "./components/MarketStatusIndicator";
+export { default as MarketOverview } from "./components/MarketOverview";
+export { default as MarketStats } from "./components/MarketStats";
+export { default as MarketStatusIndicator } from "./components/MarketStatusIndicator";
 
 // Move market components to features directory
 export * from "./components/markets";

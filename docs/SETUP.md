@@ -28,7 +28,19 @@
   ```
   (Uses `npx supabase` for compatibility)
 
-## 3. Development Servers
+## 3. Configuration Structure
+
+All project configurations are centralized in the `/config` directory:
+
+- ESLint: `/config/eslint/`
+- TypeScript: `/config/typescript/`
+- Prettier: `/config/prettier/`
+- Jest: `/config/jest/`
+- Vite: `/config/vite/`
+
+For detailed configuration information, see [CONFIGURATION.md](CONFIGURATION.md).
+
+## 4. Development Servers
 
 - Start the frontend (React/Vite):
   ```bash
@@ -43,7 +55,7 @@
   # cd mcp-server-sequentialthinking && npm run start
   ```
 
-## 4. Code Quality & Pre-commit Hooks
+## 5. Code Quality & Pre-commit Hooks
 
 - Pre-commit hooks are set up with Husky and lint-staged.
 - To manually lint/format:
@@ -52,7 +64,7 @@
   npx prettier --write .
   ```
 
-## 5. Testing
+## 6. Testing
 
 - Run all tests:
   ```bash
@@ -66,7 +78,7 @@
   bash scripts/health-check-all.sh
   ```
 
-## 6. Troubleshooting
+## 7. Troubleshooting
 
 - If Supabase CLI is not found, use `npx supabase ...` instead of `supabase ...`.
 - If migrations fail, check your network and Supabase project credentials.
@@ -77,7 +89,7 @@
 - For Codespace-specific issues, see `scripts/diagnose-vscode-environment.sh` and modular
   diagnostics in `scripts/diagnostics/`.
 
-## 7. Quick Reference
+## 8. Quick Reference
 
 - **Lint:** `npm run lint`
 - **Format:** `npx prettier --write .`
@@ -86,7 +98,7 @@
 - **Start backend:** `cd backend-api && npm run dev`
 - **Migrate/seed DB:** `bash scripts/db-migrate-seed.sh`
 
-## 8. Security & Best Practices
+## 9. Security & Best Practices
 
 - Never commit secrets or credentials.
 - Use environment variables for sensitive config.

@@ -42,9 +42,7 @@ export interface RiskMetrics {
   portfolioVolatility?: number;
   diversificationScore?: number;
   marginUtilization?: number;
-  exposureByAssetClass?: {
-    [assetClass: string]: number;
-  };
+  exposureByAssetClass?: Record<string, number>;
 }
 
 /**
@@ -75,10 +73,10 @@ export interface TradingActivityMetrics {
   losingTrades: number;
   breakEvenTrades: number;
   averageHoldingPeriod: number;
-  mostTradedAssets: Array<{
+  mostTradedAssets: {
     symbol: string;
     tradeCount: number;
-  }>;
+  }[];
   tradingFrequency: {
     daily: number;
     weekly: number;

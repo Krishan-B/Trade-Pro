@@ -2,8 +2,6 @@ import { useCallback, useState } from "react";
 import { useOrderApi } from "@/services/tradingApi";
 import {
   OrderRequest,
-  OrderType,
-  OrderDirection,
   Position,
   EnhancedOrder,
   RiskManagementConfig,

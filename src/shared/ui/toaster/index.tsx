@@ -1,4 +1,4 @@
-import { Toaster } from "sonner";
+import { Toaster as RadixToaster } from "sonner";
 
 export function Toaster() {
   return (

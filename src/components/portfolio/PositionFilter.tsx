@@ -29,7 +29,7 @@ const PositionFilter = ({
           placeholder="Filter by symbol..."
           className="pl-8"
           value={filterSymbol}
-          onChange={(e) => onSymbolChange(e.target.value)}
+          onChange={(e) => { onSymbolChange(e.target.value); }}
         />
       </div>
       <Select value={filterPnl} onValueChange={onPnlChange}>

@@ -18,7 +18,7 @@ export const formatCurrency = (value: number): string => {
  * @param decimals Number of decimal places (default: 2)
  * @returns Formatted string with commas
  */
-export const formatNumber = (value: number, decimals: number = 2): string => {
+export const formatNumber = (value: number, decimals = 2): string => {
   return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,

@@ -23,7 +23,7 @@ export const StopLossCheckbox = ({
       <Checkbox
         id="stopLoss"
         checked={hasStopLoss}
-        onCheckedChange={() => setHasStopLoss(!hasStopLoss)}
+        onCheckedChange={() => { setHasStopLoss(!hasStopLoss); }}
         disabled={isExecuting}
       />
       <div className="flex items-center">

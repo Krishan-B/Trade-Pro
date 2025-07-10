@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export type Database = {
+export interface Database {
   // Allows to automatically instanciate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
@@ -97,6 +97,57 @@ export type Database = {
           spread_base?: number | null;
           symbol?: string;
           user_id?: string | null;
+        };
+        Relationships: [];
+      };
+      asset_leverage_config: {
+        Row: {
+          asset_class: string;
+          max_leverage: number;
+          id: string;
+          created_at: string;
+        };
+        Insert: {
+          asset_class: string;
+          max_leverage: number;
+          id?: string;
+          created_at?: string;
+        };
+        Update: {
+          asset_class?: string;
+          max_leverage?: number;
+          id?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      margin_calculations: {
+        Row: {
+          id: string;
+          position_id: string;
+          user_id: string;
+          asset_class: string;
+          used_margin: number;
+          leverage_used: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          position_id: string;
+          user_id: string;
+          asset_class: string;
+          used_margin: number;
+          leverage_used: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          position_id?: string;
+          user_id?: string;
+          asset_class?: string;
+          used_margin?: number;
+          leverage_used?: number;
+          created_at?: string;
         };
         Relationships: [];
       };
@@ -463,20 +514,12 @@ export type Database = {
         Relationships: [];
       };
     };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      [_ in never]: never;
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
+    Views: Record<never, never>;
+    Functions: Record<never, never>;
+    Enums: Record<never, never>;
+    CompositeTypes: Record<never, never>;
   };
-};
+}
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
@@ -494,7 +537,7 @@ export type Tables<
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }

@@ -51,16 +51,13 @@ export interface PaginationParams {
 /**
  * Filter parameters for list endpoints
  */
-export interface FilterParams {
-  [key: string]:
-    | string
+export type FilterParams = Record<string, | string
     | number
     | boolean
     | string[]
     | number[]
     | null
-    | undefined;
-}
+    | undefined>;
 
 /**
  * Common query parameters

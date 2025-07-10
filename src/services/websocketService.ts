@@ -7,13 +7,13 @@ import type {
 } from "@shared/types/trading";
 import { ErrorHandler } from "@/services/errorHandling";
 
-type WebSocketPayloadMap = {
+interface WebSocketPayloadMap {
   ACCOUNT_METRICS_UPDATE: Account;
   ORDER_FILLED: EnhancedOrder;
   ORDER_PENDING: EnhancedOrder;
   ORDER_CANCELLED: EnhancedOrder;
   POSITION_CLOSED: Position;
-};
+}
 
 type EventHandler<T extends WebSocketEventType> = (
   data: WebSocketPayloadMap[T]
@@ -124,7 +124,7 @@ class WebSocketService {
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnectAttempts++;
       setTimeout(
-        () => this.connect(),
+        () => { this.connect(); },
         this.reconnectDelay * this.reconnectAttempts
       );
     } else {

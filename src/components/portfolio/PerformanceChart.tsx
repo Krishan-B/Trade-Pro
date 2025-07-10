@@ -38,12 +38,12 @@ const PerformanceChart = ({
   // Recharts passes a generic object, so use Record<string, unknown> for type safety
   const renderTooltipContent = (props: {
     active?: boolean;
-    payload?: Array<{ name: string; value: number }>;
+    payload?: { name: string; value: number }[];
   }) => {
     // Type guard for expected shape
     const { active, payload } = props;
     // ...existing code...
-    if (!active || !payload || !payload.length) {
+    if (!active || !payload?.length) {
       return null;
     }
 

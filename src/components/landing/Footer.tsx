@@ -26,7 +26,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <button
-                  onClick={() => scrollToSection("features")}
+                  onClick={() => { scrollToSection("features"); }}
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   Features
@@ -34,7 +34,7 @@ const Footer = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection("pricing")}
+                  onClick={() => { scrollToSection("pricing"); }}
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   Pricing
@@ -84,7 +84,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <button
-                  onClick={() => scrollToSection("about")}
+                  onClick={() => { scrollToSection("about"); }}
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   About Us
@@ -143,7 +143,7 @@ const Footer = () => {
           <div className="flex items-center mb-4 md:mb-0">
             <div
               className="flex items-center cursor-pointer"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); }}
             >
               <LineChart className="h-5 w-5 text-primary" />
               <span className="text-sm font-bold ml-2">TradePro</span>

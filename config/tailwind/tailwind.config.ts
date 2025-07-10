@@ -1,7 +1,12 @@
 import animate from "tailwindcss-animate";
 export default {
   darkMode: "class",
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  content: ["./src/**/*.{js,jsx,ts,tsx,css}", "./public/index.html"],
+  safelist: [
+    "backdrop-blur-xl",
+    "backdrop-blur-2xl",
+    // add more if needed
+  ],
   theme: {
     container: {
       center: true,

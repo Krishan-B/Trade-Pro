@@ -1,9 +1,7 @@
-// ...existing code...
-import { DialogProps } from "@radix-ui/react-dialog";
-import { Command } from "cmdk";
-import { Search } from "lucide-react";
 import * as React from "react";
-
+import { DialogProps } from "@radix-ui/react-dialog";
+import { Command as CommandPrimitive } from "cmdk";
+import { Search } from "lucide-react";
 import { Dialog, DialogContent } from "@/shared/ui/dialog";
 import { cn } from "@/shared/utils";
 

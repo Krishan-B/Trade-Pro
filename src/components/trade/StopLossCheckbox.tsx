@@ -17,7 +17,7 @@ export const StopLossCheckbox: React.FC<StopLossCheckboxProps> = ({
     <input
       type="checkbox"
       checked={hasStopLoss}
-      onChange={() => setHasStopLoss(!hasStopLoss)}
+      onChange={() => { setHasStopLoss(!hasStopLoss); }}
       disabled={isExecuting}
     />
   </div>

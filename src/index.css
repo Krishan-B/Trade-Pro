@@ -67,7 +67,7 @@
 }
 
 .glass-card {
-  @apply bg-secondary bg-opacity-30 backdrop-blur-xl border border-white border-opacity-20 shadow-2xl;
+  @apply bg-[hsl(var(--secondary)/0.3)] backdrop-blur-xl border border-white border-opacity-20 shadow-2xl;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
   border-radius: 1.25rem;
   background-clip: padding-box;
@@ -112,7 +112,7 @@
 }
 
 .glass-effect {
-  @apply backdrop-blur-2xl border bg-secondary bg-opacity-30 border-opacity-30 shadow-xl;
+  @apply backdrop-blur-2xl border bg-[hsl(var(--secondary)/0.3)] border-opacity-30 shadow-xl;
   border-color: hsl(var(--secondary) / 0.3);
   box-shadow: 0 4px 24px 0 rgba(99, 102, 241, 0.12);
   border-radius: 1.25rem;

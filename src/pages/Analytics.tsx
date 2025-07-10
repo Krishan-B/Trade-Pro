@@ -5,7 +5,7 @@ import PerformanceAnalytics from "@/components/analytics/PerformanceAnalytics";
 import ReportingDashboard from "@/components/analytics/ReportingDashboard";
 import LeverageAnalytics from "@/components/analytics/LeverageAnalytics";
 import LeverageManager from "@/components/leverage/LeverageManager";
-import { withErrorBoundary } from "@/components/hoc/withErrorBoundary";
+import { withErrorBoundary } from "@/shared/hoc/withErrorBoundary";
 
 const AnalyticsPage: React.FC = () => {
   return (
@@ -51,6 +51,6 @@ const AnalyticsPage: React.FC = () => {
   );
 };
 
-const AnalyticsWrapped = withErrorBoundary(AnalyticsPage, "analytics_page");
+const AnalyticsWrapped = withErrorBoundary(AnalyticsPage);
 export { AnalyticsWrapped };
 export default AnalyticsWrapped;

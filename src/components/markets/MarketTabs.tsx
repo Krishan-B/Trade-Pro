@@ -44,7 +44,7 @@ const MarketTabs: React.FC<MarketTabsProps> = ({
         {["Crypto", "Stocks", "Forex", "Commodities"].map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => { setActiveTab(tab); }}
             className={`px-4 py-2 rounded ${
               activeTab === tab
                 ? "bg-primary text-primary-foreground"

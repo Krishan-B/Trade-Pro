@@ -82,7 +82,7 @@ const PasswordResetDialog = ({
                 type="email"
                 placeholder="your.email@example.com"
                 value={resetEmail}
-                onChange={(e) => setResetEmail(e.target.value)}
+                onChange={(e) => { setResetEmail(e.target.value); }}
                 required
               />
             </div>
@@ -91,7 +91,7 @@ const PasswordResetDialog = ({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => onOpenChange(false)}
+                onClick={() => { onOpenChange(false); }}
               >
                 Cancel
               </Button>
@@ -109,7 +109,7 @@ const PasswordResetDialog = ({
           </form>
         ) : (
           <div className="flex justify-center my-6">
-            <Button onClick={() => onOpenChange(false)}>Close</Button>
+            <Button onClick={() => { onOpenChange(false); }}>Close</Button>
           </div>
         )}
       </DialogContent>

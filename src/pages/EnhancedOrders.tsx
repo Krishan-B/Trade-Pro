@@ -58,7 +58,7 @@ const EnhancedOrders = () => {
                 Create orders with advanced risk management features
               </DialogDescription>
             </DialogHeader>
-            <EnhancedOrderForm onOrderPlaced={() => setShowOrderForm(false)} />
+            <EnhancedOrderForm onOrderPlaced={() => { setShowOrderForm(false); }} />
           </DialogContent>
         </Dialog>
       </div>

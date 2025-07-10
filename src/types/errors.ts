@@ -50,9 +50,7 @@ export interface EnhancedError extends AppError {
  */
 export interface ValidationError extends EnhancedError {
   category: ErrorCategory.VALIDATION;
-  fieldErrors?: {
-    [field: string]: string;
-  };
+  fieldErrors?: Record<string, string>;
 }
 
 /**

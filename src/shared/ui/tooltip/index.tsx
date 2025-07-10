@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as tooltipPrimitive from "@radix-ui/react-tooltip";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 // Utility function to concatenate class names
 function cn(...classes: (string | undefined | false | null)[]) {
   return classes.filter(Boolean).join(" ");

@@ -1,4 +1,4 @@
-import { useTheme } from "@/components/theme-context";
+import { useTheme } from "@/features/theme/hooks/useTheme";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { Switch } from "@/shared/ui/switch";
@@ -11,7 +11,11 @@ import {
 import { Moon, Sun } from "lucide-react";
 
 export const ThemeSwitcher = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <TooltipProvider>

@@ -12,6 +12,7 @@ import accountRouter from "./routes/account";
 import authRouter from "./routes/auth";
 import kycRouter from "./routes/kyc";
 import healthRouter from "./routes/health";
+import marketRouter from "./routes/market";
 import { initWebSocket } from "./websocket";
 import { ServerState } from "./types";
 
@@ -51,6 +52,7 @@ app.use("/api/account", accountRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/positions", positionsRouter);
 app.use("/api/kyc", kycRouter);
+app.use("/api/market", marketRouter);
 
 // Start server
 const PORT = process.env.PORT || 3001;

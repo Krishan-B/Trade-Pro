@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -8,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     port: 3000,
     open: true,
   },
-  plugins: [react()],
+  plugins: [react(), visualizer({ open: true })],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -22,7 +23,6 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'ui-components': ['/src/components/ui'],
         },
       },
     },

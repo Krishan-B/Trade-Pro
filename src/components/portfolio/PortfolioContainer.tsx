@@ -41,7 +41,11 @@ const PortfolioContainer = () => {
     assets,
     closedPositions,
     allocationData,
-    performanceData
+    performanceData,
+    marginLevel,
+    equity,
+    winRate,
+    profitFactor,
   } = portfolioData;
 
   if (!user) {
@@ -132,6 +136,10 @@ const PortfolioContainer = () => {
           lockedFunds={lockedFunds}
           totalPnL={totalPnL}
           totalPnLPercentage={totalPnLPercentage}
+          winRate={winRate}
+          profitFactor={profitFactor}
+          equity={equity}
+          marginLevel={marginLevel}
           onExport={actions.handleExportReport}
           onTaxEvents={actions.handleTaxEvents}
         />

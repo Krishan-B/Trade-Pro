@@ -16,6 +16,10 @@ export interface PortfolioData {
   totalPnLPercentage: number;
   dayChange: number;
   dayChangePercentage: number;
+  marginLevel: number;
+  equity: number;
+  winRate: number;
+  profitFactor: number;
 }
 
 export const usePortfolioData = () => {
@@ -31,6 +35,10 @@ export const usePortfolioData = () => {
     totalPnLPercentage: analytics?.total_gain_percent || 0,
     cashBalance: analytics?.cash_balance || 0,
     lockedFunds: analytics?.locked_funds || 0,
+    marginLevel: analytics?.margin_level || 0,
+    equity: analytics?.equity || 0,
+    winRate: analytics?.win_rate || 0,
+    profitFactor: analytics?.profit_factor || 0,
     
     // Transform top holdings into assets format with better error handling
     assets: analytics?.top_holdings?.map(holding => ({

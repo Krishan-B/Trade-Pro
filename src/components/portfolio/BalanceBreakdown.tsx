@@ -6,12 +6,14 @@ interface BalanceBreakdownProps {
   cashBalance: number;
   lockedFunds: number;
   totalValue: number;
+  marginLevel: number;
 }
 
 const BalanceBreakdown = ({
   cashBalance,
   lockedFunds,
-  totalValue
+  totalValue,
+  marginLevel
 }: BalanceBreakdownProps) => {
   return (
     <Card>
@@ -31,6 +33,10 @@ const BalanceBreakdown = ({
           <div className="flex justify-between">
             <span className="text-muted-foreground">Investments:</span>
             <span className="font-medium">${totalValue.toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Margin Level:</span>
+            <span className="font-medium">{marginLevel.toFixed(2)}%</span>
           </div>
           <div className="pt-2 border-t flex justify-between">
             <span className="font-medium">Total:</span>

@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TradePanelProvider } from '@/components/trade/TradePanelProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { useAuth } from '@/hooks/useAuth';
+import { TradingProvider } from '@/contexts/TradingContext';
 
 // Pages
 
@@ -21,6 +22,8 @@ import ProfilePage from '@/pages/ProfilePage';
 import Landing from '@/pages/Landing';
 import KycPage from '@/pages/kyc/KycPage';
 import KycReviewPage from '@/pages/admin/KycReviewPage';
+import TradingPage from '@/pages/TradingPage';
+import LeaderboardPage from '@/pages/LeaderboardPage';
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -33,9 +36,10 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <TradePanelProvider>
-          <Router>
-            <Routes>
+        <TradingProvider>
+          <TradePanelProvider>
+            <Router>
+              <Routes>
               {/* Landing page is now the root */}
               <Route path="/" element={<Landing />} />
               {/* Auth page */}
@@ -93,6 +97,22 @@ export default function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="trading"
+                  element={
+                    <ProtectedRoute>
+                      <TradingPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="leaderboard"
+                  element={
+                    <ProtectedRoute>
+                      <LeaderboardPage />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </Route>
               <Route
@@ -108,6 +128,7 @@ export default function App() {
           </Router>
           <Toaster />
         </TradePanelProvider>
+      </TradingProvider>
       </AuthProvider>
     </ThemeProvider>
   );

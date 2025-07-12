@@ -11,6 +11,10 @@ export interface PortfolioAnalytics {
   total_gain_percent: number;
   cash_balance: number;
   locked_funds: number;
+  margin_level: number;
+  equity: number;
+  win_rate: number;
+  profit_factor: number;
   allocation: Record<string, number>;
   performance: Record<string, number>;
   top_holdings: Array<{

@@ -34,37 +34,48 @@ export const marketConfig: Record<string, MarketHoursConfig> = {
     openDays: [1, 2, 3, 4, 5] // Monday to Friday
   },
   "Commodity": {
-    openTime: 14, // 10 AM EST = 2 PM UTC
-    closeTime: 21, // 5 PM EST = 9 PM UTC
+    openTime: 22, // Sunday 10 PM UTC (similar to Forex for overnight trading)
+    closeTime: 21, // Friday 9 PM UTC
     isOpen24Hours: false,
-    openDays: [1, 2, 3, 4, 5] // Monday to Friday
+    openDays: [0, 1, 2, 3, 4, 5] // Sunday to Friday
   }
 };
 
 export const isMarketOpen = (marketType: string): boolean => {
-  // Default to closed if market type is unknown
   if (!marketConfig[marketType]) {
     console.warn(`Unknown market type: ${marketType}`);
     return false;
   }
-  
+
   const config = marketConfig[marketType];
-  
-  // 24/7 markets are always open
   if (config.isOpen24Hours) {
     return true;
   }
-  
+
   const now = new Date();
-  const currentDay = now.getUTCDay(); // 0-6 (Sunday-Saturday)
-  const currentHour = now.getUTCHours(); // 0-23
-  
-  // Check if current day is a trading day
+  const currentDay = now.getUTCDay(); // 0 = Sunday, 6 = Saturday
+  const currentHour = now.getUTCHours();
+
+  // Special handling for markets that trade continuously across days (like Forex)
+  if (marketType === "Forex" || marketType === "Commodity") {
+    // Opens Sunday 22:00 UTC, closes Friday 21:00 UTC
+    if (currentDay === 5 && currentHour >= 21) { // After Friday close
+      return false;
+    }
+    if (currentDay === 6) { // Saturday
+      return false;
+    }
+    if (currentDay === 0 && currentHour < 22) { // Before Sunday open
+      return false;
+    }
+    return true;
+  }
+
+  // Standard daily check for other markets
   if (!config.openDays.includes(currentDay)) {
     return false;
   }
-  
-  // Check if current hour is within trading hours
+
   return currentHour >= config.openTime && currentHour < config.closeTime;
 };
 

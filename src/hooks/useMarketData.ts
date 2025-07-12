@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -9,6 +9,7 @@ export interface Asset {
   symbol: string;
   price: number;
   change_percentage: number;
+  change?: number;
   volume: string;
   market_cap?: string;
   market_type: string;
@@ -83,6 +84,8 @@ export const useMarketData = (marketType: string | string[], options: UseMarketD
     }
   };
 
+  const queryClient = useQueryClient();
+
   // Use ReactQuery to manage data fetching
   const {
     data = initialData,
@@ -97,6 +100,36 @@ export const useMarketData = (marketType: string | string[], options: UseMarketD
     staleTime: refetchInterval,
     enabled: enableRefresh,
   });
+
+  // Setup real-time subscription
+  useEffect(() => {
+    if (!enableRefresh) return;
+
+    const marketTypeArray = Array.isArray(marketType) ? marketType : [marketType];
+    
+    const subscription = supabase
+      .channel(`market-data-updates-for-${marketTypeArray.join('-')}`)
+      .on(
+        'postgres_changes',
+        { 
+          event: '*', 
+          schema: 'public', 
+          table: 'market_data',
+          filter: `market_type=in.(${marketTypeArray.map(t => `'${t}'`).join(',')})`
+        },
+        (payload) => {
+          console.log('Real-time update received:', payload);
+          // Invalidate and refetch the query to get the latest data
+          queryClient.invalidateQueries({ queryKey: ["market-data", marketType] });
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on component unmount
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  }, [marketType, enableRefresh, queryClient]);
 
   return {
     marketData: data,

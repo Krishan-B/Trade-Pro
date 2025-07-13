@@ -1,7 +1,7 @@
 
 import { cn } from "@/lib/utils";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, LineChart, BarChart3, Newspaper, ShoppingCart, Wallet, Settings, UserCircle, LogOut, ListCheck } from "lucide-react";
+import { LayoutDashboard, LineChart, BarChart3, Newspaper, ShoppingCart, Wallet, Settings, UserCircle, LogOut, ListCheck, BookOpen, Trophy, PieChart } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -74,8 +74,11 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
             <SidebarItem to="/dashboard" icon={<LayoutDashboard className="h-5 w-5" />} label="Dashboard" delay={0.1} />
             <SidebarItem to="/dashboard/markets" icon={<LineChart className="h-5 w-5" />} label="Markets" delay={0.2} />
             <SidebarItem to="/dashboard/portfolio" icon={<BarChart3 className="h-5 w-5" />} label="Portfolio" delay={0.3} />
+            <SidebarItem to="/dashboard/portfolio/analytics" icon={<PieChart className="h-5 w-5" />} label="Analytics" delay={0.35} />
             <SidebarItem to="/dashboard/orders" icon={<ListCheck className="h-5 w-5" />} label="Orders" delay={0.4} />
+            <SidebarItem to="/dashboard/leaderboard" icon={<Trophy className="h-5 w-5" />} label="Leaderboard" delay={0.45} />
             <SidebarItem to="/dashboard/news" icon={<Newspaper className="h-5 w-5" />} label="News" delay={0.5} />
+            <SidebarItem to="/dashboard/learn" icon={<BookOpen className="h-5 w-5" />} label="Learn" delay={0.55} />
             <SidebarItem to="/dashboard/wallet" icon={<Wallet className="h-5 w-5" />} label="Wallet" delay={0.6} />
           </nav>
           

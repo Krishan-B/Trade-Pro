@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Order, Position } from '../types/orders';
 import orderService from '../services/orderService';
-import tradingService from '../services/tradingService';
+import tradingService, { TradingService } from '../services/tradingService';
 import riskManagementService from '../services/riskManagementService';
+
+// Initialize services
+orderService.initialize(tradingService);
 
 export function useTrading() {
   const [positions, setPositions] = useState<Position[]>([]);

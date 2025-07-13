@@ -1,13 +1,18 @@
 import { Order } from '../types/orders';
-import tradingService from './tradingService';
+import { TradingService } from './tradingService';
 
 class OrderService {
   private pendingOrders: Order[] = [];
+  private tradingService!: TradingService;
+
+  initialize(tradingService: TradingService) {
+    this.tradingService = tradingService;
+  }
 
   placeOrder(order: Order) {
     if (order.type === 'Market') {
       // Assuming a fixed account balance and market price for simplicity
-      tradingService.executeOrder(order, 100000, 1.2); 
+      this.tradingService.executeOrder(order, 100000, 1.2);
     } else {
       this.pendingOrders.push(order);
     }
@@ -40,7 +45,7 @@ class OrderService {
 
       if (shouldExecute) {
         // Assuming a fixed account balance for simplicity
-        tradingService.executeOrder(order, 100000, marketPrice);
+        this.tradingService.executeOrder(order, 100000, marketPrice);
         this.pendingOrders.splice(index, 1);
       }
     });

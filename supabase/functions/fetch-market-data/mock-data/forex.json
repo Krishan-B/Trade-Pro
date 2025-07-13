@@ -1,0 +1,17 @@
+[
+  { "symbol": "EURUSD", "name": "Euro / US Dollar", "base": 1.093 },
+  { "symbol": "USDJPY", "name": "US Dollar / Japanese Yen", "base": 156.7 },
+  { "symbol": "GBPUSD", "name": "British Pound / US Dollar", "base": 1.268 },
+  { "symbol": "AUDUSD", "name": "Australian Dollar / US Dollar", "base": 0.658 },
+  { "symbol": "USDCAD", "name": "US Dollar / Canadian Dollar", "base": 1.366 },
+  { "symbol": "USDCHF", "name": "US Dollar / Swiss Franc", "base": 0.908 },
+  { "symbol": "EURGBP", "name": "Euro / British Pound", "base": 0.861 },
+  { "symbol": "NZDUSD", "name": "New Zealand Dollar / US Dollar", "base": 0.610 },
+  { "symbol": "EURJPY", "name": "Euro / Japanese Yen", "base": 171.5 },
+  { "symbol": "GBPJPY", "name": "British Pound / Japanese Yen", "base": 199.3 },
+  { "symbol": "AUDJPY", "name": "Australian Dollar / Japanese Yen", "base": 103.2 },
+  { "symbol": "USDCNH", "name": "US Dollar / Chinese Yuan", "base": 7.22 },
+  { "symbol": "EURAUD", "name": "Euro / Australian Dollar", "base": 1.66 },
+  { "symbol": "USDZAR", "name": "US Dollar / South African Rand", "base": 18.5 },
+  { "symbol": "USDSGD", "name": "US Dollar / Singapore Dollar", "base": 1.34 }
+]

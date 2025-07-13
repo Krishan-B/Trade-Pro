@@ -1,65 +1,31 @@
-# Technology Stack & Infrastructure
+# Tech Stack
+
+This document outlines the technology stack used in the Trade-Pro application.
 
 ## Frontend
 
-- **React** (v18.x or v19.x, as compatible)
-- **TypeScript**
-- **Vite**
-- **Radix UI (shadcn/ui)**
-- **Tailwind CSS** (custom theme, HSL variables)
-- **TradingView Charting Library**
-- **Redux Toolkit** (and/or Zustand)
-- **React Router**
-- **React Hook Form**
-- **Framer Motion**
-- **clsx, class-variance-authority, zod, date-fns, sonner, etc.**
+*   **Framework:** [React](https://reactjs.org/)
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
+*   **Build Tool:** [Vite](https://vitejs.dev/)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
+*   **Charting:** [TradingView Advanced Charts](https://www.tradingview.com/HTML5-stock-forex-bitcoin-charting-library/)
+*   **State Management:** React Context API (inferred from `TradingContext.tsx` and `TradePanelProvider.tsx`)
+*   **Routing:** (Not explicitly defined, but likely `react-router-dom` for a standard React application)
 
-## Backend / BaaS
+## Backend
 
-- **Supabase** (PostgreSQL, Auth, Storage, Realtime)
-- **Supabase Edge Functions** (Deno runtime)
-- **RESTful API** (via Supabase)
-- **Migrations:** SQL files in `supabase/migrations/`
-- **Seed Data:** `supabase/seed.sql`
+*   **Platform:** [Supabase](https://supabase.io/)
+    *   **Database:** [PostgreSQL](https://www.postgresql.org/)
+    *   **Authentication:** Supabase Auth
+    *   **Serverless Functions:** Supabase Functions (Deno runtime)
+    *   **Storage:** Supabase Storage
 
-## Testing & Quality
+## Integrations
 
-- **Vitest**
-- **React Testing Library**
-- **ESLint**
-- **Prettier**
-- **TypeScript**
+*   **Data Fetching:** Serverless functions (`fetch-market-data`, `fetch-market-news`) are used to interact with external market data APIs.
 
-## DevOps & Tooling
+## Development
 
-- **npm**
-- **Husky**
-- **EditorConfig**
-- **GitHub Actions**
-- **Custom Scripts** (`scripts/`)
-
-## Monitoring & Security
-
-- **Supabase dashboard, custom logging, alerting**
-- **RLS (Row Level Security)**
-- **Security policies, CODEOWNERS**
-
-## Documentation
-
-- **Markdown docs** (`docs/`)
-
----
-
-### Best Practices
-
-- All dependencies are kept up-to-date and compatible.
-- Scripts are optimized for build, lint, typecheck, health, and diagnostics.
-- VS Code extensions and settings are recommended and configured.
-- Environment variables are used for all secrets and endpoints.
-- Modular scripts and documentation for onboarding and troubleshooting.
-- Pre-commit hooks enforce code quality.
-- CI/CD pipelines for validation and deployment.
-
----
-
-This document is auto-generated and should be updated as the stack evolves.
+*   **Package Manager:** npm
+*   **Linting:** [ESLint](https://eslint.org/)

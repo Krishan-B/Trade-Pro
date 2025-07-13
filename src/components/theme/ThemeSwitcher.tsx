@@ -20,15 +20,16 @@ export const ThemeSwitcher = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex items-center gap-2">
-            <Switch 
+            <Switch
               id="theme-switch"
               checked={theme === "dark"}
               onCheckedChange={toggleTheme}
+              aria-label="Toggle theme"
             />
             <Label htmlFor="theme-switch" className="hidden sm:inline-block">
               {theme === "dark" ? "Dark" : "Light"}
             </Label>
-            <Button variant="ghost" size="icon" className="hidden md:flex" onClick={toggleTheme}>
+            <Button variant="ghost" size="icon" className="hidden md:flex" onClick={toggleTheme} title="Toggle theme">
               {theme === "dark" ? (
                 <Moon className="h-4 w-4" />
               ) : (

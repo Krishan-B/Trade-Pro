@@ -1,4 +1,4 @@
-CREATE TABLE positions (
+CREATE TABLE IF NOT EXISTS positions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   account_id UUID REFERENCES accounts(id),
   asset_id UUID REFERENCES assets(id),

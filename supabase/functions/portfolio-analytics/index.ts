@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 const corsHeaders = {
@@ -28,6 +27,7 @@ interface Trade {
   exit_price: number;
   side: 'BUY' | 'SELL';
   status: 'FILLED';
+  updated_at: string; // Assuming this timestamp marks the trade closure
   assets: {
     symbol: string;
     name: string;
@@ -74,7 +74,8 @@ const getPortfolioAnalytics = async (supabase: SupabaseClient, userId: string) =
     .select('*, assets(*)')
     .eq('account_id', account.id)
     .eq('status', 'FILLED')
-    .not('exit_price', 'is', null);
+    .not('exit_price', 'is', null)
+    .order('updated_at', { ascending: true }); // Order trades chronologically
 
   if (tradesError) throw new Error(`Failed to fetch closed trades: ${tradesError.message}`);
   
@@ -83,11 +84,16 @@ const getPortfolioAnalytics = async (supabase: SupabaseClient, userId: string) =
   let losingTrades = 0;
   let grossProfit = 0;
   let grossLoss = 0;
+  const pnlHistory: { date: string; pnl: number; cumulativePnl: number }[] = [];
+  let cumulativePnl = 0;
 
   for (const trade of closedTrades as Trade[]) {
       const direction = trade.side === 'BUY' ? 1 : -1;
       const pnl = (trade.exit_price - trade.entry_price) * trade.quantity * direction;
+      
       realizedPnl += pnl;
+      cumulativePnl += pnl;
+
       if (pnl > 0) {
           winningTrades++;
           grossProfit += pnl;
@@ -95,13 +101,47 @@ const getPortfolioAnalytics = async (supabase: SupabaseClient, userId: string) =
           losingTrades++;
           grossLoss += Math.abs(pnl);
       }
+
+      pnlHistory.push({
+        date: trade.updated_at,
+        pnl,
+        cumulativePnl,
+      });
   }
 
   const totalTrades = winningTrades + losingTrades;
   const winRate = totalTrades > 0 ? (winningTrades / totalTrades) * 100 : 0;
   const profitFactor = grossLoss > 0 ? grossProfit / grossLoss : 0;
 
-  // 5. Format data for the frontend
+  // 5. Calculate Top/Worst Performing Assets
+  const assetPnlMap = new Map<string, { name: string, pnl: number }>();
+
+  // Process closed trades
+  for (const trade of closedTrades as Trade[]) {
+    const pnl = (trade.exit_price - trade.entry_price) * trade.quantity * (trade.side === 'BUY' ? 1 : -1);
+    const assetData = assetPnlMap.get(trade.assets.symbol) || { name: trade.assets.name, pnl: 0 };
+    assetData.pnl += pnl;
+    assetPnlMap.set(trade.assets.symbol, assetData);
+  }
+
+  // Process open positions (unrealized P&L)
+  for (const pos of positions as Position[]) {
+    const pnl = (pos.assets.current_price - pos.entry_price) * pos.quantity * (pos.side === 'LONG' ? 1 : -1);
+    const assetData = assetPnlMap.get(pos.assets.symbol) || { name: pos.assets.name, pnl: 0 };
+    assetData.pnl += pnl;
+    assetPnlMap.set(pos.assets.symbol, assetData);
+  }
+
+  const sortedAssets = Array.from(assetPnlMap.entries()).map(([symbol, data]) => ({
+    symbol,
+    name: data.name,
+    pnl: data.pnl,
+  })).sort((a, b) => b.pnl - a.pnl);
+
+  const topPerformers = sortedAssets.slice(0, 5);
+  const worstPerformers = sortedAssets.slice(-5).reverse();
+
+  // 6. Format data for the frontend
   const topHoldings = (positions as Position[]).slice(0, 5).map(pos => ({
     symbol: pos.assets.symbol,
     name: pos.assets.name,
@@ -127,13 +167,17 @@ const getPortfolioAnalytics = async (supabase: SupabaseClient, userId: string) =
     win_rate: winRate,
     profit_factor: profitFactor,
     allocation: {}, // Placeholder
-    performance: {}, // Placeholder
+    performance: {
+      pnl_history: pnlHistory,
+    },
     top_holdings: topHoldings,
+    top_performers: topPerformers,
+    worst_performers: worstPerformers,
     recent_trades: [], // Placeholder
   };
 };
 
-serve(async (req: Request) => {
+export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -141,8 +185,8 @@ serve(async (req: Request) => {
   try {
     // Create a Supabase client with the user's authorization context
     const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      process.env.SUPABASE_URL ?? '',
+      process.env.SUPABASE_ANON_KEY ?? '',
       { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
     );
 
@@ -161,4 +205,4 @@ serve(async (req: Request) => {
       status: 500,
     });
   }
-});
+}

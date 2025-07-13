@@ -1,4 +1,3 @@
-import { serve } from "std/http/server.ts";
 import { createClient } from "@supabase/supabase-js";
 
 const corsHeaders = {
@@ -6,42 +5,99 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
-const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
+const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-const getLeaderboard = async () => {
-  const { data: users, error } = await supabase
-    .from('users')
-    .select('id, username, accounts(balance, positions(unrealized_pnl))')
-    .order('balance', { foreignTable: 'accounts', ascending: false })
-    .limit(10);
+interface Account {
+  id: string;
+  users: { username: string }[] | null; // Correctly type 'users' as an array of objects
+}
 
-  if (error) {
-    throw new Error(`Failed to fetch leaderboard data: ${error.message}`);
+interface Position {
+  account_id: string;
+  unrealized_pnl: number;
+}
+
+interface ClosedTrade {
+  account_id: string;
+  entry_price: number;
+  exit_price: number;
+  quantity: number;
+  side: 'BUY' | 'SELL';
+}
+
+const getLeaderboard = async () => {
+  // 1. Fetch all accounts with their associated user's username
+  const { data: accounts, error: accountsError } = await supabase
+    .from('accounts')
+    .select('id, users(username)');
+  if (accountsError) throw new Error(`Failed to fetch accounts: ${accountsError.message}`);
+
+  const accountIds = (accounts as Account[]).map(a => a.id);
+
+  // 2. Fetch all positions to get unrealized P/L
+  const { data: allPositions, error: positionsError } = await supabase
+    .from('positions')
+    .select('account_id, unrealized_pnl')
+    .in('account_id', accountIds);
+  if (positionsError) throw new Error(`Failed to fetch positions: ${positionsError.message}`);
+
+  // 3. Fetch all closed trades to calculate realized P/L
+  const { data: allClosedTrades, error: tradesError } = await supabase
+    .from('orders')
+    .select('account_id, entry_price, exit_price, quantity, side')
+    .in('account_id', accountIds)
+    .eq('status', 'FILLED')
+    .not('exit_price', 'is', null);
+  if (tradesError) throw new Error(`Failed to fetch closed trades: ${tradesError.message}`);
+
+  // 4. Process data in memory to calculate total P/L for each user
+  const userPnlMap = new Map<string, { username: string, pnl: number }>();
+
+  // Initialize map with all users
+  for (const acc of accounts as Account[]) {
+    // Handle 'users' as an array and ensure it's not empty
+    if (acc.users && acc.users.length > 0) {
+      userPnlMap.set(acc.id, { username: acc.users[0].username, pnl: 0 });
+    }
   }
 
-  const leaderboard = users.map(user => {
-    const account = user.accounts[0];
-    const totalPnl = account.positions.reduce((acc: number, pos: { unrealized_pnl: number }) => acc + pos.unrealized_pnl, 0);
-    const equity = account.balance + totalPnl;
-    return {
-      username: user.username,
-      equity: equity,
-      rank: 0, // will be set later
-    };
-  });
+  // Add unrealized P/L from open positions
+  for (const pos of allPositions as Position[]) {
+    const userData = userPnlMap.get(pos.account_id);
+    if (userData) {
+      userData.pnl += pos.unrealized_pnl || 0;
+    }
+  }
 
-  // Sort by equity and assign rank
-  leaderboard.sort((a, b) => b.equity - a.equity);
-  leaderboard.forEach((user, index) => {
-    user.rank = index + 1;
-  });
+  // Add realized P/L from closed trades
+  for (const trade of allClosedTrades as ClosedTrade[]) {
+    const direction = trade.side === 'BUY' ? 1 : -1;
+    const pnl = (trade.exit_price - trade.entry_price) * trade.quantity * direction;
+    const userData = userPnlMap.get(trade.account_id);
+    if (userData) {
+      userData.pnl += pnl;
+    }
+  }
 
-  return leaderboard;
+  // 5. Convert map to an array, sort by total P/L, and assign ranks
+  const leaderboard = Array.from(userPnlMap.values())
+    .map(data => ({
+      username: data.username,
+      total_pnl: data.pnl,
+    }))
+    .sort((a, b) => b.total_pnl - a.total_pnl)
+    .slice(0, 100) // Consider top 100 for ranking
+    .map((user, index) => ({
+      ...user,
+      rank: index + 1,
+    }));
+
+  return leaderboard.slice(0, 10); // Return only the top 10
 };
 
-serve(async (req: Request) => {
+export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -58,4 +114,4 @@ serve(async (req: Request) => {
       status: 500,
     });
   }
-});
+}

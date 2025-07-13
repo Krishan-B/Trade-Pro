@@ -1,43 +1,46 @@
-# Multi Asset CFD Simulated Trading Platform
+# Trade-Pro
 
-## Overview
+Trade-Pro is a modern, feature-rich web application for financial trading. It provides real-time market data, advanced charting, and comprehensive portfolio management tools to empower both novice and experienced traders.
 
-This project is a comprehensive web-based Multi Asset CFD (Contract for Difference) simulated trading platform. It enables users to practice trading strategies across multiple asset classes without financial risk, featuring real-time market data simulation, advanced order management, analytics, and educational tools.
+## Features
 
-## Key Documents
+*   **Real-time Market Data:** Access up-to-the-minute market information and news.
+*   **Advanced Charting:** Utilize powerful charting tools from TradingView for in-depth technical analysis.
+*   **Portfolio Management:** Track your investments, view performance analytics, and manage your portfolio with ease.
+*   **Secure Authentication:** Robust user authentication and management, including KYC (Know Your Customer) verification.
+*   **Quick Trade Panel:** Execute trades quickly and efficiently with a streamlined trading interface.
 
-- [Product Requirements Document (PRD)](./PRD.md)
-- [Development Roadmap](./Roadmap.md)
-- [Technology Stack & Infrastructure](./TechStack.md)
+## Getting Started
 
-## Technology Stack & Infrastructure
+### Prerequisites
 
-See [TechStack.md](./TechStack.md) for full details.
+*   Node.js (v18 or higher)
+*   npm, yarn, or pnpm
 
-**Frontend:** React, TypeScript, Vite, Radix UI (shadcn/ui), Tailwind CSS, TradingView Charting Library, Redux Toolkit/Zustand, React Router, React Hook Form, Framer Motion, and more.
+### Installation
 
-**Backend/BaaS:** Supabase (PostgreSQL, Auth, Storage, Realtime), Supabase Edge Functions, RESTful API, SQL migrations, seed data.
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/trade-pro.git
+    ```
+2.  Install the dependencies:
+    ```bash
+    cd trade-pro
+    npm install
+    ```
 
-**Testing & Quality:** Vitest, React Testing Library, ESLint, Prettier, TypeScript.
+### Running the Application
 
-**DevOps & Tooling:** npm, Husky, EditorConfig, GitHub Actions, custom scripts.
+To start the development server, run:
 
-**Monitoring & Security:** Supabase dashboard, custom logging, alerting, RLS, security policies, CODEOWNERS.
+```bash
+npm run dev
+```
 
-**Documentation:** Markdown docs (`docs/`), PRD, Roadmap, TechStack.
+The application will be available at `http://localhost:5173`.
 
----
+## Tech Stack
 
-### Best Practices
-
-- All dependencies are kept up-to-date and compatible.
-- Scripts are optimized for build, lint, typecheck, health, and diagnostics.
-- VS Code extensions and settings are recommended and configured.
-- Environment variables are used for all secrets and endpoints.
-- Modular scripts and documentation for onboarding and troubleshooting.
-- Pre-commit hooks enforce code quality.
-- CI/CD pipelines for validation and deployment.
-
----
-
-This README and all documentation are auto-generated and should be updated as the stack evolves.
+*   **Frontend:** React, TypeScript, Vite, Tailwind CSS, shadcn/ui
+*   **Backend:** Supabase (PostgreSQL, Auth, Serverless Functions)
+*   **Charting:** TradingView

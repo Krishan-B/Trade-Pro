@@ -1,0 +1,17 @@
+[
+  { "symbol": "XAUUSD", "name": "Gold", "base": 2320 },
+  { "symbol": "XAGUSD", "name": "Silver", "base": 27 },
+  { "symbol": "USOIL", "name": "Crude Oil (WTI)", "base": 82 },
+  { "symbol": "UKOIL", "name": "Brent Crude Oil", "base": 86 },
+  { "symbol": "NG", "name": "Natural Gas", "base": 1.8 },
+  { "symbol": "COPPER", "name": "Copper", "base": 4.5 },
+  { "symbol": "COFFEE", "name": "Coffee", "base": 2.2 },
+  { "symbol": "SOYBN", "name": "Soybeans", "base": 12 },
+  { "symbol": "XPTUSD", "name": "Platinum", "base": 1025 },
+  { "symbol": "XPDUSD", "name": "Palladium", "base": 950 },
+  { "symbol": "CORN", "name": "Corn", "base": 4.5 },
+  { "symbol": "WHEAT", "name": "Wheat", "base": 6.2 },
+  { "symbol": "SUGAR", "name": "Sugar", "base": 0.24 },
+  { "symbol": "COCOA", "name": "Cocoa", "base": 8.5 },
+  { "symbol": "COTTON", "name": "Cotton", "base": 0.85 }
+]

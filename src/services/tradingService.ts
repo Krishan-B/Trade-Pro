@@ -1,6 +1,6 @@
 import { Order, Position } from '../types/orders';
 
-class TradingService {
+export class TradingService {
   executeOrder(order: Order, accountBalance: number, marketPrice: number): Position | null {
     const { quantity, side, type, price, stopPrice } = order;
 

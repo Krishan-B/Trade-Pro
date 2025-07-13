@@ -1,10 +1,12 @@
 {
-  "extends": "../../deno.json",
   "compilerOptions": {
     "paths": {
-      "@supabase/supabase-js": ["../../node_modules/@supabase/supabase-js/dist/module/index.d.ts"],
-      "std/": ["https://deno.land/std@0.168.0/"]
+      "@supabase/supabase-js": ["../../node_modules/@supabase/supabase-js/dist/module/index.d.ts"]
     },
-    "lib": ["esnext", "dom"]
+    "allowImportingTsExtensions": true,
+    "module": "NodeNext",
+    "target": "esnext",
+    "moduleResolution": "nodenext",
+    "noEmit": true
   }
 }

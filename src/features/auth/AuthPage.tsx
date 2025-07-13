@@ -8,6 +8,7 @@ import { LineChart } from "lucide-react";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import { useToast } from "@/hooks/use-toast";
+import { analyticsService } from "@/services/analytics";
 
 const AuthPage = () => {
   const [activeTab, setActiveTab] = useState("signin");
@@ -60,9 +61,16 @@ const AuthPage = () => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed:", event);
-      if (session && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-        console.log("User signed in, redirecting to:", from);
-        navigate(from, { replace: true });
+      if (session) {
+        if (event === 'SIGNED_IN') {
+          console.log("User signed in, identifying and tracking...");
+          analyticsService.identify(session.user.id, { email: session.user.email });
+          analyticsService.track("Signed In", { method: "email" });
+          navigate(from, { replace: true });
+        } else if (event === 'TOKEN_REFRESHED') {
+          console.log("Token refreshed, ensuring user is identified.");
+          analyticsService.identify(session.user.id, { email: session.user.email });
+        }
       }
     });
     

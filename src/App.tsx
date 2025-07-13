@@ -23,7 +23,9 @@ import Landing from '@/pages/Landing';
 import KycPage from '@/pages/kyc/KycPage';
 import KycReviewPage from '@/pages/admin/KycReviewPage';
 import TradingPage from '@/pages/TradingPage';
-import LeaderboardPage from '@/pages/LeaderboardPage';
+import LeaderboardPage from '@/pages/leaderboard/LeaderboardPage';
+import LearningCenterPage from '@/pages/learn/LearningCenterPage';
+import PortfolioAnalyticsPage from '@/pages/portfolio/PortfolioAnalyticsPage';
 
 function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -110,6 +112,22 @@ export default function App() {
                   element={
                     <ProtectedRoute>
                       <LeaderboardPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="learn"
+                  element={
+                    <ProtectedRoute>
+                      <LearningCenterPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="portfolio/analytics"
+                  element={
+                    <ProtectedRoute>
+                      <PortfolioAnalyticsPage />
                     </ProtectedRoute>
                   }
                 />

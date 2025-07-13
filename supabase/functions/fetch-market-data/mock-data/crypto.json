@@ -1,0 +1,14 @@
+[
+  { "symbol": "BTCUSD", "name": "Bitcoin", "base": 67500 },
+  { "symbol": "ETHUSD", "name": "Ethereum", "base": 3200 },
+  { "symbol": "XRPUSD", "name": "Ripple", "base": 0.51 },
+  { "symbol": "LTCUSD", "name": "Litecoin", "base": 78 },
+  { "symbol": "BCHUSD", "name": "Bitcoin Cash", "base": 340 },
+  { "symbol": "SOLUSD", "name": "Solana", "base": 143 },
+  { "symbol": "ADAUSD", "name": "Cardano", "base": 0.54 },
+  { "symbol": "DOGEUSD", "name": "Dogecoin", "base": 0.14 },
+  { "symbol": "BNBUSD", "name": "Binance Coin", "base": 580 },
+  { "symbol": "DOTUSD", "name": "Polkadot", "base": 7.2 },
+  { "symbol": "LINKUSD", "name": "Chainlink", "base": 14.5 },
+  { "symbol": "AVAXUSD", "name": "Avalanche", "base": 35.8 }
+]

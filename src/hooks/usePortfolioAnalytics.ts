@@ -16,7 +16,13 @@ export interface PortfolioAnalytics {
   win_rate: number;
   profit_factor: number;
   allocation: Record<string, number>;
-  performance: Record<string, number>;
+  performance: {
+    pnl_history: Array<{
+      date: string;
+      pnl: number;
+      cumulativePnl: number;
+    }>;
+  };
   top_holdings: Array<{
     symbol: string;
     name: string;
@@ -42,6 +48,16 @@ export interface PortfolioAnalytics {
     exit_price?: number;
     pnl?: number;
     pnl_percentage?: number;
+  }>;
+  top_performers: Array<{
+    symbol: string;
+    name: string;
+    pnl: number;
+  }>;
+  worst_performers: Array<{
+    symbol: string;
+    name: string;
+    pnl: number;
   }>;
 }
 

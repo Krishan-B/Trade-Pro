@@ -1,21 +1,13 @@
 
 import React from "react";
-import { useCombinedMarketData } from "@/hooks/useCombinedMarketData";
-import MarketContainer from "@/components/markets/MarketContainer";
+import MarketTable from "@/components/markets/MarketTable";
 
 const Markets = () => {
-  // Use the combined market data hook with a 1-minute refetch interval for more real-time market data
-  const { marketData, isLoading, error } = useCombinedMarketData(
-    ["Crypto"], // Default to Crypto tab
-    { refetchInterval: 1000 * 60 } // Refresh every minute
-  );
-  
   return (
-    <MarketContainer 
-      marketData={marketData}
-      isLoading={isLoading}
-      error={error}
-    />
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Markets</h1>
+      <MarketTable />
+    </div>
   );
 };
 

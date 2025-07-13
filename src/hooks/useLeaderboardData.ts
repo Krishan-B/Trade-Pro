@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export interface LeaderboardUser {
   username: string;
-  equity: number;
+  total_pnl: number;
   rank: number;
 }
 

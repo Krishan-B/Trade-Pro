@@ -1,0 +1,17 @@
+[
+  { "symbol": "US500", "name": "S&P 500", "base": 5200 },
+  { "symbol": "US100", "name": "NASDAQ 100", "base": 18100 },
+  { "symbol": "US30", "name": "Dow Jones Industrial Average", "base": 39800 },
+  { "symbol": "UK100", "name": "FTSE 100", "base": 8300 },
+  { "symbol": "DE40", "name": "DAX 40 (Germany)", "base": 18400 },
+  { "symbol": "JP225", "name": "Nikkei 225", "base": 37900 },
+  { "symbol": "FR40", "name": "CAC 40 (France)", "base": 8000 },
+  { "symbol": "EU50", "name": "EURO STOXX 50", "base": 4950 },
+  { "symbol": "HK50", "name": "Hang Seng Index", "base": 18200 },
+  { "symbol": "AUS200", "name": "ASX 200 (Australia)", "base": 7700 },
+  { "symbol": "CN50", "name": "Shanghai Composite", "base": 3100 },
+  { "symbol": "ES35", "name": "IBEX 35 (Spain)", "base": 10900 },
+  { "symbol": "IT40", "name": "FTSE MIB (Italy)", "base": 33500 },
+  { "symbol": "CA60", "name": "S&P/TSX Composite (Canada)", "base": 21800 },
+  { "symbol": "KS200", "name": "KOSPI (South Korea)", "base": 2600 }
+]

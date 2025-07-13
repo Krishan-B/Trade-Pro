@@ -1,488 +1,362 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
-      historical_market_data: {
+      accounts: {
         Row: {
-          close_price: number;
-          high_price: number;
-          id: string;
-          low_price: number;
-          market_type: string;
-          open_price: number;
-          symbol: string;
-          timestamp: string;
-          volume: number | null;
-        };
+          id: string
+          user_id: string
+          account_type: "DEMO" | "COMPETITION"
+          balance: number
+          equity: number
+          margin_used: number
+          unrealized_pnl: number
+          created_at: string
+          reset_count: number
+          is_active: boolean
+        }
         Insert: {
-          close_price: number;
-          high_price: number;
-          id?: string;
-          low_price: number;
-          market_type: string;
-          open_price: number;
-          symbol: string;
-          timestamp: string;
-          volume?: number | null;
-        };
+          id?: string
+          user_id: string
+          account_type: "DEMO" | "COMPETITION"
+          balance?: number
+          margin_used?: number
+          unrealized_pnl?: number
+          created_at?: string
+          reset_count?: number
+          is_active?: boolean
+        }
         Update: {
-          close_price?: number;
-          high_price?: number;
-          id?: string;
-          low_price?: number;
-          market_type?: string;
-          open_price?: number;
-          symbol?: string;
-          timestamp?: string;
-          volume?: number | null;
-        };
-        Relationships: [];
-      };
-      market_data: {
+          id?: string
+          user_id?: string
+          account_type?: "DEMO" | "COMPETITION"
+          balance?: number
+          margin_used?: number
+          unrealized_pnl?: number
+          created_at?: string
+          reset_count?: number
+          is_active?: boolean
+        }
+      }
+      assets: {
         Row: {
-          change_percentage: number;
-          high_price: number | null;
-          id: string;
-          last_price: number | null;
-          last_updated: string | null;
-          low_price: number | null;
-          market_cap: string | null;
-          market_type: string;
-          name: string;
-          open_price: number | null;
-          previous_close: number | null;
-          price: number;
-          symbol: string;
-          timestamp: string | null;
-          volume: string;
-        };
+          id: string
+          symbol: string
+          name: string
+          asset_type: string
+          exchange: string
+          market_hours: string
+          is_tradable: boolean
+        }
         Insert: {
-          change_percentage: number;
-          high_price?: number | null;
-          id?: string;
-          last_price?: number | null;
-          last_updated?: string | null;
-          low_price?: number | null;
-          market_cap?: string | null;
-          market_type: string;
-          name: string;
-          open_price?: number | null;
-          previous_close?: number | null;
-          price: number;
-          symbol: string;
-          timestamp?: string | null;
-          volume: string;
-        };
+          id?: string
+          symbol: string
+          name: string
+          asset_type: string
+          exchange: string
+          market_hours: string
+          is_tradable?: boolean
+        }
         Update: {
-          change_percentage?: number;
-          high_price?: number | null;
-          id?: string;
-          last_price?: number | null;
-          last_updated?: string | null;
-          low_price?: number | null;
-          market_cap?: string | null;
-          market_type?: string;
-          name?: string;
-          open_price?: number | null;
-          previous_close?: number | null;
-          price?: number;
-          symbol?: string;
-          timestamp?: string | null;
-          volume?: string;
-        };
-        Relationships: [];
-      };
-      price_alerts: {
+          id?: string
+          symbol?: string
+          name?: string
+          asset_type?: string
+          exchange?: string
+          market_hours?: string
+          is_tradable?: boolean
+        }
+      }
+      courses: {
         Row: {
-          asset_name: string;
-          asset_symbol: string;
-          condition: string;
-          created_at: string | null;
-          id: string;
-          is_triggered: boolean | null;
-          market_type: string;
-          target_price: number;
-          triggered_at: string | null;
-          user_id: string | null;
-        };
+          id: string
+          educator_id: string
+          title: string
+          description: string
+          created_at: string
+          updated_at: string
+        }
         Insert: {
-          asset_name: string;
-          asset_symbol: string;
-          condition: string;
-          created_at?: string | null;
-          id?: string;
-          is_triggered?: boolean | null;
-          market_type: string;
-          target_price: number;
-          triggered_at?: string | null;
-          user_id?: string | null;
-        };
+          id?: string
+          educator_id: string
+          title: string
+          description: string
+          created_at?: string
+          updated_at?: string
+        }
         Update: {
-          asset_name?: string;
-          asset_symbol?: string;
-          condition?: string;
-          created_at?: string | null;
-          id?: string;
-          is_triggered?: boolean | null;
-          market_type?: string;
-          target_price?: number;
-          triggered_at?: string | null;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
-      profiles: {
+          id?: string
+          educator_id?: string
+          title?: string
+          description?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      enrollments: {
         Row: {
-          avatar_url: string | null;
-          created_at: string;
-          id: string;
-          updated_at: string;
-          username: string | null;
-        };
+          id: string
+          student_id: string
+          course_id: string
+          enrolled_at: string
+        }
         Insert: {
-          avatar_url?: string | null;
-          created_at?: string;
-          id: string;
-          updated_at?: string;
-          username?: string | null;
-        };
+          id?: string
+          student_id: string
+          course_id: string
+          enrolled_at?: string
+        }
         Update: {
-          avatar_url?: string | null;
-          created_at?: string;
-          id?: string;
-          updated_at?: string;
-          username?: string | null;
-        };
-        Relationships: [];
-      };
-      user_account: {
-        Row: {
-          available_funds: number;
-          cash_balance: number;
-          equity: number;
-          id: string;
-          last_updated: string | null;
-          realized_pnl: number;
-          unrealized_pnl: number;
-          used_margin: number;
-        };
-        Insert: {
-          available_funds?: number;
-          cash_balance?: number;
-          equity?: number;
-          id: string;
-          last_updated?: string | null;
-          realized_pnl?: number;
-          unrealized_pnl?: number;
-          used_margin?: number;
-        };
-        Update: {
-          available_funds?: number;
-          cash_balance?: number;
-          equity?: number;
-          id?: string;
-          last_updated?: string | null;
-          realized_pnl?: number;
-          unrealized_pnl?: number;
-          used_margin?: number;
-        };
-        Relationships: [];
-      };
-      user_portfolio: {
-        Row: {
-          asset_name: string;
-          asset_symbol: string;
-          average_price: number;
-          current_price: number;
-          id: string;
-          last_updated: string | null;
-          market_type: string;
-          pnl: number;
-          pnl_percentage: number;
-          total_value: number;
-          units: number;
-          user_id: string | null;
-        };
-        Insert: {
-          asset_name: string;
-          asset_symbol: string;
-          average_price: number;
-          current_price: number;
-          id?: string;
-          last_updated?: string | null;
-          market_type: string;
-          pnl: number;
-          pnl_percentage: number;
-          total_value: number;
-          units: number;
-          user_id?: string | null;
-        };
-        Update: {
-          asset_name?: string;
-          asset_symbol?: string;
-          average_price?: number;
-          current_price?: number;
-          id?: string;
-          last_updated?: string | null;
-          market_type?: string;
-          pnl?: number;
-          pnl_percentage?: number;
-          total_value?: number;
-          units?: number;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
-      user_trades: {
-        Row: {
-          asset_name: string;
-          asset_symbol: string;
-          closed_at: string | null;
-          created_at: string | null;
-          executed_at: string | null;
-          expiration_date: string | null;
-          id: string;
-          market_type: string;
-          order_type: string;
-          pnl: number | null;
-          price_per_unit: number;
-          status: string;
-          stop_loss: number | null;
-          take_profit: number | null;
-          total_amount: number;
-          trade_type: string;
-          units: number;
-          user_id: string | null;
-        };
-        Insert: {
-          asset_name: string;
-          asset_symbol: string;
-          closed_at?: string | null;
-          created_at?: string | null;
-          executed_at?: string | null;
-          expiration_date?: string | null;
-          id?: string;
-          market_type: string;
-          order_type: string;
-          pnl?: number | null;
-          price_per_unit: number;
-          status: string;
-          stop_loss?: number | null;
-          take_profit?: number | null;
-          total_amount: number;
-          trade_type: string;
-          units: number;
-          user_id?: string | null;
-        };
-        Update: {
-          asset_name?: string;
-          asset_symbol?: string;
-          closed_at?: string | null;
-          created_at?: string | null;
-          executed_at?: string | null;
-          expiration_date?: string | null;
-          id?: string;
-          market_type?: string;
-          order_type?: string;
-          pnl?: number | null;
-          price_per_unit?: number;
-          status?: string;
-          stop_loss?: number | null;
-          take_profit?: number | null;
-          total_amount?: number;
-          trade_type?: string;
-          units?: number;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
-      user_watchlist: {
-        Row: {
-          added_at: string | null;
-          asset_name: string;
-          asset_symbol: string;
-          id: string;
-          market_type: string;
-          user_id: string | null;
-        };
-        Insert: {
-          added_at?: string | null;
-          asset_name: string;
-          asset_symbol: string;
-          id?: string;
-          market_type: string;
-          user_id?: string | null;
-        };
-        Update: {
-          added_at?: string | null;
-          asset_name?: string;
-          asset_symbol?: string;
-          id?: string;
-          market_type?: string;
-          user_id?: string | null;
-        };
-        Relationships: [];
-      };
+          id?: string
+          student_id?: string
+          course_id?: string
+          enrolled_at?: string
+        }
+      }
       kyc_documents: {
         Row: {
-          user_id: string;
-          id_url: string | null;
-          address_url: string | null;
-          status: string;
-          submitted_at: string | null;
-          reviewed_at: string | null;
-          reviewer_id: string | null;
-          rejection_reason: string | null;
-        };
+          user_id: string
+          id_url: string | null
+          address_url: string | null
+          status: string | null
+          submitted_at: string | null
+          reviewed_at: string | null
+          reviewer_id: string | null
+          rejection_reason: string | null
+        }
         Insert: {
-          user_id: string;
-          id_url?: string | null;
-          address_url?: string | null;
-          status?: string;
-          submitted_at?: string | null;
-          reviewed_at?: string | null;
-          reviewer_id?: string | null;
-          rejection_reason?: string | null;
-        };
+          user_id: string
+          id_url?: string | null
+          address_url?: string | null
+          status?: string | null
+          submitted_at?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          rejection_reason?: string | null
+        }
         Update: {
-          user_id?: string;
-          id_url?: string | null;
-          address_url?: string | null;
-          status?: string;
-          submitted_at?: string | null;
-          reviewed_at?: string | null;
-          reviewer_id?: string | null;
-          rejection_reason?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'kyc_documents_user_id_fkey';
-            columns: ['user_id'];
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-    };
+          user_id?: string
+          id_url?: string | null
+          address_url?: string | null
+          status?: string | null
+          submitted_at?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          rejection_reason?: string | null
+        }
+      }
+      lesson_progress: {
+        Row: {
+          id: string
+          enrollment_id: string
+          lesson_id: string
+          completed_at: string | null
+        }
+        Insert: {
+          id?: string
+          enrollment_id: string
+          lesson_id: string
+          completed_at?: string | null
+        }
+        Update: {
+          id?: string
+          enrollment_id?: string
+          lesson_id?: string
+          completed_at?: string | null
+        }
+      }
+      lessons: {
+        Row: {
+          id: string
+          course_id: string
+          title: string
+          content: string
+          lesson_order: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          course_id: string
+          title: string
+          content: string
+          lesson_order: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          course_id?: string
+          title?: string
+          content?: string
+          lesson_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      orders: {
+        Row: {
+          id: string
+          account_id: string
+          asset_id: string
+          order_type: "MARKET" | "LIMIT" | "STOP" | "STOP_LIMIT"
+          side: "BUY" | "SELL"
+          quantity: number
+          price: number | null
+          stop_price: number | null
+          status: "PENDING" | "FILLED" | "CANCELLED" | "REJECTED"
+          filled_quantity: number | null
+          avg_fill_price: number | null
+          created_at: string
+          filled_at: string | null
+          expires_at: string | null
+        }
+        Insert: {
+          id?: string
+          account_id: string
+          asset_id: string
+          order_type: "MARKET" | "LIMIT" | "STOP" | "STOP_LIMIT"
+          side: "BUY" | "SELL"
+          quantity: number
+          price?: number | null
+          stop_price?: number | null
+          status?: "PENDING" | "FILLED" | "CANCELLED" | "REJECTED"
+          filled_quantity?: number | null
+          avg_fill_price?: number | null
+          created_at?: string
+          filled_at?: string | null
+          expires_at?: string | null
+        }
+        Update: {
+          id?: string
+          account_id?: string
+          asset_id?: string
+          order_type?: "MARKET" | "LIMIT" | "STOP" | "STOP_LIMIT"
+          side?: "BUY" | "SELL"
+          quantity?: number
+          price?: number | null
+          stop_price?: number | null
+          status?: "PENDING" | "FILLED" | "CANCELLED" | "REJECTED"
+          filled_quantity?: number | null
+          avg_fill_price?: number | null
+          created_at?: string
+          filled_at?: string | null
+          expires_at?: string | null
+        }
+      }
+      positions: {
+        Row: {
+          id: string
+          account_id: string
+          asset_id: string
+          side: "LONG" | "SHORT"
+          quantity: number
+          entry_price: number
+          current_price: number | null
+          leverage: number | null
+          margin_required: number | null
+          unrealized_pnl: number | null
+          rollover_charges: number | null
+          take_profit: number | null
+          stop_loss: number | null
+          opened_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          account_id: string
+          asset_id: string
+          side: "LONG" | "SHORT"
+          quantity: number
+          entry_price: number
+          current_price?: number | null
+          leverage?: number | null
+          margin_required?: number | null
+          unrealized_pnl?: number | null
+          rollover_charges?: number | null
+          take_profit?: number | null
+          stop_loss?: number | null
+          opened_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          account_id?: string
+          asset_id?: string
+          side?: "LONG" | "SHORT"
+          quantity?: number
+          entry_price?: number
+          current_price?: number | null
+          leverage?: number | null
+          margin_required?: number | null
+          unrealized_pnl?: number | null
+          rollover_charges?: number | null
+          take_profit?: number | null
+          stop_loss?: number | null
+          opened_at?: string
+          updated_at?: string
+        }
+      }
+      users: {
+        Row: {
+          id: string
+          email: string
+          password_hash: string
+          first_name: string | null
+          last_name: string | null
+          experience_level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | null
+          created_at: string
+          last_login: string | null
+          is_verified: boolean | null
+          kyc_status: "PENDING" | "APPROVED" | "REJECTED" | null
+          preferences: Json | null
+        }
+        Insert: {
+          id?: string
+          email: string
+          password_hash: string
+          first_name?: string | null
+          last_name?: string | null
+          experience_level?: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | null
+          created_at?: string
+          last_login?: string | null
+          is_verified?: boolean | null
+          kyc_status?: "PENDING" | "APPROVED" | "REJECTED" | null
+          preferences?: Json | null
+        }
+        Update: {
+          id?: string
+          email?: string
+          password_hash?: string
+          first_name?: string | null
+          last_name?: string | null
+          experience_level?: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | null
+          created_at?: string
+          last_login?: string | null
+          is_verified?: boolean | null
+          kyc_status?: "PENDING" | "APPROVED" | "REJECTED" | null
+          preferences?: Json | null
+        }
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Enums: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
-
-type DefaultSchema = Database[Extract<keyof Database, 'public'>];
-
-export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-    | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database;
-  }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
-    : never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
-      Row: infer R;
+      [_ in never]: never
     }
-    ? R
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R;
-      }
-      ? R
-      : never
-    : never;
-
-export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
-    | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database;
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
-      Insert: infer I;
-    }
-    ? I
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I;
-      }
-      ? I
-      : never
-    : never;
-
-export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
-    | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database;
-  }
-    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
-      Update: infer U;
-    }
-    ? U
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U;
-      }
-      ? U
-      : never
-    : never;
-
-export type Enums<
-  DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums'] | { schema: keyof Database },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof Database;
-  }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
-    : never = never,
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
-    : never;
-
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema['CompositeTypes']
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database;
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
-    : never;
-
-export const Constants = {
-  public: {
-    Enums: {},
-  },
-} as const;
+}

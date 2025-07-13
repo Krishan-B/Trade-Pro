@@ -1,7 +1,7 @@
 
 import { Button, ButtonProps } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { useTradePanelContext } from "./TradePanelProvider";
+import { useTradePanelStore } from "../../hooks/useTradePanelStore";
 
 interface TradeButtonProps extends ButtonProps {
   variant?: "default" | "outline" | "secondary" | "ghost";
@@ -17,7 +17,7 @@ export function TradeButton({
   className,
   ...props
 }: TradeButtonProps) {
-  const { openTradePanel } = useTradePanelContext();
+  const { openTradePanel } = useTradePanelStore();
 
   return (
     <Button

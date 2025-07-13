@@ -1,53 +1,25 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
+import { MarketData } from '../../supabase/functions/get-market-data-new/types';
 
-export interface Asset {
-  symbol: string;
-  name: string;
-  price: number;
-  change: number;
-  change_percent: number;
-  market_cap: number;
-  market_type: string;
-}
+const fetchMarketData = async (symbols: string[]): Promise<MarketData[]> => {
+  const response = await fetch('/api/get-market-data-new', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ symbols }),
+  });
 
-interface UseMarketDataOptions {
-  refetchInterval?: number;
-}
-
-export const useMarketData = (marketTypes: string[], options: UseMarketDataOptions = {}) => {
-  const [marketData, setMarketData] = useState<Asset[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchData = useCallback(async () => {
-    setIsFetching(true);
-    setError(null);
-
-    const { data, error: rpcError } = await supabase.functions.invoke('fetch-market-data', {
-      body: { market_types: marketTypes },
-    });
-
-    if (rpcError) {
-      setError(rpcError.message);
-    } else {
-      setMarketData(data || []);
-    }
-
-    setIsLoading(false);
-    setIsFetching(false);
-  }, [marketTypes]);
-
-  useEffect(() => {
-    fetchData();
-
-    if (options.refetchInterval) {
-      const intervalId = setInterval(fetchData, options.refetchInterval);
-      return () => clearInterval(intervalId);
-    }
-  }, [fetchData, options.refetchInterval]);
-
-  return { marketData, isLoading, isFetching, error, refetch: fetchData };
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
 };
 
+export const useMarketData = (symbols: string[]) => {
+  return useQuery({
+    queryKey: ['marketData', symbols],
+    queryFn: () => fetchMarketData(symbols),
+    refetchInterval: 30000, // Refetch every 30 seconds
+  });
+};

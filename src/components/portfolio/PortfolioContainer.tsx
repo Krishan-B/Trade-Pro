@@ -1,11 +1,11 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Loader2, AlertCircle, RefreshCw } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Import components and hook
 import PortfolioSummary from "@/components/portfolio/PortfolioSummary";
@@ -14,6 +14,9 @@ import PerformanceChart from "@/components/portfolio/PerformanceChart";
 import PositionsSection from "@/components/portfolio/PositionsSection";
 import PortfolioSideSection from "@/components/portfolio/PortfolioSideSection";
 import { usePortfolioData } from "@/hooks/usePortfolioData";
+import WinRatePieChart from "@/features/analytics/components/WinRatePieChart";
+import PnLChart from "@/features/analytics/components/PnLChart";
+import AssetPerformanceList from "@/features/analytics/components/AssetPerformanceList";
 
 const PortfolioContainer = () => {
   const { user } = useAuth();
@@ -46,6 +49,9 @@ const PortfolioContainer = () => {
     equity,
     winRate,
     profitFactor,
+    topPerformers,
+    worstPerformers,
+    pnlHistory,
   } = portfolioData;
 
   if (!user) {
@@ -144,30 +150,76 @@ const PortfolioContainer = () => {
           onTaxEvents={actions.handleTaxEvents}
         />
 
-        {/* Performance Chart */}
-        <PerformanceChart 
-          data={performanceData}
-          timeframe={timeframe}
-          onTimeframeChange={setTimeframe}
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3">
-            <PositionsSection 
-              assets={assets} 
-              closedPositions={closedPositions} 
-              onViewDetails={actions.handleViewDetails}
-            />
-          </div>
-          
-          <PortfolioSideSection 
-            totalValue={totalValue}
-            dayChange={dayChange}
-            dayChangePercentage={dayChangePercentage}
-            allocationData={allocationData}
-            performanceData={performanceData}
-          />
-        </div>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="positions">Positions</TabsTrigger>
+          </TabsList>
+          <TabsContent value="overview">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
+              <div className="lg:col-span-3">
+                <PerformanceChart 
+                  data={performanceData}
+                  timeframe={timeframe}
+                  onTimeframeChange={setTimeframe}
+                />
+              </div>
+              <PortfolioSideSection 
+                totalValue={totalValue}
+                dayChange={dayChange}
+                dayChangePercentage={dayChangePercentage}
+                allocationData={allocationData}
+                performanceData={performanceData}
+              />
+            </div>
+          </TabsContent>
+          <TabsContent value="analytics">
+            <div className="grid gap-6 md:grid-cols-2 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Win Rate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <WinRatePieChart winRate={winRate} />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Cumulative P&L</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <PnLChart data={pnlHistory} />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top Performing Assets</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <AssetPerformanceList assets={topPerformers} title="Top 5" />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Worst Performing Assets</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <AssetPerformanceList assets={worstPerformers} title="Worst 5" />
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+          <TabsContent value="positions">
+            <div className="mt-6">
+              <PositionsSection 
+                assets={assets} 
+                closedPositions={closedPositions} 
+                onViewDetails={actions.handleViewDetails}
+              />
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

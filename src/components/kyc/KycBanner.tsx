@@ -15,7 +15,7 @@ export const KycBanner = () => {
   const shouldShowBanner =
     !isLoading &&
     kycStatus &&
-    ["unverified", "pending resubmission", "failed"].includes(kycStatus);
+    ["unverified", "pending", "pending resubmission", "failed"].includes(kycStatus);
 
   if (!shouldShowBanner) {
     return null;
@@ -24,11 +24,10 @@ export const KycBanner = () => {
   return (
     <Alert variant="destructive" className="my-4">
       <ShieldAlert className="h-4 w-4" />
-      <AlertTitle>Account Verification Required</AlertTitle>
+      <AlertTitle>One Last Step Before Trading: Verify Your KYC</AlertTitle>
       <AlertDescription>
-        Complete your verification to access all features.
         <Button onClick={handleVerifyNow} className="ml-4">
-          Verify Now
+          Verify KYC
         </Button>
       </AlertDescription>
     </Alert>

@@ -1,14 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
-import 'dotenv/config';
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
-
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // Generate mock news data based on market type and trending symbols
 const generateMarketNews = (marketType = null) => {

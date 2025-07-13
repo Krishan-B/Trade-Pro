@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useMarketData } from '@/hooks/useMarketData';
+import { MarketData } from '../../../../supabase/functions/get-market-data-new/types';
 import {
   Table,
   TableBody,
@@ -23,7 +24,7 @@ const assetCategories: Record<string, string[]> = {
 const allSymbols = Object.values(assetCategories).flat();
 
 const MarketTable = () => {
-  const { data, loading, error } = useMarketData(allSymbols);
+  const { data, isLoading, error } = useMarketData(allSymbols);
 
   const dataByCategory = useMemo(() => {
     if (!data) return {};
@@ -48,7 +49,7 @@ const MarketTable = () => {
     return groupedData;
   }, [data]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div>
         {Array.from({ length: 10 }).map((_, i) => (
@@ -59,7 +60,7 @@ const MarketTable = () => {
   }
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
+    return <div className="text-red-500">Error: {error.message}</div>;
   }
 
   return (
@@ -80,16 +81,16 @@ const MarketTable = () => {
             <TableRow>
               <TableCell colSpan={5} className="font-bold text-lg">{category}</TableCell>
             </TableRow>
-            {items.map((item) => (
+            {items.map((item: MarketData) => (
                 <TableRow key={item.symbol}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.symbol}</TableCell>
-                  <TableCell>${item.price.toFixed(2)}</TableCell>
-                  <TableCell className={cn(item.change > 0 ? "text-green-500" : "text-red-500")}>
-                    ${item.change.toFixed(2)}
+                  <TableCell>${item.live_price.toFixed(2)}</TableCell>
+                  <TableCell className={cn(item.change_percent_24h > 0 ? "text-green-500" : "text-red-500")}>
+                    ${item.change_percent_24h.toFixed(2)}
                   </TableCell>
-                  <TableCell className={cn(item.changePercent > 0 ? "text-green-500" : "text-red-500")}>
-                    {item.changePercent.toFixed(2)}%
+                  <TableCell className={cn(item.change_percent_24h > 0 ? "text-green-500" : "text-red-500")}>
+                    {item.change_percent_24h.toFixed(2)}%
                   </TableCell>
                 </TableRow>
               ))}

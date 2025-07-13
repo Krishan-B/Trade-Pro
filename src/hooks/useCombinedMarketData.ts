@@ -1,6 +1,9 @@
-
 import { useMemo } from 'react';
-import { useMarketData, Asset } from './useMarketData';
+import { useMarketData } from './useMarketData';
+import { MarketData } from '../../supabase/functions/get-market-data-new/types';
+
+// Extend MarketData to include the 'price' property expected by components
+export type Asset = MarketData & { price: number };
 
 interface UseCombinedMarketDataOptions {
   limit?: number;
@@ -13,42 +16,57 @@ interface UseCombinedMarketDataOptions {
 export const useCombinedMarketData = (marketTypes: string[], options: UseCombinedMarketDataOptions = {}) => {
   const {
     limit,
-    sortBy = 'market_cap',
+    sortBy = 'volume',
     order = 'desc',
     filter,
     refetchInterval
   } = options;
 
-  // Fetch all market types in a single query
-  const { marketData, isLoading, error, refetch, isFetching } = useMarketData(marketTypes, {
+  const { 
+    data: marketData, 
+    isLoading, 
+    error, 
+    refetch, 
+    isFetching 
+  } = useMarketData(marketTypes, {
     refetchInterval: refetchInterval
   });
 
-  // Process the market data with sorting, filtering, and limiting
   const processedData = useMemo(() => {
-    let result = [...marketData];
+    if (!Array.isArray(marketData)) {
+      return [];
+    }
+
+    // 1. Map to add the 'price' property
+    let result: Asset[] = marketData.map(asset => ({
+      ...asset,
+      price: asset.live_price,
+    }));
     
-    // Apply filter if provided
+    // 2. Apply filter if provided
     if (filter) {
       result = result.filter(filter);
     }
     
-    // Sort the data
-    result = result.sort((a, b) => {
-      // Handle string comparison
-      if (typeof a[sortBy] === 'string' && typeof b[sortBy] === 'string') {
-        return order === 'asc' 
-          ? (a[sortBy] as string).localeCompare(b[sortBy] as string)
-          : (b[sortBy] as string).localeCompare(a[sortBy] as string);
-      }
-      
-      // Handle numeric comparison
-      const aValue = a[sortBy] as number;
-      const bValue = b[sortBy] as number;
-      return order === 'asc' ? aValue - bValue : bValue - aValue;
-    });
+    // 3. Sort the data
+    if (sortBy) {
+      result.sort((a, b) => {
+        const aValue = a[sortBy];
+        const bValue = b[sortBy];
+
+        if (typeof aValue === 'number' && typeof bValue === 'number') {
+          return order === 'asc' ? aValue - bValue : bValue - aValue;
+        }
+        if (typeof aValue === 'string' && typeof bValue === 'string') {
+          return order === 'asc'
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+        }
+        return 0;
+      });
+    }
     
-    // Apply limit if provided
+    // 4. Apply limit if provided
     if (limit && limit > 0) {
       result = result.slice(0, limit);
     }

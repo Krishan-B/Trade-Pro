@@ -16,10 +16,13 @@ const fetchMarketData = async (symbols: string[]): Promise<MarketData[]> => {
   return response.json();
 };
 
-export const useMarketData = (symbols: string[]) => {
+export const useMarketData = (
+  symbols: string[],
+  options: { refetchInterval?: number } = {}
+) => {
   return useQuery({
     queryKey: ['marketData', symbols],
     queryFn: () => fetchMarketData(symbols),
-    refetchInterval: 30000, // Refetch every 30 seconds
+    refetchInterval: options.refetchInterval ?? 30000, // Refetch every 30 seconds
   });
 };

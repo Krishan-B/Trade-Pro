@@ -1,8 +1,67 @@
-
 import { useState, useCallback } from 'react';
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Asset, ClosedPosition, AllocationData, PerformanceData } from "@/types/account";
-import { usePortfolioAnalytics } from '@/hooks/usePortfolioAnalytics';
+
+export interface PortfolioAnalytics {
+  portfolio_value: number;
+  daily_change: number;
+  daily_change_percent: number;
+  total_gain: number;
+  total_gain_percent: number;
+  cash_balance: number;
+  locked_funds: number;
+  margin_level: number;
+  equity: number;
+  win_rate: number;
+  profit_factor: number;
+  allocation: Record<string, number>;
+  performance: {
+    pnl_history: Array<{
+      date: string;
+      pnl: number;
+      cumulativePnl: number;
+    }>;
+  };
+  top_holdings: Array<{
+    symbol: string;
+    name: string;
+    value: number;
+    allocation: number;
+    change_percent: number;
+    quantity?: number;
+    price?: number;
+    entry_price?: number;
+    pnl?: number;
+  }>;
+  recent_trades: Array<{
+    id: string;
+    symbol: string;
+    name: string;
+    type: string;
+    quantity: number;
+    price: number;
+    total: number;
+    date: string;
+    open_date?: string;
+    entry_price?: number;
+    exit_price?: number;
+    pnl?: number;
+    pnl_percentage?: number;
+  }>;
+  top_performers: Array<{
+    symbol: string;
+    name: string;
+    pnl: number;
+  }>;
+  worst_performers: Array<{
+    symbol: string;
+    name: string;
+    pnl: number;
+  }>;
+}
 
 export interface PortfolioData {
   assets: Asset[];
@@ -20,11 +79,42 @@ export interface PortfolioData {
   equity: number;
   winRate: number;
   profitFactor: number;
+  topPerformers: Array<{ symbol: string; name: string; pnl: number; }>;
+  worstPerformers: Array<{ symbol: string; name: string; pnl: number; }>;
+  pnlHistory: Array<{ date: string; cumulativePnl: number; }>;
 }
 
 export const usePortfolioData = () => {
+  const { user } = useAuth();
   const [timeframe, setTimeframe] = useState("1y");
-  const { analytics, isLoading, error, refetch } = usePortfolioAnalytics();
+
+  const fetchPortfolioAnalytics = async (): Promise<PortfolioAnalytics | null> => {
+    if (!user) return null;
+    
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    const { data, error } = await supabase.functions.invoke('portfolio-analytics', {
+      body: { userId: user.id }
+    });
+    
+    if (error) {
+      console.error("Error fetching portfolio analytics:", error);
+      throw new Error(error.message);
+    }
+    
+    return data as PortfolioAnalytics || null;
+  };
+
+  const {
+    data: analytics,
+    isLoading,
+    error,
+    refetch
+  } = useQuery({
+    queryKey: ["portfolio-analytics", user?.id],
+    queryFn: fetchPortfolioAnalytics,
+    enabled: !!user,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
   
   // Transform the analytics data into the format expected by the UI components
   const transformedData: PortfolioData = {
@@ -78,10 +168,13 @@ export const usePortfolioData = () => {
     }),
     
     // Create performance data from portfolio performance with validation
-    performanceData: Object.entries(analytics?.performance || {}).map(([date, value]) => ({
-      date,
-      value: analytics?.portfolio_value ? analytics.portfolio_value * (1 + (value as number) / 100) : 0
-    }))
+    performanceData: analytics?.performance?.pnl_history.map(item => ({
+      date: item.date,
+      value: item.cumulativePnl
+    })) || [],
+    topPerformers: analytics?.top_performers || [],
+    worstPerformers: analytics?.worst_performers || [],
+    pnlHistory: analytics?.performance?.pnl_history || []
   };
 
   const handleExportReport = useCallback(() => {

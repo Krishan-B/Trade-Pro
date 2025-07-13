@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
 import { Eye, EyeOff, AlertCircle, ArrowRight, Check } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { countries } from "@/lib/countries";
 import { validateSignUp } from "../utils/validation";
 import { usePasswordStrength } from "../hooks/usePasswordStrength";
@@ -22,6 +23,8 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [country, setCountry] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -63,6 +66,13 @@ const RegisterForm = () => {
       confirmPassword
     );
     
+    if (!agreedToTerms) {
+      errors.agreedToTerms = "You must agree to the Terms and Conditions.";
+    }
+    if (!agreedToPrivacy) {
+      errors.agreedToPrivacy = "You must agree to the Privacy Policy.";
+    }
+    
     setFieldErrors(errors);
     
     if (Object.keys(errors).length > 0) {
@@ -102,14 +112,30 @@ const RegisterForm = () => {
       if (error) throw error;
       
       console.log("Signup successful:", data);
+
+      if (data.user) {
+        const { error: leadError } = await supabase.from('leads').insert({
+          user_id: data.user.id,
+          first_name: firstName,
+          last_name: lastName,
+          contact_number: formattedPhoneNumber,
+          email: email,
+        });
+
+        if (leadError) {
+          // If lead creation fails, we should probably handle this.
+          // For now, we'll just log it.
+          console.error("Error creating lead:", leadError);
+        }
+      }
       
       toast({
         title: "Account created successfully",
-        description: "Please check your email for verification and then log in"
+        description: "Welcome to Trade Pro! You are now logged in."
       });
       
-      // Use navigate instead of window.location to avoid full page reload
-      navigate("/auth");
+      // The user is already logged in after signup, so just navigate to the dashboard
+      navigate("/");
       
     } catch (error: any) {
       console.error("Signup error:", error);
@@ -329,9 +355,36 @@ const RegisterForm = () => {
           )}
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full" 
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="terms" checked={agreedToTerms} onCheckedChange={(checked) => setAgreedToTerms(Boolean(checked))} />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              I agree to the Terms and Conditions.
+            </label>
+          </div>
+          {fieldErrors.agreedToTerms && (
+            <p className="text-destructive text-sm">{fieldErrors.agreedToTerms}</p>
+          )}
+          <div className="flex items-center space-x-2">
+            <Checkbox id="privacy" checked={agreedToPrivacy} onCheckedChange={(checked) => setAgreedToPrivacy(Boolean(checked))} />
+            <label
+              htmlFor="privacy"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              I agree to the Privacy Policy.
+            </label>
+          </div>
+          {fieldErrors.agreedToPrivacy && (
+            <p className="text-destructive text-sm">{fieldErrors.agreedToPrivacy}</p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          className="w-full"
           disabled={loading}
         >
           {loading ? "Creating account..." : (

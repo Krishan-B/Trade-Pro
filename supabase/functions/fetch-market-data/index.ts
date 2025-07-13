@@ -14,11 +14,10 @@ export default async function handler(req: Request): Promise<Response> {
     // Extract symbol from request body
     const { symbol = 'IBM' } = await req.json();
 
-    // Create a Supabase client using the user's authorization token
+    // Create a Supabase client using the service role key
     const supabaseClient = createClient(
       process.env.SUPABASE_URL ?? '',
-      process.env.SUPABASE_ANON_KEY ?? '',
-      { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
+      process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
     );
 
     // 1. Check for fresh data in Supabase first (cache)

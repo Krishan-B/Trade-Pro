@@ -1,34 +1,51 @@
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { useQuery } from "@tanstack/react-query";
-const fetchBitcoinPrices = async () => {
-  const response = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=180&interval=daily");
-  const data = await response.json();
+import { useAccountMetrics } from '@/hooks/useAccountMetrics';
+import { Skeleton } from '@/components/ui/skeleton';
 
-  // Format data for the chart - take last 6 months
-  return data.prices.slice(-180).map(([timestamp, price]: [number, number]) => ({
-    date: new Date(timestamp).toLocaleDateString('en-US', {
-      month: 'short'
-    }),
-    price: Math.round(price)
-  }));
-};
+const MetricItem = ({ label, value, isCurrency = true, isPercentage = false }: { label: string; value: number | undefined; isCurrency?: boolean; isPercentage?: boolean }) => (
+  <div className="flex justify-between py-2 border-b border-gray-200/10">
+    <span className="text-sm text-muted-foreground">{label}</span>
+    <span className="text-sm font-medium">
+      {isCurrency && '$'}
+      {typeof value === 'number' ? value.toFixed(2) : '0.00'}
+      {isPercentage && '%'}
+    </span>
+  </div>
+);
+
 const PortfolioCard = () => {
-  const {
-    data: priceData,
-    isLoading
-  } = useQuery({
-    queryKey: ['bitcoinPrices'],
-    queryFn: fetchBitcoinPrices,
-    refetchInterval: 60000 // Refetch every minute
-  });
+  const { data: metrics, isLoading } = useAccountMetrics();
+
   if (isLoading) {
-    return <div className="glass-card p-6 rounded-lg mb-8 animate-fade-in">
-        <h2 className="text-xl font-semibold mb-6">Bitcoin Performance</h2>
-        <div className="w-full h-[200px] flex items-center justify-center">
-          <span className="text-muted-foreground">Loading...</span>
+    return (
+      <div className="glass-card rounded-lg p-4 mb-6">
+        <h2 className="text-xl font-semibold mb-4">My Portfolio</h2>
+        <div className="space-y-3">
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
         </div>
-      </div>;
+      </div>
+    );
   }
-  return;
+
+  return (
+    <div className="glass-card rounded-lg p-4 mb-6">
+      <h2 className="text-xl font-semibold mb-4">My Portfolio</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
+        <MetricItem label="Balance" value={metrics?.balance} />
+        <MetricItem label="Bonus" value={metrics?.bonus} />
+        <MetricItem label="Available Margin" value={metrics?.available_margin} />
+        <MetricItem label="Used Margin" value={metrics?.used_margin} />
+        <MetricItem label="Unrealized P&L" value={metrics?.unrealized_pl} />
+        <MetricItem label="Realized P&L" value={metrics?.realized_pl} />
+        <MetricItem label="Account Equity" value={metrics?.account_equity} />
+        <MetricItem label="Buying Power" value={metrics?.buying_power} />
+        <MetricItem label="Exposure" value={metrics?.exposure} />
+        <MetricItem label="Margin Level" value={metrics?.margin_level} isPercentage />
+      </div>
+    </div>
+  );
 };
+
 export default PortfolioCard;

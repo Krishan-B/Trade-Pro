@@ -6,13 +6,17 @@ import { useAuth } from './useAuth';
 export type KycStatus = 'unverified' | 'pending' | 'approved' | 'rejected';
 
 export function useKycStatus() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [status, setStatus] = useState<KycStatus>('unverified');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let channel: RealtimeChannel | null = null;
+    if (authLoading) {
+      setLoading(true);
+      return;
+    }
     if (!user) {
       setStatus('unverified');
       setLoading(false);
@@ -36,7 +40,7 @@ export function useKycStatus() {
 
     // Subscribe to realtime changes for this user's KYC document
     channel = supabase
-      .channel('kyc-status')
+      .channel(`kyc-status-${user.id}`)
       .on(
         'postgres_changes',
         {
@@ -58,7 +62,7 @@ export function useKycStatus() {
     return () => {
       if (channel) supabase.removeChannel(channel);
     };
-  }, [user]);
+  }, [user, authLoading]);
 
   return { status, loading, error };
 }

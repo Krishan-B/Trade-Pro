@@ -9,13 +9,24 @@ import { useToast } from '@/hooks/use-toast';
 
 interface KycDocument {
   user_id: string;
-  id_url: string | null;
-  address_url: string | null;
   status: string;
   submitted_at: string | null;
   reviewed_at: string | null;
   reviewer_id: string | null;
   rejection_reason: string | null;
+  questionnaire_answers: {
+    tradingObjective: string;
+    financialSituation: string;
+    investmentExperience: string;
+  } | null;
+  id_document_type: string | null;
+  id_url: string | null;
+  id_url_back: string | null;
+  address_document_type: string | null;
+  address_url: string | null;
+  optional_url_1: string | null;
+  optional_url_2: string | null;
+  optional_docs_comment: string | null;
 }
 
 export default function KycReviewPage() {
@@ -204,9 +215,9 @@ export default function KycReviewPage() {
                 <thead>
                   <tr className="bg-muted">
                     <th className="p-2 border">User ID</th>
-                    <th className="p-2 border">ID Document</th>
-                    <th className="p-2 border">Address Document</th>
                     <th className="p-2 border">Submitted At</th>
+                    <th className="p-2 border">Documents</th>
+                    <th className="p-2 border">Questionnaire</th>
                     <th className="p-2 border">Actions</th>
                   </tr>
                 </thead>
@@ -221,26 +232,41 @@ export default function KycReviewPage() {
                         {doc.user_id}
                       </td>
                       <td className="p-2 border">
-                        {doc.id_url ? (
+                        {doc.submitted_at ? new Date(doc.submitted_at).toLocaleString() : 'N/A'}
+                      </td>
+                      <td className="p-2 border text-xs">
+                        <div>
+                          ID ({doc.id_document_type}):{' '}
                           <a
-                            href={
-                              supabase.storage.from('kyc').getPublicUrl(doc.id_url).data.publicUrl
-                            }
+                            href={supabase.storage.from('kyc').getPublicUrl(doc.id_url!).data.publicUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-primary underline"
                           >
-                            View
+                            Front
                           </a>
-                        ) : (
-                          'N/A'
-                        )}
-                      </td>
-                      <td className="p-2 border">
-                        {doc.address_url ? (
+                          {doc.id_url_back && (
+                            <>
+                              {' | '}
+                              <a
+                                href={
+                                  supabase.storage.from('kyc').getPublicUrl(doc.id_url_back).data
+                                    .publicUrl
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary underline"
+                              >
+                                Back
+                              </a>
+                            </>
+                          )}
+                        </div>
+                        <div>
+                          Address ({doc.address_document_type}):{' '}
                           <a
                             href={
-                              supabase.storage.from('kyc').getPublicUrl(doc.address_url).data
+                              supabase.storage.from('kyc').getPublicUrl(doc.address_url!).data
                                 .publicUrl
                             }
                             target="_blank"
@@ -249,12 +275,59 @@ export default function KycReviewPage() {
                           >
                             View
                           </a>
+                        </div>
+                        {doc.optional_url_1 && (
+                          <div>
+                            Optional 1:{' '}
+                            <a
+                              href={
+                                supabase.storage.from('kyc').getPublicUrl(doc.optional_url_1).data
+                                  .publicUrl
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary underline"
+                            >
+                              View
+                            </a>
+                          </div>
+                        )}
+                        {doc.optional_url_2 && (
+                          <div>
+                            Optional 2:{' '}
+                            <a
+                              href={
+                                supabase.storage.from('kyc').getPublicUrl(doc.optional_url_2).data
+                                  .publicUrl
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary underline"
+                            >
+                              View
+                            </a>
+                          </div>
+                        )}
+                        {doc.optional_docs_comment && (
+                          <div>Comment: {doc.optional_docs_comment}</div>
+                        )}
+                      </td>
+                      <td className="p-2 border text-xs">
+                        {doc.questionnaire_answers ? (
+                          <ul className="list-disc list-inside">
+                            <li>
+                              Objective: {doc.questionnaire_answers.tradingObjective}
+                            </li>
+                            <li>
+                              Situation: {doc.questionnaire_answers.financialSituation}
+                            </li>
+                            <li>
+                              Experience: {doc.questionnaire_answers.investmentExperience}
+                            </li>
+                          </ul>
                         ) : (
                           'N/A'
                         )}
-                      </td>
-                      <td className="p-2 border">
-                        {doc.submitted_at ? new Date(doc.submitted_at).toLocaleString() : 'N/A'}
                       </td>
                       <td className="p-2 border space-x-2">
                         <Button

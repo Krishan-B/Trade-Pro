@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from 'react';
+import { useKycStatus } from '@/hooks/useKycStatus';
 import { Button } from "@/components/ui/button";
 import { CreditCard } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { isMarketOpen } from "@/utils/marketHours";
 import { useToast } from "@/hooks/use-toast";
-import { useMarketData, Asset } from "@/hooks/useMarketData";
+import { Asset } from "@/hooks/useCombinedMarketData";
 import { TradeForm } from "@/components/trade";
 import { MarketStatusAlert } from "@/components/trade";
 import { getLeverageForAssetType } from "@/utils/leverageUtils";
@@ -19,13 +20,7 @@ import { TakeProfitCheckbox } from "@/components/trade";
 import { TradeSlidePanelOptionCheckbox } from "@/components/trade";
 
 interface QuickTradePanelProps {
-  asset: {
-    name: string;
-    symbol: string;
-    price: number;
-    change_percentage?: number;
-    market_type: string;
-  };
+  asset: Asset;
 }
 
 const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
@@ -39,6 +34,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
   const [buyPrice, setBuyPrice] = useState(0);
   const [sellPrice, setSellPrice] = useState(0);
   const { toast } = useToast();
+  const { status: kycStatus } = useKycStatus();
   
   // Get available funds from account metrics
   const availableFunds = mockAccountMetrics.availableFunds;
@@ -97,6 +93,15 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
   };
 
   const handleSubmit = async (action: "buy" | "sell") => {
+    if (kycStatus !== 'approved') {
+      toast({
+        title: 'KYC Verification Required',
+        description: 'Your account must be KYC verified to execute trades. Please complete your KYC verification.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (!marketIsOpen && orderType === "market") {
       toast({
         title: "Market Closed",
@@ -166,7 +171,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
               <Button 
                 className="w-full bg-success hover:bg-success/90 text-white"
                 onClick={() => handleSubmit("buy")}
-                disabled={isExecuting || (orderType === "market" && !marketIsOpen) || !canAfford || parsedUnits <= 0}
+                disabled={isExecuting || (orderType === "market" && !marketIsOpen) || !canAfford || parsedUnits <= 0 || kycStatus !== 'approved'}
               >
                 {isExecuting && activeTab === "buy" ? "Processing..." : "Buy"}
               </Button>
@@ -405,7 +410,7 @@ const QuickTradePanel = ({ asset }: QuickTradePanelProps) => {
               <Button 
                 className="w-full bg-warning hover:bg-warning/90 text-white"
                 onClick={() => handleSubmit("sell")}
-                disabled={isExecuting || (orderType === "market" && !marketIsOpen) || parsedUnits <= 0}
+                disabled={isExecuting || (orderType === "market" && !marketIsOpen) || parsedUnits <= 0 || kycStatus !== 'approved'}
               >
                 {isExecuting && activeTab === "sell" ? "Processing..." : "Sell"}
               </Button>

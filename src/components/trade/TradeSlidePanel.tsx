@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { isMarketOpen } from "@/utils/marketHours";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthContext";
 import { getLeverageForAssetType } from "@/utils/leverageUtils";
 import { mockAccountMetrics } from "@/utils/metricUtils";
-import { useCombinedMarketData } from "@/hooks/useCombinedMarketData";
+import { useCombinedMarketData, Asset } from "@/hooks/useCombinedMarketData";
 
 // Import the new component files
 import { TradeSlidePanelAssetSelection } from "./TradeSlidePanelAssetSelection";
@@ -27,11 +27,7 @@ interface TradeSlidePanelProps {
 export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
   const { user } = useAuth();
   const [assetCategory, setAssetCategory] = useState<string>("Crypto");
-  const [selectedAsset, setSelectedAsset] = useState({
-    name: "Bitcoin",
-    symbol: "BTCUSD",
-    market_type: "Crypto"
-  });
+  const [selectedAsset, setSelectedAsset] = useState<Asset | undefined>();
   const [orderType, setOrderType] = useState<"market" | "entry">("market");
   const [units, setUnits] = useState("0.01");
   const [tradeAction, setTradeAction] = useState<"buy" | "sell">("buy");
@@ -48,11 +44,8 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
     { refetchInterval: 1000 * 10 }
   );
   
-  // Ensure marketData is an array to prevent crashes
-  const safeMarketData = Array.isArray(marketData) ? marketData.filter(Boolean) : [];
-
   // Find current price in market data
-  const currentAssetData = safeMarketData.find(item => item.symbol === selectedAsset.symbol);
+  const currentAssetData = marketData.find(item => item.symbol === selectedAsset?.symbol);
   const currentPrice = currentAssetData?.price || 0;
   const buyPrice = currentPrice * 1.001; // Slight markup for buy
   const sellPrice = currentPrice * 0.999; // Slight discount for sell
@@ -65,7 +58,7 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
   }, [currentPrice]);
   
   // Check if market is open for the selected asset
-  const marketIsOpen = isMarketOpen(selectedAsset.market_type);
+  const marketIsOpen = selectedAsset ? isMarketOpen(selectedAsset.market_type) : false;
   
   // Auto-refresh price every second for simulated real-time updates
   useEffect(() => {
@@ -97,25 +90,17 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
     setAssetCategory(category);
     
     // Select the first asset in this category
-    const assetsInCategory = safeMarketData.filter(asset => asset.market_type === category);
+    const assetsInCategory = marketData.filter(asset => asset.market_type === category);
     if (assetsInCategory.length > 0) {
-      setSelectedAsset({
-        name: assetsInCategory[0].name,
-        symbol: assetsInCategory[0].symbol,
-        market_type: category
-      });
+      setSelectedAsset(assetsInCategory[0]);
     }
   };
   
   // Handle asset selection
   const handleAssetSelect = (symbol: string) => {
-    const asset = safeMarketData.find(a => a.symbol === symbol);
+    const asset = marketData.find(a => a.symbol === symbol);
     if (asset) {
-      setSelectedAsset({
-        name: asset.name,
-        symbol: asset.symbol,
-        market_type: asset.market_type
-      });
+      setSelectedAsset(asset);
     }
   };
   
@@ -160,7 +145,7 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
       
       // Create order object based on order type
       const orderDetails = {
-        asset: selectedAsset.symbol,
+        asset: selectedAsset?.symbol,
         units: parsedUnits,
         leverage: fixedLeverage,
         orderType: orderType,
@@ -173,14 +158,14 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
       // Display different success message based on order type
       if (orderType === "market") {
         toast({
-          title: `Position Opened: ${action.toUpperCase()} ${selectedAsset.symbol}`,
-          description: `${action.toUpperCase()} order for ${parsedUnits} ${selectedAsset.symbol} at ${action === "buy" ? "$" + buyPrice.toFixed(4) : "$" + sellPrice.toFixed(4)} executed successfully.`,
+          title: `Position Opened: ${action.toUpperCase()} ${selectedAsset?.symbol}`,
+          description: `${action.toUpperCase()} order for ${parsedUnits} ${selectedAsset?.symbol} at ${action === "buy" ? "$" + buyPrice.toFixed(4) : "$" + sellPrice.toFixed(4)} executed successfully.`,
           variant: action === "buy" ? "default" : "destructive",
         });
       } else {
         toast({
-          title: `Entry Order Placed: ${action.toUpperCase()} ${selectedAsset.symbol}`,
-          description: `${action.toUpperCase()} entry order for ${parsedUnits} ${selectedAsset.symbol} at $${orderRate} has been placed.`,
+          title: `Entry Order Placed: ${action.toUpperCase()} ${selectedAsset?.symbol}`,
+          description: `${action.toUpperCase()} entry order for ${parsedUnits} ${selectedAsset?.symbol} at $${orderRate} has been placed.`,
           variant: "default",
         });
       }
@@ -216,11 +201,11 @@ export function TradeSlidePanel({ open, onOpenChange }: TradeSlidePanelProps) {
           <TradeSlidePanelAssetSelection 
             assetCategory={assetCategory}
             onAssetCategoryChange={handleAssetCategoryChange}
-            selectedAsset={selectedAsset.symbol}
+            selectedAsset={selectedAsset?.symbol || ''}
             onAssetSelect={handleAssetSelect}
             isLoading={isLoading}
             isExecuting={isExecuting}
-            marketData={safeMarketData}
+            marketData={marketData}
           />
           
           {/* Real-time prices with Buy/Sell buttons */}

@@ -6,6 +6,7 @@ export interface MarketData {
   sell_price: number;
   change_percent_24h: number;
   volume: number;
+  market_type: string;
 }
 
 export interface YahooQuote {

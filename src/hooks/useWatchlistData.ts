@@ -1,19 +1,13 @@
 
-import { useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Asset } from './useMarketData';
 import { useQuery } from '@tanstack/react-query';
+import { useAuth } from './useAuth';
 
 export const useWatchlistData = () => {
   const { toast } = useToast();
-
-  // Use React Query for data fetching and caching
-  const { data: watchlist = [], isLoading, error, refetch } = useQuery({
-    queryKey: ["watchlist-data"],
-    queryFn: fetchWatchlistData,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const { user } = useAuth();
 
   // Fetch market data from Supabase
   async function fetchWatchlistData(): Promise<Asset[]> {
@@ -88,6 +82,14 @@ export const useWatchlistData = () => {
       return [];
     }
   };
+
+  // Use React Query for data fetching and caching
+  const { data: watchlist = [], isLoading, error, refetch } = useQuery({
+    queryKey: ["watchlist-data", user?.id],
+    queryFn: fetchWatchlistData,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    enabled: !!user,
+  });
 
   // Handle refresh data
   const handleRefreshData = async () => {

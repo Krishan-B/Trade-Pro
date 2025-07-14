@@ -16,33 +16,33 @@ const Header = () => {
       transition={{ duration: 0.3 }}
       className="border-b border-secondary/40 sticky top-0 z-50 bg-background shadow-sm"
     >
-      <div className="container flex items-center justify-between py-4">
-        <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
-          <LineChart className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-bold ml-2 text-primary">TradePro</h1>
-        </div>
+      <div className="container flex items-center justify-between py-3 gap-x-5">
+        <Link to="/" className="flex items-center cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md">
+          <LineChart className="h-8 w-8 text-primary" />
+          <h1 className="text-2xl font-bold ml-2 dark:text-white text-black">TradePro</h1>
+        </Link>
         
         <nav className="hidden md:flex items-center gap-6">
-          <Link to="#features" className="text-sm text-muted-foreground hover:text-foreground nav-link">Features</Link>
-          <Link to="#pricing" className="text-sm text-muted-foreground hover:text-foreground nav-link">Pricing</Link>
-          <Link to="#testimonials" className="text-sm text-muted-foreground hover:text-foreground nav-link">Testimonials</Link>
-          <Link to="#about" className="text-sm text-muted-foreground hover:text-foreground nav-link">About</Link>
+          <Link to="#features" className="text-sm text-muted-foreground hover:text-foreground nav-link focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md">Features</Link>
+          <Link to="#pricing" className="text-sm text-muted-foreground hover:text-foreground nav-link focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md">Pricing</Link>
+          <Link to="#testimonials" className="text-sm text-muted-foreground hover:text-foreground nav-link focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md">Testimonials</Link>
+          <Link to="#about" className="text-sm text-muted-foreground hover:text-foreground nav-link focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md">About</Link>
         </nav>
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => navigate("/auth")}
-            className="whitespace-nowrap hover:border-primary hover:text-primary transition-colors duration-300"
+            className="whitespace-nowrap hover:border-primary hover:text-primary transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Login
           </Button>
-          <Button 
-            size="sm" 
+          <Button
+            size="sm"
             onClick={() => navigate("/auth?tab=signup")}
-            className="whitespace-nowrap bg-primary hover:opacity-90 transition-opacity duration-300"
+            className="whitespace-nowrap bg-primary hover:opacity-90 transition-opacity duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Sign Up
           </Button>

@@ -8,8 +8,8 @@ interface TrustBadgeProps {
 
 const TrustBadge = ({ text }: TrustBadgeProps) => {
   return (
-    <div className="flex items-center text-sm">
-      <Shield className="h-4 w-4 text-success mr-2" />
+    <div className="flex items-center text-lg">
+      <Shield className="h-6 w-6 text-success mr-3" />
       <span>{text}</span>
     </div>
   );

@@ -9,6 +9,21 @@
   <meta name="description" content="Trade stocks, crypto, forex, commodities, and indices on our advanced trading platform." />
   <meta name="author" content="TradePro" />
   <meta property="og:image" content="/og-image.svg" />
+  <script>
+    // Prevents FOUC by applying the correct theme class to the HTML element before the app loads.
+    (function() {
+      try {
+        const theme = localStorage.getItem('vite-ui-theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {
+        console.error('Failed to apply theme from localStorage', e);
+      }
+    })();
+  </script>
 </head>
 
 <body>

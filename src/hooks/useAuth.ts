@@ -1,10 +1,20 @@
 import { useContext } from 'react';
-import { AuthContext } from '@/components/AuthContext';
+import { AppContext } from '../contexts/AppContext';
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const { state, dispatch } = useContext(AppContext);
+
+  const login = (user: any) => {
+    dispatch({ type: 'LOGIN_SUCCESS', payload: { user } });
+  };
+
+  const logout = () => {
+    dispatch({ type: 'LOGOUT' });
+  };
+
+  return {
+    ...state.auth,
+    login,
+    logout,
+  };
 };

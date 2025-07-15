@@ -19,7 +19,19 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-memory"
-      ]
+      ],
+      "alwaysAllow": [
+        "create_entities",
+        "create_relations",
+        "open_nodes",
+        "search_nodes",
+        "delete_entities",
+        "add_observations",
+        "read_graph",
+        "delete_relations",
+        "delete_observations"
+      ],
+      "timeout": 300
     },
     "filesystem": {
       "command": "npx",
@@ -27,6 +39,37 @@
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "/Users/Alpha/Desktop/Trade-Pro"
+      ],
+      "alwaysAllow": [
+        "read_file",
+        "edit_file",
+        "write_file",
+        "read_multiple_files",
+        "create_directory",
+        "list_directory",
+        "list_directory_with_sizes",
+        "directory_tree",
+        "move_file",
+        "search_files",
+        "get_file_info",
+        "list_allowed_directories"
+      ]
+    },
+    "postgrest": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-postgrest@latest",
+        "--apiUrl",
+        "https://fdxtvftguhcjmcjbiomz.supabase.co/rest/v1",
+        "--apiKey",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkeHR2ZnRndWhjam1jamJpb216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjk4MTIsImV4cCI6MjA2Nzg0NTgxMn0.c3mkewpeiYgNwQ9L-TgtaLFp0QjOEwV0-irTAsQZMiE",
+        "--schema",
+        "public"
+      ],
+      "alwaysAllow": [
+        "postgrestRequest",
+        "sqlToRest"
       ]
     }
   }

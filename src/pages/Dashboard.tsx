@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { KycBanner } from '@/components/kyc/KycBanner';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
@@ -8,12 +8,20 @@ import TradingViewChart from '@/components/TradingViewChart';
 import { QuickTradePanel, TradeButton } from '@/components/trade';
 import PortfolioCard from '@/components/PortfolioCard';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
+import { AppContext } from '@/contexts/AppContext';
+import { useRealtimeMarketData } from '@/hooks/useRealtimeMarketData';
 import EnhancedNewsWidget from '@/components/EnhancedNewsWidget';
 import AlertsWidget from '@/components/AlertsWidget';
 import type { Asset } from '@/hooks/useMarketData';
+import ConnectionStatus from '@/components/dashboard/ConnectionStatus';
+import RecentActivity from '@/components/dashboard/RecentActivity';
 
-const Index = () => {
+const Dashboard = () => {
+  const { state } = useContext(AppContext);
+  const { user } = state.auth;
+  const { notifications } = state.dashboard;
+  const { marketData, loading, error } = useRealtimeMarketData();
+
   const [selectedAsset, setSelectedAsset] = useState({
     name: 'Bitcoin',
     symbol: 'BTCUSD',
@@ -21,20 +29,24 @@ const Index = () => {
     change_percentage: 2.4,
     change: 2.4,
     market_type: 'Crypto',
+    live_price: 67543.21,
+    buy_price: 67543.21,
+    sell_price: 67543.21,
+    change_percent_24h: 2.4,
+    volume: 1000000,
   });
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
-  const { user } = useAuth();
   const chartSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Show welcome toast when dashboard loads
     toast({
-      title: 'Welcome to TradePro',
+      title: `Welcome, ${user?.username || 'Trader'}!`,
       description: 'Your dashboard is ready with real-time market data',
       duration: 5000,
     });
-  }, [toast]);
+  }, [toast, user]);
 
   const handleAssetSelect = (asset: Asset) => {
     setSelectedAsset({
@@ -92,6 +104,7 @@ const Index = () => {
             <span>{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
           </Button>
           <TradeButton size="sm" />
+          <ConnectionStatus />
         </div>
       </div>
 
@@ -166,8 +179,11 @@ const Index = () => {
           <AlertsWidget />
         </div>
       </div>
+      <div className="mt-6">
+        <RecentActivity />
+      </div>
     </div>
   );
 };
 
-export default Index;
+export default Dashboard;

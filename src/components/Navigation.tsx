@@ -1,5 +1,4 @@
 
-import * as React from "react"
 import ApplicationLogo from "./navigation/ApplicationLogo"
 import MainNav from "./navigation/MainNav"
 import UserMenu from "./navigation/UserMenu"
@@ -27,7 +26,7 @@ export function Navigation({ onMenuToggle }: NavigationProps) {
     <div className="border-b sticky top-0 z-50 bg-background shadow-sm transition-colors">
       <div className="container flex h-16 items-center">
         <ApplicationLogo />
-        <MainNav className="mx-6 flex-1" />
+        <MainNav />
         <nav className="flex items-center space-x-2">
           <ThemeSwitcher />
           <Button

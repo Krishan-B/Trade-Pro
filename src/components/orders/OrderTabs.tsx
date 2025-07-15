@@ -15,8 +15,8 @@ interface OrderTabsProps {
 }
 
 const OrderTabs: React.FC<OrderTabsProps> = ({ activeTab, onTabChange }) => {
-  const [selectedSymbol, setSelectedSymbol] = useState("BTCUSD");
-  const [currentPrice, setCurrentPrice] = useState(67432.21);
+  const [selectedSymbol] = useState("BTCUSD");
+  const [currentPrice] = useState(67432.21);
 
   const handleCloseTrade = (tradeId: string) => {
     // In a real app, this would call an API to close the trade

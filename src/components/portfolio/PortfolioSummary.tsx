@@ -1,5 +1,3 @@
-
-import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowUp, ArrowDown, BarChart4, Wallet, LineChart, CircleDollarSign } from "lucide-react";
 

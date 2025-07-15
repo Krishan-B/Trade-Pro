@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import AssetRow from './AssetRow';
 import { MarketData } from '../../../supabase/functions/get-market-data-new/types';
@@ -11,6 +10,7 @@ const mockAsset: MarketData = {
   sell_price: 99.975,
   change_percent_24h: 2.5,
   volume: 123456,
+  market_type: 'Crypto',
 };
 
 const mockNegativeAsset: MarketData = {

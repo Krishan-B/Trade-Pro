@@ -1,5 +1,4 @@
 
-import React from "react";
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -21,7 +20,7 @@ const TestimonialCard = ({ quote, author, role, rating, delay = 0 }: Testimonial
       viewport={{ once: true }}
     >
       <div className="flex mb-4">
-        {[...Array(5)].map((_, i) => (
+        {Array.from({ length: 5 }).map((_, i) => (
           <Star 
             key={i} 
             className={`h-4 w-4 ${i < rating ? 'text-primary fill-primary' : 'text-muted-foreground'}`} 

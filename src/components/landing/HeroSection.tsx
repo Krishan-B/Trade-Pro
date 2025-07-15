@@ -1,12 +1,17 @@
 
-import React, { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ArrowRight, BarChart3, LineChart, TrendingUp, ChevronDown } from "lucide-react";
+import { ChevronRight, BarChart3, LineChart, TrendingUp, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
 const HeroIllustration = lazy(() => import("./HeroIllustration"));
-const HeroSection = () => {
+interface HeroSectionProps {
+  title: string;
+  subtitle: string;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle }) => {
   const navigate = useNavigate();
   
   return (
@@ -18,14 +23,10 @@ const HeroSection = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-            Trade <span className="text-primary">Smarter</span>
-            <br />
-            Invest <span className="text-primary">Wiser</span>
-          </h1>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight" dangerouslySetInnerHTML={{ __html: title }}></h1>
           
           <p className="text-base md:text-lg text-muted-foreground max-w-xl mt-4">
-            Access global markets with our advanced multi-asset trading platform. Trade stocks, crypto, forex, and more with institutional-grade tools.
+            {subtitle}
           </p>
           
           <div className="flex flex-wrap gap-3 md:gap-4 pt-2 md:pt-4">

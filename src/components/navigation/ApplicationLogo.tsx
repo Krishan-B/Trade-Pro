@@ -1,8 +1,6 @@
-
-import * as React from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { LineChart } from "lucide-react"
-import { useAuth } from "@/hooks/useAuth"
+import { useAuth } from "@/contexts/AuthContext"
 
 const ApplicationLogo = () => {
   const { user } = useAuth();

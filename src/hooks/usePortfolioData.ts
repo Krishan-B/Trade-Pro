@@ -1,9 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Asset, ClosedPosition, AllocationData, PerformanceData } from "@/types/account";
+import { useRealtimePortfolio } from './useRealtimePortfolio';
+import { AppContext } from '@/contexts/AppContext';
 
 export interface PortfolioAnalytics {
   portfolio_value: number;
@@ -86,7 +88,22 @@ export interface PortfolioData {
 
 export const usePortfolioData = () => {
   const { user } = useAuth();
+  const { state: { portfolio: portfolioState }, dispatch } = useContext(AppContext);
   const [timeframe, setTimeframe] = useState("1y");
+  const { data: realtimeData } = useRealtimePortfolio(user?.id ?? '');
+
+  useEffect(() => {
+    if (realtimeData) {
+      dispatch({
+        type: 'SET_PORTFOLIO_DATA',
+        payload: {
+          positions: realtimeData.positions,
+          performance: { totalValue: realtimeData.totalValue },
+          allocation: null,
+        },
+      });
+    }
+  }, [realtimeData, dispatch]);
 
   const fetchPortfolioAnalytics = async (): Promise<PortfolioAnalytics | null> => {
     if (!user) return null;
@@ -118,7 +135,7 @@ export const usePortfolioData = () => {
   
   // Transform the analytics data into the format expected by the UI components
   const transformedData: PortfolioData = {
-    totalValue: analytics?.portfolio_value || 0,
+    totalValue: portfolioState.performance?.totalValue ?? analytics?.portfolio_value ?? 0,
     dayChange: analytics?.daily_change || 0,
     dayChangePercentage: analytics?.daily_change_percent || 0,
     totalPnL: analytics?.total_gain || 0,
@@ -131,7 +148,17 @@ export const usePortfolioData = () => {
     profitFactor: analytics?.profit_factor || 0,
     
     // Transform top holdings into assets format with better error handling
-    assets: analytics?.top_holdings?.map(holding => ({
+    assets: portfolioState.positions.length > 0 ? portfolioState.positions.map((p: any) => ({
+        name: p.symbol,
+        symbol: p.symbol,
+        amount: p.quantity,
+        price: p.currentValue / p.quantity,
+        entryPrice: p.currentValue / p.quantity,
+        value: p.currentValue,
+        change: 0,
+        pnl: 0,
+        pnlPercentage: 0
+    })) : analytics?.top_holdings?.map(holding => ({
       name: holding.name,
       symbol: holding.symbol,
       amount: holding.quantity || 0,

@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLeaderboardData } from "@/hooks/useLeaderboardData";
 import { Loader2, AlertCircle, RefreshCw } from "lucide-react";
@@ -56,7 +55,7 @@ const Leaderboard = () => {
                 <TableCell className="font-medium">{user.rank}</TableCell>
                 <TableCell>{user.username}</TableCell>
                 <TableCell className="text-right">
-                  ${user.equity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ${user.total_pnl.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </TableCell>
               </TableRow>
             ))}

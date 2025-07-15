@@ -1,6 +1,5 @@
-
-import * as React from "react"
-import { useAuth } from '@/hooks/useAuth'
+import { useState } from "react"
+import { useAuth } from '@/contexts/AuthContext'
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { Menu } from "lucide-react"
@@ -24,7 +23,7 @@ const MobileMenu = ({ onMenuToggle }: MobileMenuProps) => {
   const { signOut, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   
   const handleLogout = async () => {
     try {
@@ -32,7 +31,7 @@ const MobileMenu = ({ onMenuToggle }: MobileMenuProps) => {
       toast({
         title: "Signed out successfully",
       });
-      navigate("/auth");
+      navigate("/auth/login");
       setOpen(false);
     } catch (error: any) {
       console.error("Error signing out:", error);
@@ -42,12 +41,6 @@ const MobileMenu = ({ onMenuToggle }: MobileMenuProps) => {
         variant: "destructive",
       });
     }
-  };
-
-  // Navigate to portfolio when a metric is clicked
-  const handleMetricClick = () => {
-    navigate("/portfolio");
-    setOpen(false);
   };
 
   return (
@@ -151,17 +144,19 @@ const MobileMenu = ({ onMenuToggle }: MobileMenuProps) => {
         )}
 
         <Separator />
-        <MobileNavItem title="Dashboard" href="/" />
+        <MobileNavItem title="About" href="/about" />
+        <MobileNavItem title="Pricing" href="/pricing" />
+        <MobileNavItem title="Help" href="/help" />
         <MobileNavItem title="Wallet" href="/wallet" />
         <MobileNavItem title="Account" href="/account" />
         <MobileNavItem title="Profile" href="/profile" />
         <Separator />
         {user ? (
-          <Button variant="ghost" className="justify-start" onClick={handleLogout}>
+          <Button variant="ghost" className="justify-start" onClick={() => void handleLogout()}>
             Log Out
           </Button>
         ) : (
-          <MobileNavItem title="Sign In" href="/auth?mode=signIn" />
+          <MobileNavItem title="Sign In" href="/auth/login" />
         )}
       </SheetContent>
     </Sheet>

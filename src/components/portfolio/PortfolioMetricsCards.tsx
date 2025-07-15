@@ -1,5 +1,4 @@
 
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BalanceBreakdown from "@/components/portfolio/BalanceBreakdown";
 import QuickActions from "@/components/portfolio/QuickActions";

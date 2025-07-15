@@ -11,16 +11,68 @@ export interface Order {
   createdAt: string;
 }
 
-export interface Position {
+export interface OpenTrade {
   id: string;
+  symbol: string;
   asset: string;
-  side: 'Long' | 'Short';
-  quantity: number;
-  entryPrice: number;
-  currentPrice: number;
-  unrealizedPnl: number;
-  takeProfit?: number;
+  openRate: number;
+  direction: 'Buy' | 'Sell';
+  units: number;
+  amount: number;
+  marketRate: number;
+  marketValue: number;
+  totalPnl: number;
   stopLoss?: number;
-  leverage: number;
-  margin: number;
+  takeProfit?: number;
+  status: 'active';
+  openDate: string;
+  date: string;
+}
+
+export interface PendingOrder {
+  id: string;
+  symbol: string;
+  asset: string;
+  orderRate: number;
+  direction: 'Buy' | 'Sell';
+  units: number;
+  amount: number;
+  marketRate: number;
+  stopLoss?: number;
+  takeProfit?: number;
+  status: 'pending';
+  orderDate: string;
+  date: string;
+}
+
+export interface ClosedTrade {
+  id: string;
+  symbol: string;
+  asset: string;
+  direction: 'Buy' | 'Sell';
+  openRate: number;
+  closeRate: number;
+  units: number;
+  marketValue: number;
+  totalPnl: number;
+  openDate: string;
+  closeDate: string;
+  stopLoss?: number;
+  takeProfit?: number;
+}
+
+export interface OrderHistory {
+  id: string;
+  symbol: string;
+  asset: string;
+  orderRate: number;
+  direction: 'Buy' | 'Sell';
+  units: number;
+  amount: number;
+  stopLoss?: number;
+  takeProfit?: number;
+  status: 'canceled';
+  orderDate: string;
+  closeDate: string;
+  date: string;
 }

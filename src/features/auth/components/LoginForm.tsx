@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,7 @@ const LoginForm = () => {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login } = useAuth();
 
   // Utility function to clean up auth state
   const cleanupAuthState = () => {
@@ -80,6 +82,10 @@ const LoginForm = () => {
       
       console.log("Login successful:", data);
       
+      if (data.user) {
+        login(data.user);
+      }
+      
       // Instead of displaying a toast here, let AuthProvider handle it
       // and navigate programmatically instead of forcing a page reload
       navigate("/dashboard", { replace: true });
@@ -88,7 +94,9 @@ const LoginForm = () => {
       console.error("Login error:", error);
       let errorMessage = "Invalid email or password";
       if (error.message) {
-        if (error.message.includes("rate")) {
+        if (error.message.includes("Email not confirmed")) {
+          errorMessage = "Please confirm your email before logging in. Check your inbox for a confirmation link.";
+        } else if (error.message.includes("rate")) {
           errorMessage = "Too many login attempts. Please try again later";
         } else {
           errorMessage = error.message;

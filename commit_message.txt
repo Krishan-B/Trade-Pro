@@ -1,5 +1,0 @@
-feat: Fix Supabase function errors and add .env
-
-- Fix(functions): Remove unnecessary Supabase client initializations from `fetch-market-news` and `market-alerts` functions to resolve `FunctionsFetchError`.
-- Fix(functions): Correct Supabase client initialization in `fetch-market-data` to use service role key.
-- Feat(env): Add `.env` file for environment variables.

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import MarketsTable from './MarketsTable';
 import { MarketData } from '../../../supabase/functions/get-market-data-new/types';
@@ -12,6 +11,7 @@ const mockAssets: MarketData[] = [
     sell_price: 99.975,
     change_percent_24h: 2.5,
     volume: 123456,
+    market_type: 'Crypto',
   },
   {
     symbol: 'TEST2',
@@ -21,6 +21,7 @@ const mockAssets: MarketData[] = [
     sell_price: 199.975,
     change_percent_24h: -1.5,
     volume: 654321,
+    market_type: 'Crypto',
   },
 ];
 

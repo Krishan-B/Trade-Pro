@@ -3,18 +3,53 @@ import React from "react";
 import PricingCard from "./PricingCard";
 import { useNavigate } from "react-router-dom";
 
-const PricingSection = () => {
+interface Plan {
+  plan: string;
+  price: string;
+  features: string[];
+  title: string;
+  description: string;
+  ctaText: string;
+  highlighted?: boolean;
+}
+
+interface PricingSectionProps {
+  plans: {
+    plan: string;
+    price: string;
+    features: string[];
+  }[];
+}
+
+const PricingSection: React.FC<PricingSectionProps> = ({ plans }) => {
   const navigate = useNavigate();
 
   const handlePricingAction = (plan: string) => {
-    if (plan === "basic") {
-      navigate("/auth?tab=signup&plan=basic");
-    } else if (plan === "pro") {
-      navigate("/auth?tab=signup&plan=pro");
+    if (plan === "basic" || plan === "pro") {
+      navigate(`/auth?tab=signup&plan=${plan}`);
     } else {
       // Enterprise plan - show contact info or navigate to contact page
       window.open("mailto:sales@tradepro.com?subject=Enterprise Plan Inquiry");
     }
+  };
+
+  const planDetails: { [key: string]: Omit<Plan, 'plan' | 'price' | 'features'> } = {
+    basic: {
+      title: "Basic",
+      description: "For beginners exploring the markets",
+      ctaText: "Start Free",
+    },
+    pro: {
+      title: "Pro",
+      description: "For active traders seeking an edge",
+      ctaText: "Upgrade to Pro",
+      highlighted: true,
+    },
+    enterprise: {
+      title: "Enterprise",
+      description: "For institutions and professional traders",
+      ctaText: "Contact Sales",
+    },
   };
 
   return (
@@ -25,50 +60,20 @@ const PricingSection = () => {
           No hidden fees. Competitive rates that scale with your trading activity.
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <PricingCard 
-          title="Basic"
-          price="$0"
-          description="For beginners exploring the markets"
-          features={[
-            "Standard market access",
-            "Basic charting tools",
-            "Market research",
-            "5 watchlists"
-          ]}
-          ctaText="Start Free"
-          onClick={() => handlePricingAction("basic")}
-        />
-        <PricingCard 
-          title="Pro"
-          price="$29"
-          description="For active traders seeking an edge"
-          features={[
-            "All Basic features",
-            "Advanced charts and indicators",
-            "Priority execution",
-            "Unlimited watchlists",
-            "API access"
-          ]}
-          ctaText="Upgrade to Pro"
-          highlighted={true}
-          onClick={() => handlePricingAction("pro")}
-        />
-        <PricingCard 
-          title="Enterprise"
-          price="Custom"
-          description="For institutions and professional traders"
-          features={[
-            "All Pro features",
-            "Institutional liquidity",
-            "Dedicated support team",
-            "Custom integrations",
-            "Advanced risk management"
-          ]}
-          ctaText="Contact Sales"
-          onClick={() => handlePricingAction("enterprise")}
-        />
+        {plans.map((plan) => (
+          <PricingCard
+            key={plan.plan}
+            title={planDetails[plan.plan]?.title || plan.plan}
+            price={plan.price}
+            description={planDetails[plan.plan]?.description || ""}
+            features={plan.features}
+            ctaText={planDetails[plan.plan]?.ctaText || "Get Started"}
+            highlighted={planDetails[plan.plan]?.highlighted}
+            onClick={() => handlePricingAction(plan.plan)}
+          />
+        ))}
       </div>
     </section>
   );

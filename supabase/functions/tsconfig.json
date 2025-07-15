@@ -7,6 +7,8 @@
     "module": "NodeNext",
     "target": "esnext",
     "moduleResolution": "nodenext",
-    "noEmit": true
+    "noEmit": true,
+    "strict": true,
+    "lib": ["deno.ns", "dom", "esnext"]
   }
 }

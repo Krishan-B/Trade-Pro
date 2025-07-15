@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from "lucide-react";
 
 interface ProtectedRouteProps {
@@ -22,8 +21,8 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         setIsRefreshing(true);
         
         try {
-          const refreshedSession = await refreshSession();
-          console.log("Session refresh attempt completed:", refreshedSession ? "Success" : "Failed");
+          await refreshSession();
+          console.log("Session refresh attempt completed");
         } catch (error) {
           console.error("Error during session refresh:", error);
         } finally {
@@ -33,7 +32,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       }
     };
     
-    attemptRefresh();
+    void attemptRefresh();
   }, [session, loading, refreshSession, refreshAttempted]);
 
   // Show loading state when either initial loading or actively refreshing

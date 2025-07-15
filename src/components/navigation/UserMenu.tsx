@@ -1,8 +1,6 @@
-
-import * as React from "react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/AuthContext'
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { Settings, User, LogOut } from "lucide-react"
@@ -19,7 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { motion } from "framer-motion"
 
 const UserMenu = () => {
-  const { user, signOut } = useAuth()
+  const { user, signOut } = useAuth();
   const { toast } = useToast()
   const navigate = useNavigate()
 

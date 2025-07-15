@@ -1,15 +1,14 @@
 
-import * as React from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 
-interface MobileNavItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface MobileNavItemProps {
   children?: React.ReactNode
   title: string
   href: string
 }
 
-const MobileNavItem = ({ children, title, href, ...props }: MobileNavItemProps) => {
+const MobileNavItem = ({ title, href }: MobileNavItemProps) => {
   const navigate = useNavigate()
 
   const onClick = () => {

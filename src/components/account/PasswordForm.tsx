@@ -15,7 +15,7 @@ export function PasswordForm() {
     },
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = () => {
     toast({
       title: "Password updated",
       description: "Your password has been changed successfully",

@@ -15,7 +15,7 @@ export function ProfileForm() {
     },
   });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = () => {
     toast({
       title: "Profile updated",
       description: "Your profile information has been updated",

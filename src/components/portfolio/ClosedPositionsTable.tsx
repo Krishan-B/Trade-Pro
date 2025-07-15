@@ -1,5 +1,4 @@
 
-import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowUp, ArrowDown } from "lucide-react";
 

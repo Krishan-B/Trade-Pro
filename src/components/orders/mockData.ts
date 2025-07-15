@@ -1,4 +1,3 @@
-
 import { OpenTrade, PendingOrder, ClosedTrade, OrderHistory } from "@/types/orders";
 
 // Sample orders data
@@ -98,15 +97,12 @@ export const closedTrades: ClosedTrade[] = [
     closeRate: 67880.45,
     direction: 'Buy',
     units: 0.1,
-    amount: 0.1,
     marketValue: 6788.05,
     totalPnl: 144.82,
     stopLoss: 64000.00,
     takeProfit: 69000.00,
-    status: 'completed',
     openDate: '2025-04-29 09:20:31',
     closeDate: '2025-05-06 16:20:31',
-    date: '2025-04-29 09:20:31',
   },
   {
     id: 'ORD-43819',
@@ -116,15 +112,12 @@ export const closedTrades: ClosedTrade[] = [
     closeRate: 3401.52,
     direction: 'Buy',
     units: 1.5,
-    amount: 1.5,
     marketValue: 5102.28,
     totalPnl: 120.00,
     stopLoss: 3200.00,
     takeProfit: 3500.00,
-    status: 'completed',
     openDate: '2025-04-28 14:15:22',
     closeDate: '2025-05-05 09:15:22',
-    date: '2025-04-28 14:15:22',
   }
 ];
 

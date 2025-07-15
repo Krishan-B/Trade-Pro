@@ -8,7 +8,7 @@ interface LeaderboardTableProps {
 }
 
 const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => {
-  const handleShare = (username: string, rank: number) => {
+  const handleShare = (rank: number) => {
     const text = `I'm rank #${rank} on the Plexop leaderboard! Can you beat me?`;
     const url = window.location.href;
     if (navigator.share) {
@@ -43,7 +43,7 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ users }) => {
               {user.total_pnl.toFixed(2)}
             </TableCell>
             <TableCell className="text-right">
-              <Button variant="outline" size="sm" onClick={() => handleShare(user.username, user.rank)}>
+              <Button variant="outline" size="sm" onClick={() => handleShare(user.rank)}>
                 Share
               </Button>
             </TableCell>

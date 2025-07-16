@@ -16,7 +16,7 @@ export const useWatchlistData = () => {
       
       // Get featured assets from each market type
       const { data, error } = await supabase
-        .from('market_data')
+        .from('market_data_cache')
         .select('*')
         .in('market_type', ['Stock', 'Index', 'Commodity', 'Forex', 'Crypto'])
         .order('market_type', { ascending: true })
@@ -46,7 +46,7 @@ export const useWatchlistData = () => {
       
       // Try to fetch again after populating
       const { data: refreshedData, error: refreshError } = await supabase
-        .from('market_data')
+        .from('market_data_cache')
         .select('*')
         .in('market_type', ['Stock', 'Index', 'Commodity', 'Forex', 'Crypto'])
         .order('market_type', { ascending: true })

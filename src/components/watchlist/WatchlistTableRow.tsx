@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { ArrowUpIcon, ArrowDownIcon, StarIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { TradeButton } from "@/components/trade";
 
 interface Asset {
   id?: string;
@@ -52,7 +52,7 @@ const WatchlistTableRow = ({ asset, onSelect }: WatchlistTableRowProps) => {
       <td className="py-3 px-2 text-right text-muted-foreground">{asset.market_type}</td>
       <td className="py-3 px-2 text-right text-muted-foreground">{asset.volume}</td>
       <td className="py-3 px-2 text-center">
-        <Button size="sm" variant="outline" className="h-7 px-2">Trade</Button>
+        <TradeButton size="sm" variant="outline" className="h-7 px-2" />
       </td>
     </tr>
   );

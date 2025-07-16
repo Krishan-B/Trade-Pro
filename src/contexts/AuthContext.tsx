@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext, PropsWithChildren } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Session, User } from '@supabase/supabase-js';
+import useIdleTimeout from '@/hooks/useIdleTimeout';
 
 // A more specific type for profile would be better, but this will resolve the 'any' errors for now.
 type Profile = Record<string, any>;
@@ -25,6 +26,9 @@ export const AuthProvider = ({ children }: PropsWithChildren<object>) => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+
+  // Set idle timeout to 15 minutes
+  useIdleTimeout(15 * 60 * 1000);
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -104,6 +108,19 @@ export const AuthProvider = ({ children }: PropsWithChildren<object>) => {
 
     return () => {
       authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // This will be called when the user navigates away
+      // No need to call signOut() here as sessionStorage will be cleared
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 

@@ -26,8 +26,10 @@ export function Navigation({ onMenuToggle }: NavigationProps) {
     <div className="border-b sticky top-0 z-50 bg-background shadow-sm transition-colors">
       <div className="container flex h-16 items-center">
         <ApplicationLogo />
-        <MainNav />
-        <nav className="flex items-center space-x-2">
+        <div className="hidden md:block">
+          <MainNav />
+        </div>
+        <nav className="flex items-center space-x-2 ml-auto">
           <ThemeSwitcher />
           <Button
             variant="ghost"
@@ -37,8 +39,12 @@ export function Navigation({ onMenuToggle }: NavigationProps) {
           >
             <Bell className="h-5 w-5 text-muted-foreground" />
           </Button>
-          <UserMenu />
-          <MobileMenu onMenuToggle={onMenuToggle} />
+          <div className="hidden md:block">
+            <UserMenu />
+          </div>
+          <div className="md:hidden">
+            <MobileMenu onMenuToggle={onMenuToggle} />
+          </div>
         </nav>
       </div>
     </div>

@@ -154,9 +154,21 @@ const getPortfolioAnalytics = async (supabase: SupabaseClient, userId: string) =
     pnl: (pos.assets.current_price - pos.entry_price) * pos.quantity * (pos.side === 'LONG' ? 1 : -1),
   }));
 
+  const allocation = (positions as Position[]).reduce((acc, pos) => {
+    const value = pos.quantity * pos.assets.current_price;
+    acc[pos.assets.symbol] = (acc[pos.assets.symbol] || 0) + value;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const totalAllocationValue = Object.values(allocation).reduce((sum, value) => sum + value, 0);
+
+  for (const symbol in allocation) {
+    allocation[symbol] = (allocation[symbol] / totalAllocationValue) * 100;
+  }
+
   return {
     portfolio_value: portfolioValue,
-    daily_change: 0, // Placeholder - requires historical data
+    daily_change: 0, // Placeholder - requires historical data from a separate table/service
     daily_change_percent: 0, // Placeholder
     total_gain: unrealizedPnl + realizedPnl,
     total_gain_percent: ((unrealizedPnl + realizedPnl) / account.balance) * 100,
@@ -166,14 +178,23 @@ const getPortfolioAnalytics = async (supabase: SupabaseClient, userId: string) =
     equity: equity,
     win_rate: winRate,
     profit_factor: profitFactor,
-    allocation: {}, // Placeholder
+    allocation: allocation,
     performance: {
       pnl_history: pnlHistory,
     },
     top_holdings: topHoldings,
     top_performers: topPerformers,
     worst_performers: worstPerformers,
-    recent_trades: [], // Placeholder
+    recent_trades: (closedTrades as Trade[]).map(trade => ({
+      id: `${trade.asset_id}-${trade.updated_at}`,
+      symbol: trade.assets.symbol,
+      name: trade.assets.name,
+      type: trade.side,
+      quantity: trade.quantity,
+      price: trade.exit_price,
+      total: trade.exit_price * trade.quantity,
+      date: trade.updated_at,
+    })),
   };
 };
 
@@ -195,12 +216,12 @@ export default async function handler(req: Request): Promise<Response> {
 
     const analytics = await getPortfolioAnalytics(supabase, userId);
 
-    return new Response(JSON.stringify({ success: true, data: analytics }), {
+    return new Response(JSON.stringify(analytics), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ success: false, error: (error as Error).message }), {
+    return new Response(JSON.stringify({ error: (error as Error).message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
     });

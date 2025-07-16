@@ -9,6 +9,6 @@
     "moduleResolution": "nodenext",
     "noEmit": true,
     "strict": true,
-    "lib": ["deno.ns", "dom", "esnext"]
+    "lib": ["dom", "esnext"]
   }
 }

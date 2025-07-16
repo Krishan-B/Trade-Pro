@@ -1,193 +1,70 @@
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Generate mock news data based on market type and trending symbols
-const generateMarketNews = (marketType = null) => {
-  const allNews = [
-    // Crypto news
-    {
-      id: "crypto-1",
-      title: "Bitcoin Surges Past $70,000 for the First Time",
-      summary: "The leading cryptocurrency reaches new all-time high amid institutional adoption.",
-      source: "CryptoNewsWire",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Bitcoin+News",
-      published_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      market_type: "Crypto",
-      related_symbols: ["BTCUSD", "ETHUSD"],
-      sentiment: "positive"
-    },
-    {
-      id: "crypto-2",
-      title: "Ethereum Completes Major Network Upgrade",
-      summary: "The upgrade aims to reduce gas fees and improve transaction throughput.",
-      source: "BlockchainToday",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Ethereum+News",
-      published_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-      market_type: "Crypto",
-      related_symbols: ["ETHUSD"],
-      sentiment: "positive"
-    },
-    {
-      id: "crypto-3",
-      title: "Solana Facing Network Congestion Issues",
-      summary: "Users report transaction delays as network usage spikes to record levels.",
-      source: "CoinDesk",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Solana+News",
-      published_at: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
-      market_type: "Crypto",
-      related_symbols: ["SOLUSD"],
-      sentiment: "negative"
-    },
+const newsData = [
+  {
+    id: '1',
+    title: 'Global Stocks Rally on Positive Economic Data',
+    summary: 'Major stock indices around the world saw significant gains today after the release of strong manufacturing and employment data, signaling a robust economic recovery.',
+    source: 'Financial Times',
+    url: '#',
+    image_url: 'https://images.unsplash.com/photo-1621264448270-9ef00e88a435?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    published_at: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+    market_type: 'stocks',
+    related_symbols: ['AAPL', 'GOOGL', 'MSFT'],
+    sentiment: 'positive',
+  },
+  {
+    id: '2',
+    title: 'Tech Sector Faces Headwinds as New Regulations Proposed',
+    summary: 'Technology stocks experienced a sell-off following the announcement of new regulatory proposals that could impact major tech giants. Investors are wary of the potential for increased compliance costs and restrictions on business models.',
+    source: 'Reuters',
+    url: '#',
+    image_url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    published_at: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
+    market_type: 'stocks',
+    related_symbols: ['AMZN', 'META'],
+    sentiment: 'negative',
+  },
+  {
+    id: '3',
+    title: 'Oil Prices Surge as Geopolitical Tensions Rise',
+    summary: 'Crude oil prices jumped over 5% today due to escalating geopolitical tensions in key oil-producing regions. The uncertainty has raised concerns about potential supply disruptions.',
+    source: 'Bloomberg',
+    url: '#',
+    image_url: 'https://images.unsplash.com/photo-1611942759352-9a8d2086f91b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    published_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    market_type: 'commodities',
+    related_symbols: ['WTI', 'BRENT'],
+    sentiment: 'mixed',
+  },
+];
 
-    // Stock news
-    {
-      id: "stock-1",
-      title: "Apple Announces New Product Line at Annual Event",
-      summary: "The tech giant unveiled new devices expected to boost holiday sales.",
-      source: "MarketWatch",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Apple+News",
-      published_at: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-      market_type: "Stock",
-      related_symbols: ["AAPL"],
-      sentiment: "positive"
-    },
-    {
-      id: "stock-2",
-      title: "Tesla Beats Quarterly Earnings Expectations",
-      summary: "Electric vehicle maker reports strong growth in deliveries and revenue.",
-      source: "Bloomberg",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Tesla+News",
-      published_at: new Date(Date.now() - 7 * 60 * 60 * 1000).toISOString(),
-      market_type: "Stock",
-      related_symbols: ["TSLA"],
-      sentiment: "positive"
-    },
-    {
-      id: "stock-3",
-      title: "Meta Platforms Faces New Regulatory Challenges",
-      summary: "Social media giant under scrutiny from European regulators over data practices.",
-      source: "Reuters",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Meta+News",
-      published_at: new Date(Date.now() - 10 * 60 * 60 * 1000).toISOString(),
-      market_type: "Stock",
-      related_symbols: ["META"],
-      sentiment: "negative"
-    },
-
-    // Index news
-    {
-      id: "index-1",
-      title: "S&P 500 Hits Record High as Inflation Fears Ease",
-      summary: "The benchmark index climbed on positive economic data and Fed comments.",
-      source: "Financial Times",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=S%26P+News",
-      published_at: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
-      market_type: "Index",
-      related_symbols: ["US500"],
-      sentiment: "positive"
-    },
-    {
-      id: "index-2",
-      title: "Nasdaq Drops on Tech Sector Profit-Taking",
-      summary: "Investors lock in gains after extended rally in technology stocks.",
-      source: "CNBC",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Nasdaq+News",
-      published_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-      market_type: "Index",
-      related_symbols: ["US100"],
-      sentiment: "negative"
-    },
-
-    // Forex news
-    {
-      id: "forex-1",
-      title: "Dollar Strengthens Against Major Currencies",
-      summary: "USD gains ground following hawkish Federal Reserve statements.",
-      source: "ForexLive",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Forex+News",
-      published_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-      market_type: "Forex",
-      related_symbols: ["EURUSD", "GBPUSD"],
-      sentiment: "mixed"
-    },
-    {
-      id: "forex-2",
-      title: "Japanese Yen Slides to Multi-Year Low",
-      summary: "Currency weakens as Bank of Japan maintains ultra-loose monetary policy.",
-      source: "Reuters",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Yen+News",
-      published_at: new Date(Date.now() - 9 * 60 * 60 * 1000).toISOString(),
-      market_type: "Forex",
-      related_symbols: ["USDJPY"],
-      sentiment: "negative"
-    },
-
-    // Commodity news
-    {
-      id: "commodity-1",
-      title: "Gold Prices Surge Amid Geopolitical Tensions",
-      summary: "Safe-haven demand drives precious metal higher as conflicts escalate.",
-      source: "Commodities Corner",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Gold+News",
-      published_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-      market_type: "Commodity",
-      related_symbols: ["XAUUSD"],
-      sentiment: "positive"
-    },
-    {
-      id: "commodity-2",
-      title: "Oil Drops on Higher-Than-Expected Inventory Build",
-      summary: "Crude prices fall after weekly report shows unexpected supply increase.",
-      source: "OilPrice",
-      url: "#",
-      image_url: "https://via.placeholder.com/300x200?text=Oil+News",
-      published_at: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
-      market_type: "Commodity",
-      related_symbols: ["USOIL", "UKOIL"],
-      sentiment: "negative"
-    }
-  ];
-
-  // If market type is specified, filter news for that market type
-  return marketType ? allNews.filter(news => news.market_type === marketType) : allNews;
-};
-
-export default async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
+serve(async (req: Request) => {
+  console.log("fetch-market-news function invoked");
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    // Get the market type from the request, if any
-    const { market_type } = await req.json().catch(() => ({}));
-    
-    // Generate market news
-    const news = generateMarketNews(market_type);
-    
-    // Return the news data
-    return new Response(JSON.stringify({ success: true, data: news }), {
+    const { market_type } = await req.json();
+    const filteredNews = market_type
+      ? newsData.filter((item) => item.market_type === market_type)
+      : newsData;
+
+    return new Response(JSON.stringify({ data: filteredNews }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     });
-  } catch (error) {
-    console.error("Error fetching market news:", error);
-    return new Response(JSON.stringify({ success: false, error: (error as Error).message }), {
+  } catch (e) {
+    const error = e as Error;
+    return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 500,
+      status: 400,
     });
   }
-};
+});

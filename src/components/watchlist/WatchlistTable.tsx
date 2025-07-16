@@ -4,6 +4,7 @@ import WatchlistHeader from './WatchlistHeader';
 import WatchlistLoading from './WatchlistLoading';
 import WatchlistTableHeader from './WatchlistTableHeader';
 import WatchlistTableRow from './WatchlistTableRow';
+import AssetCard from './AssetCard';
 import { useWatchlistData } from '@/hooks/useWatchlistData';
 
 interface Asset {
@@ -29,20 +30,34 @@ const WatchlistTable = ({ onAssetSelect }: WatchlistTableProps) => {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div>
       <WatchlistHeader onRefresh={handleRefreshData} />
-      <table className="w-full">
-        <WatchlistTableHeader />
-        <tbody>
-          {watchlist.map((asset) => (
-            <WatchlistTableRow 
-              key={asset.symbol} 
-              asset={asset}
-              onSelect={onAssetSelect}
-            />
-          ))}
-        </tbody>
-      </table>
+      {/* Desktop Table View */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full">
+          <WatchlistTableHeader />
+          <tbody>
+            {watchlist.map((asset) => (
+              <WatchlistTableRow
+                key={asset.symbol}
+                asset={asset}
+                onSelect={onAssetSelect}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden">
+        {watchlist.map((asset) => (
+          <AssetCard
+            key={asset.symbol}
+            asset={asset}
+            onSelect={onAssetSelect}
+          />
+        ))}
+      </div>
     </div>
   );
 };

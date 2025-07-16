@@ -1,0 +1,201 @@
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is unresponsive.
+localProcessExtensionHost.ts:279 Extension Host
+localProcessExtensionHost.ts:280 Debugger attached.
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is responsive.
+log.ts:440  INFO UNRESPONSIVE extension host: received responsive event and cancelling profiling session
+log.ts:440  INFO UNRESPONSIVE extension host: starting to profile NOW
+console.ts:137 [Extension Host] [subtasks] removing task 8c8cc7d6-acfb-4bfa-bfb3-90d9d549ae43.71b72e41 from stack
+console.ts:137 [Extension Host] [subtasks] aborting task 8c8cc7d6-acfb-4bfa-bfb3-90d9d549ae43.71b72e41
+console.ts:137 [Extension Host] [subtasks] adding task 9fe07a08-4909-42d8-9f2c-d2d8d9f3748d.981c56d6 to stack
+console.ts:137 [Extension Host] [subtasks] parent task 9fe07a08-4909-42d8-9f2c-d2d8d9f3748d.981c56d6 instantiated
+console.ts:137 [Extension Host] [subtasks] task 9fe07a08-4909-42d8-9f2c-d2d8d9f3748d.981c56d6 starting
+console.ts:137 [Extension Host] [Task#getCheckpointService] initializing checkpoints service
+console.ts:137 [Extension Host] [Task#getCheckpointService] initializing shadow git
+console.ts:137 [Extension Host] [Task#getCheckpointService] initializing shadow git
+console.ts:137 [Extension Host] [t#create] git = 2.49.0
+console.ts:137 [Extension Host] [t#create] git = 2.49.0
+console.ts:137 [Extension Host] [t#initShadowGit] creating shadow git repo at c:\Users\Alpha\AppData\Roaming\Code\User\globalStorage\rooveterinaryinc.roo-cline\tasks\9fe07a08-4909-42d8-9f2c-d2d8d9f3748d\checkpoints
+console.ts:137 [Extension Host] [t#initShadowGit] creating shadow git repo at c:\Users\Alpha\AppData\Roaming\Code\User\globalStorage\rooveterinaryinc.roo-cline\tasks\9fe07a08-4909-42d8-9f2c-d2d8d9f3748d\checkpoints
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is unresponsive.
+localProcessExtensionHost.ts:279 Extension Host
+localProcessExtensionHost.ts:280 Debugger attached.
+log.ts:440  INFO UNRESPONSIVE extension host: starting to profile NOW
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is responsive.
+log.ts:440  INFO UNRESPONSIVE extension host: received responsive event and cancelling profiling session
+console.ts:137 [Extension Host] [t#initShadowGit] initialized shadow repo with base commit 753352ac1e3f67ad5ebf951207e4cbad8daa0155 in 89214ms
+console.ts:137 [Extension Host] [t#initShadowGit] initialized shadow repo with base commit 753352ac1e3f67ad5ebf951207e4cbad8daa0155 in 89214ms
+console.ts:137 [Extension Host] [Task#getCheckpointService] service initialized
+console.ts:137 [Extension Host] [Task#getCheckpointService] service initialized
+console.ts:137 [Extension Host] [Task#getCheckpointService] no checkpoints found, saving initial checkpoint
+console.ts:137 [Extension Host] [Task#getCheckpointService] no checkpoints found, saving initial checkpoint
+console.ts:137 [Extension Host] [t#saveCheckpoint] starting checkpoint save (allowEmpty: false)
+console.ts:137 [Extension Host] [t#saveCheckpoint] starting checkpoint save (allowEmpty: false)
+console.ts:137 [Extension Host] [t#saveCheckpoint] found no changes to commit in 1120ms
+console.ts:137 [Extension Host] [t#saveCheckpoint] found no changes to commit in 1120ms
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is unresponsive.
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is responsive.
+log.ts:440  INFO UNRESPONSIVE extension host: received responsive event and cancelling profiling session
+textMateTokenizationSupport.ts:63 Time limit reached when tokenizing line: import { defineConfig } from 'vite';
+tokenizeEncoded @ textMateTokenizationSupport.ts:63
+tokenizeEncoded @ tokenizationSupportWithLineLimit.ts:44
+BG @ textModelTokens.ts:431
+updateTokensUntilLine @ textModelTokens.ts:70
+tokenizeHeuristically @ textModelTokens.ts:153
+L @ tokenizerSyntaxTokenBackend.ts:233
+J @ tokenizerSyntaxTokenBackend.ts:220
+(anonymous) @ tokenizerSyntaxTokenBackend.ts:65
+j @ abstractSyntaxTokenBackend.ts:120
+handleStateChange @ abstractSyntaxTokenBackend.ts:127
+(anonymous) @ tokenizerSyntaxTokenBackend.ts:68
+C @ event.ts:1219
+fire @ event.ts:1250
+(anonymous) @ abstractSyntaxTokenBackend.ts:48
+setVisibleLines @ abstractSyntaxTokenBackend.ts:99
+visibleLinesStabilized @ viewModelImpl.ts:224
+restoreState @ view.ts:638
+restoreViewState @ codeEditorWidget.ts:1044
+setInput @ textFileEditor.ts:139
+await in setInput
+S @ editorPanes.ts:464
+L @ editorPanes.ts:259
+openEditor @ editorPanes.ts:136
+(anonymous) @ editorGroupView.ts:1259
+Lb @ editorGroupView.ts:1283
+Kb @ editorGroupView.ts:1241
+openEditor @ editorGroupView.ts:1145
+openEditor @ editorService.ts:582
+await in openEditor
+$tryShowTextDocument @ mainThreadEditors.ts:260
+S @ rpcProtocol.ts:458
+Q @ rpcProtocol.ts:443
+M @ rpcProtocol.ts:373
+L @ rpcProtocol.ts:299
+(anonymous) @ rpcProtocol.ts:161
+C @ event.ts:1219
+fire @ event.ts:1250
+fire @ ipc.net.ts:652
+l.onmessage @ localProcessExtensionHost.ts:382
+textMateTokenizationSupport.ts:63 Time limit reached when tokenizing line:   plugins: [react(), visualizer({ open: true })],
+tokenizeEncoded @ textMateTokenizationSupport.ts:63
+tokenizeEncoded @ tokenizationSupportWithLineLimit.ts:44
+BG @ textModelTokens.ts:431
+updateTokensUntilLine @ textModelTokens.ts:70
+tokenizeHeuristically @ textModelTokens.ts:153
+L @ tokenizerSyntaxTokenBackend.ts:233
+J @ tokenizerSyntaxTokenBackend.ts:220
+(anonymous) @ tokenizerSyntaxTokenBackend.ts:65
+j @ abstractSyntaxTokenBackend.ts:120
+handleStateChange @ abstractSyntaxTokenBackend.ts:127
+(anonymous) @ tokenizerSyntaxTokenBackend.ts:68
+C @ event.ts:1219
+fire @ event.ts:1250
+(anonymous) @ abstractSyntaxTokenBackend.ts:48
+setVisibleLines @ abstractSyntaxTokenBackend.ts:99
+visibleLinesStabilized @ viewModelImpl.ts:224
+restoreState @ view.ts:638
+restoreViewState @ codeEditorWidget.ts:1044
+setInput @ textFileEditor.ts:139
+await in setInput
+S @ editorPanes.ts:464
+L @ editorPanes.ts:259
+openEditor @ editorPanes.ts:136
+(anonymous) @ editorGroupView.ts:1259
+Lb @ editorGroupView.ts:1283
+Kb @ editorGroupView.ts:1241
+openEditor @ editorGroupView.ts:1145
+openEditor @ editorService.ts:582
+await in openEditor
+$tryShowTextDocument @ mainThreadEditors.ts:260
+S @ rpcProtocol.ts:458
+Q @ rpcProtocol.ts:443
+M @ rpcProtocol.ts:373
+L @ rpcProtocol.ts:299
+(anonymous) @ rpcProtocol.ts:161
+C @ event.ts:1219
+fire @ event.ts:1250
+fire @ ipc.net.ts:652
+l.onmessage @ localProcessExtensionHost.ts:382
+log.ts:440  INFO UNRESPONSIVE extension host: starting to profile NOW
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is unresponsive.
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is responsive.
+log.ts:440  INFO UNRESPONSIVE extension host: received responsive event and cancelling profiling session
+localProcessExtensionHost.ts:279 Extension Host
+localProcessExtensionHost.ts:280 Debugger attached.
+textMateTokenizationSupport.ts:63 Time limit reached when tokenizing line: import { defineConfig } from 'vite';
+tokenizeEncoded @ textMateTokenizationSupport.ts:63
+tokenizeEncoded @ tokenizationSupportWithLineLimit.ts:44
+w @ textMateWorkerTokenizer.ts:138
+await in w
+v @ textMateWorkerTokenizer.ts:109
+await in v
+wo @ textMateWorkerTokenizer.ts:49
+$acceptNewModel @ textMateTokenizationWorker.worker.ts:101
+d @ webWorker.ts:465
+handleMessage @ webWorker.ts:441
+k @ webWorker.ts:224
+h @ webWorker.ts:188
+handleMessage @ webWorker.ts:157
+onmessage @ webWorker.ts:448
+globalThis.onmessage @ webWorkerBootstrap.ts:31
+console.ts:137 [Extension Host] [t#saveCheckpoint] starting checkpoint save (allowEmpty: false)
+console.ts:137 [Extension Host] [t#saveCheckpoint] starting checkpoint save (allowEmpty: false)
+console.ts:137 [Extension Host] [t#saveCheckpoint] checkpoint saved in 16873ms -> 7a6d259d350487ccd3d12919595ea6432a01c6a8
+console.ts:137 [Extension Host] [t#saveCheckpoint] checkpoint saved in 16873ms -> 7a6d259d350487ccd3d12919595ea6432a01c6a8
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is unresponsive.
+localProcessExtensionHost.ts:279 Extension Host
+localProcessExtensionHost.ts:280 Debugger attached.
+log.ts:440  INFO UNRESPONSIVE extension host: starting to profile NOW
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is responsive.
+log.ts:440  INFO UNRESPONSIVE extension host: received responsive event and cancelling profiling session
+index.js:2398 Failed to parse follow-up data: SyntaxError: Unexpected token 'I', "I've updat"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at index.js:2398:1529
+    at index.js:2398:1997
+    at vy (index.js:41:24696)
+    at Hp (index.js:41:43345)
+    at tL (index.js:41:37322)
+    at _c (index.js:39:3280)
+    at qot (index.js:41:42129)
+    at tu (index.js:41:41087)
+    at eL (index.js:41:36425)
+(anonymous) @ index.js:2398
+(anonymous) @ index.js:2398
+vy @ index.js:41
+Hp @ index.js:41
+tL @ index.js:41
+_c @ index.js:39
+qot @ index.js:41
+tu @ index.js:41
+eL @ index.js:41
+A @ index.js:26
+H @ index.js:26
+index.js:2398 Failed to parse follow-up data: SyntaxError: Unexpected token 'I', "I've updat"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at index.js:2398:1529
+    at index.js:2398:1997
+    at vy (index.js:41:24696)
+    at Hp (index.js:41:43345)
+    at tL (index.js:41:37322)
+    at _c (index.js:39:3280)
+    at qot (index.js:41:42129)
+    at tu (index.js:41:41087)
+    at eL (index.js:41:36425)
+(anonymous) @ index.js:2398
+(anonymous) @ index.js:2398
+vy @ index.js:41
+Hp @ index.js:41
+tL @ index.js:41
+_c @ index.js:39
+qot @ index.js:41
+tu @ index.js:41
+eL @ index.js:41
+A @ index.js:26
+H @ index.js:26
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is unresponsive.
+localProcessExtensionHost.ts:279 Extension Host
+localProcessExtensionHost.ts:280 Debugger attached.
+log.ts:440  INFO Extension host (LocalProcess pid: 10144) is responsive.
+log.ts:440  INFO UNRESPONSIVE extension host: received responsive event and cancelling profiling session
+log.ts:440  INFO UNRESPONSIVE extension host: starting to profile NOW
+console.ts:137 [Extension Host] [subtasks] removing task 9fe07a08-4909-42d8-9f2c-d2d8d9f3748d.981c56d6 from stack
+console.ts:137 [Extension Host] [subtasks] aborting task 9fe07a08-4909-42d8-9f2c-d2d8d9f3748d.981c56d6

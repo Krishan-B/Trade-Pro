@@ -10,6 +10,13 @@ BEGIN
   VALUES (new.id, new.email)
   ON CONFLICT (id) DO NOTHING;
   
+  -- Create a lead record
+  PERFORM net.http_post(
+    url := 'https://' || net.url_host(current_setting('supabase.url')) || '/functions/v1/create-lead',
+    headers := '{"Content-Type": "application/json", "Authorization": "Bearer " || current_setting("supabase.service_role_key")}',
+    body := json_build_object('user', new)
+  );
+
   RETURN new;
 END;
 $$;

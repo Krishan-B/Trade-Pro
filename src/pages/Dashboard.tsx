@@ -1,21 +1,8 @@
 import { useEffect, useState, useRef, useContext } from 'react';
-import { KycBanner } from '@/components/kyc/KycBanner';
-import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
-import MarketStats from '@/components/MarketStats';
-import WatchlistTable from '@/components/watchlist/WatchlistTable';
-import TradingViewChart from '@/components/TradingViewChart';
-import { TradeButton } from '@/components/trade/TradeButton';
-import QuickTradePanel from '@/components/trade/QuickTradePanel';
-import PortfolioCard from '@/components/PortfolioCard';
 import { useToast } from '@/hooks/use-toast';
 import { AppContext } from '@/contexts/AppContext';
 import { useRealtimeMarketData } from '@/hooks/useRealtimeMarketData';
-import EnhancedNewsWidget from '@/components/EnhancedNewsWidget';
-import AlertsWidget from '@/components/AlertsWidget';
 import type { Asset } from '@/hooks/useMarketData';
-import ConnectionStatus from '@/components/dashboard/ConnectionStatus';
-import RecentActivity from '@/components/dashboard/RecentActivity';
 import { MainLayout } from '@/components/MainLayout';
 import {
   Dialog,
@@ -28,6 +15,16 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+
+// Enhanced Dashboard Components
+import HeaderAccountSummary from '@/components/dashboard/HeaderAccountSummary';
+import EnhancedAlertBanner from '@/components/dashboard/EnhancedAlertBanner';
+import EnhancedPortfolioSummary from '@/components/dashboard/EnhancedPortfolioSummary';
+import EnhancedMarketOverview from '@/components/dashboard/EnhancedMarketOverview';
+import EnhancedWatchlist from '@/components/dashboard/EnhancedWatchlist';
+import EnhancedTradingChart from '@/components/dashboard/EnhancedTradingChart';
+import EnhancedQuickTradePanel from '@/components/dashboard/EnhancedQuickTradePanel';
+import EnhancedNewsAnalysis from '@/components/dashboard/EnhancedNewsAnalysis';
 
 const Dashboard = () => {
   const { state } = useContext(AppContext);

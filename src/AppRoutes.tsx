@@ -107,6 +107,10 @@ const router = createBrowserRouter(
     { path: '/auth/register', element: <Register /> },
     { path: '/auth', element: <AuthPage /> },
     {
+      path: '/demo',
+      element: <Dashboard />,
+    },
+    {
       path: '/dashboard',
       element: (
         <ProtectedRoute>

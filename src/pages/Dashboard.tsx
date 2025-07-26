@@ -79,136 +79,72 @@ const Dashboard = () => {
 
   return (
     <MainLayout>
-      <div className="p-4 md:p-6">
-        {/* KYC Banner Notification */}
-        <KycBanner />
-        <div className="flex flex-col lg:flex-row justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold">Market Overview</h1>
-            <p className="text-muted-foreground">Track, analyze and trade global markets</p>
-          </div>
-          <div className="flex items-center space-x-2 mt-4 lg:mt-0">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2"
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-            >
-              <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span>{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <TradeButton size="sm" />
-              </DialogTrigger>
-              <DialogContent>
-                <QuickTradePanel asset={selectedAsset} />
-              </DialogContent>
-            </Dialog>
-            <ConnectionStatus />
-          </div>
-        </div>
+      {/* Header Account Summary */}
+      <HeaderAccountSummary />
+      
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+        <div className="container mx-auto px-4 py-6 space-y-6">
+          {/* Alert Banner */}
+          <EnhancedAlertBanner />
 
-        {/* Market Stats */}
-        <MarketStats />
-  
-        <div className="lg:hidden">
-          <Tabs defaultValue="portfolio">
-            <TabsList className="grid w-full grid-cols-3 mb-4">
-              <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-              <TabsTrigger value="watchlist">Watchlist</TabsTrigger>
-              <TabsTrigger value="news">News</TabsTrigger>
-            </TabsList>
-            <TabsContent value="portfolio">
-              <PortfolioCard />
-            </TabsContent>
-            <TabsContent value="watchlist">
-              <div className="glass-card rounded-lg p-4">
-                <WatchlistTable onAssetSelect={handleAssetSelect} />
-              </div>
-            </TabsContent>
-            <TabsContent value="news">
-              <div className="glass-card rounded-lg p-4">
-                <EnhancedNewsWidget />
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-  
-        <div className="hidden lg:block">
-          {/* Portfolio Overview */}
-          <div className="mb-6">
-            <PortfolioCard />
-          </div>
-  
-          {/* Watchlist */}
-          <div className="glass-card rounded-lg p-4 mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">My Watchlist</h2>
-              <Button variant="ghost" size="sm">
-                Add Asset
-              </Button>
-            </div>
-            <WatchlistTable onAssetSelect={handleAssetSelect} />
-          </div>
-        </div>
-  
-  
-        {/* Chart and Trading Panel */}
-        <div ref={chartSectionRef} className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          <div className="lg:col-span-2 glass-card rounded-lg p-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <h2 className="text-xl font-semibold">{selectedAsset.name} Chart</h2>
-                <div className="ml-4 text-sm">
-                  <span
-                    className={`${selectedAsset.change >= 0 ? 'text-success' : 'text-warning'} font-medium`}
-                  >
-                    {selectedAsset.change >= 0 ? '+' : ''}
-                    {selectedAsset.change}%
-                  </span>
+          {/* Mobile Layout */}
+          <div className="lg:hidden">
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid w-full grid-cols-4 mb-6">
+                <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
+                <TabsTrigger value="watchlist">Watchlist</TabsTrigger>
+                <TabsTrigger value="trade">Trade</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="overview" className="space-y-6">
+                <EnhancedMarketOverview onAssetSelect={handleAssetSelect} />
+                <EnhancedNewsAnalysis />
+              </TabsContent>
+              
+              <TabsContent value="portfolio">
+                <EnhancedPortfolioSummary />
+              </TabsContent>
+              
+              <TabsContent value="watchlist">
+                <EnhancedWatchlist onAssetSelect={handleAssetSelect} />
+              </TabsContent>
+              
+              <TabsContent value="trade" className="space-y-6">
+                <div ref={chartSectionRef}>
+                  <EnhancedTradingChart selectedAsset={selectedAsset} />
                 </div>
+                <EnhancedQuickTradePanel asset={selectedAsset} />
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:block">
+            {/* Top Row - Portfolio and Market Overview */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <EnhancedPortfolioSummary />
+              <EnhancedMarketOverview onAssetSelect={handleAssetSelect} />
+            </div>
+
+            {/* Middle Row - Watchlist */}
+            <div className="mb-6">
+              <EnhancedWatchlist onAssetSelect={handleAssetSelect} />
+            </div>
+
+            {/* Chart and Trading Section */}
+            <div ref={chartSectionRef} className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+              <div className="lg:col-span-2">
+                <EnhancedTradingChart selectedAsset={selectedAsset} />
               </div>
-              <div className="flex flex-wrap gap-1">
-                <Button variant="ghost" size="sm">
-                  1D
-                </Button>
-                <Button variant="ghost" size="sm">
-                  1W
-                </Button>
-                <Button variant="ghost" size="sm" className="bg-secondary text-foreground">
-                  1M
-                </Button>
-                <Button variant="ghost" size="sm">
-                  1Y
-                </Button>
-                <Button variant="ghost" size="sm">
-                  ALL
-                </Button>
+              <div className="lg:col-span-1">
+                <EnhancedQuickTradePanel asset={selectedAsset} />
               </div>
             </div>
-            <TradingViewChart symbol={selectedAsset.symbol} />
+
+            {/* News and Analysis Section */}
+            <EnhancedNewsAnalysis />
           </div>
-  
-          <div className="hidden lg:block lg:col-span-1">
-            <QuickTradePanel asset={selectedAsset} />
-          </div>
-        </div>
-  
-        {/* News and Alerts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div className="glass-card rounded-lg p-4">
-            <h2 className="text-xl font-semibold mb-4">Market News</h2>
-            <EnhancedNewsWidget />
-          </div>
-          <div className="glass-card rounded-lg p-4">
-            <h2 className="text-xl font-semibold mb-4">Market Alerts</h2>
-            <AlertsWidget />
-          </div>
-        </div>
-        <div className="mt-6">
-          <RecentActivity />
         </div>
       </div>
     </MainLayout>

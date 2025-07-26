@@ -29,7 +29,6 @@ import EnhancedNewsAnalysis from '@/components/dashboard/EnhancedNewsAnalysis';
 const Dashboard = () => {
   const { state } = useContext(AppContext);
   const { user } = state.auth;
-  const { notifications } = state.dashboard;
   const { marketData, loading, error } = useRealtimeMarketData();
 
   const [selectedAsset, setSelectedAsset] = useState({
@@ -45,7 +44,6 @@ const Dashboard = () => {
     change_percent_24h: 2.4,
     volume: 1000000,
   });
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
   const chartSectionRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +51,7 @@ const Dashboard = () => {
     // Show welcome toast when dashboard loads
     toast({
       title: `Welcome, ${user?.username || 'Trader'}!`,
-      description: 'Your dashboard is ready with real-time market data',
+      description: 'Your enhanced dashboard is ready with real-time market data',
       duration: 5000,
     });
   }, [toast, user]);
@@ -77,20 +75,6 @@ const Dashboard = () => {
       description: 'Chart and trade panel updated',
       duration: 2000,
     });
-  };
-
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-
-    // Simulate refresh delay
-    setTimeout(() => {
-      toast({
-        title: 'Data refreshed',
-        description: 'Latest market data has been loaded',
-        duration: 2000,
-      });
-      setIsRefreshing(false);
-    }, 1000);
   };
 
   return (

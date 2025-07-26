@@ -91,4 +91,12 @@ export default tseslint.config(
 
   // Prettier config must be last to override other formatting rules
   prettierConfig,
+
+  // Override for specific files
+  {
+    files: ['src/AppRoutes.tsx'],
+    rules: {
+      'react/display-name': 'off',
+    },
+  },
 );
